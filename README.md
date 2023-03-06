@@ -6,5 +6,7 @@ To run the frontend on a local server, execute the following commands from the p
 ```
 > cd uml-right-now
 
+> npm install
+
 > npm run dev
 ```
