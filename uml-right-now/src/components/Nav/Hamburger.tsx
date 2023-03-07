@@ -5,15 +5,39 @@ import { useContext } from "react";
 import { HamburgerMenuContext, HamburgerMenuContextType } from "@/contexts/HamburgerMenuContext";
 
 // Tailwind
-const hamburgerBarClass = `
+const hamburgerBarClassBase = `
     bg-white
     w-full
     h-[2px]
+    duration-300
 `;
 
 export default function Hamburger() {
     // Contexts
     const { hamburgerMenuIsVisible, setHamburgerMenuIsVisible } = useContext(HamburgerMenuContext) as HamburgerMenuContextType;
+    
+    // Determine the CSS classes of each bar in the hamburger
+    let hamburgerBarOneClass = hamburgerBarClassBase;
+    let hamburgerBarTwoClass = hamburgerBarClassBase;
+    let hamburgerBarThreeClass = hamburgerBarClassBase;
+    if (hamburgerMenuIsVisible) {
+        // First bar
+        hamburgerBarOneClass += `
+            rotate-45
+            translate-y-[7px]
+        `;
+
+        // Second bar
+        hamburgerBarTwoClass += `
+            hidden
+        `;
+
+        // Third bar
+        hamburgerBarThreeClass += `
+            -rotate-45
+            translate-y-[-7px]
+        `;
+    }
 
     return (
         <div className="
@@ -27,9 +51,9 @@ export default function Hamburger() {
             hover:cursor-pointer
             z-50
         " onClick={() => setHamburgerMenuIsVisible(!hamburgerMenuIsVisible)}>
-            <div className={hamburgerBarClass}></div>
-            <div className={hamburgerBarClass}></div>
-            <div className={hamburgerBarClass}></div>
+            <div className={hamburgerBarOneClass}></div>
+            <div className={hamburgerBarTwoClass}></div>
+            <div className={hamburgerBarThreeClass}></div>
         </div>
     );
 }

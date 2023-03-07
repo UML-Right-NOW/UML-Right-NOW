@@ -9,7 +9,12 @@ module.exports = {
             colors: {
                 "rowdy-blue": "#0369B1",
                 "rowdy-red": "#F80A0A"
-            }
+            },
+            keyframes: {
+                "slide-in": {
+                    "100%": { transform: "translateX(0%)" }
+                }
+            },
         },
     },
     plugins: [],

@@ -44,6 +44,8 @@ export default function HamburgerMenu({ pages }: HamburgerMenuProps) {
                 sm:w-2/3
                 h-full
                 hover:cursor-pointer
+                -translate-x-full
+                animate-[slide-in_200ms_ease-in-out_forwards]
             " onClick={() => setHamburgerMenuIsVisible(false)}>
             </div>
 
@@ -58,6 +60,8 @@ export default function HamburgerMenu({ pages }: HamburgerMenuProps) {
                 items-top
                 pt-20
                 overflow-y-auto
+                translate-x-full
+                animate-[slide-in_200ms_ease-in-out_forwards]
             ">
                 {/* Nav Items */}
                 <ul className="
