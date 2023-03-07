@@ -6,7 +6,7 @@ import Link from "next/link";
 import Hamburger from "./Hamburger";
 
 // Library
-import Page from "@/Page";
+import PageInfo from "@/PageInfo";
 
 // Assets
 import logo from "../../../assets/logo.png";
@@ -20,16 +20,12 @@ const navItemsClass = `
     w-[300px]
 `;
 
-// Nav items
-const pages = [
-    new Page("Home", "/"),
-    new Page("Pathways", "/pathways"),
-    new Page("Help", "help"),
-    new Page("Sign Up", "sign-up"),
-    new Page("Login", "login")
-];
+// Types
+type NavProps = {
+    pages: PageInfo[]
+};
 
-export default function Nav() {
+export default function Nav({ pages }: NavProps) {
     // Assemble nav items
     const navItems = pages.map(page => {
         return (
@@ -97,7 +93,7 @@ export default function Nav() {
             </ul>
 
             {/* Hamburger */}
-            <Hamburger pages={pages} />
+            <Hamburger />
         </nav>
     );
 }

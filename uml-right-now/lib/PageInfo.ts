@@ -1,4 +1,4 @@
-export default class Page {
+export default class PageInfo {
     name: string;
     link: string;
     constructor(name: string, link: string) {

@@ -1,5 +1,8 @@
-// Library
-import Page from "@/Page";
+// Next
+import { useContext } from "react";
+
+// Contexts
+import { HamburgerMenuContext, HamburgerMenuContextType } from "@/contexts/HamburgerMenuContext";
 
 // Tailwind
 const hamburgerBarClass = `
@@ -8,12 +11,10 @@ const hamburgerBarClass = `
     h-[2px]
 `;
 
-// Prop types
-type HamburgerProps = {
-    pages: Page[]
-};
+export default function Hamburger() {
+    // Contexts
+    const { hamburgerMenuIsVisible, setHamburgerMenuIsVisible } = useContext(HamburgerMenuContext) as HamburgerMenuContextType;
 
-export default function Hamburger({ pages }: HamburgerProps) {
     return (
         <div className="
             md:hidden
@@ -24,7 +25,8 @@ export default function Hamburger({ pages }: HamburgerProps) {
             justify-between
             items-center
             hover:cursor-pointer
-        ">
+            z-50
+        " onClick={() => setHamburgerMenuIsVisible(!hamburgerMenuIsVisible)}>
             <div className={hamburgerBarClass}></div>
             <div className={hamburgerBarClass}></div>
             <div className={hamburgerBarClass}></div>
