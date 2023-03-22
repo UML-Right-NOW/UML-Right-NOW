@@ -8,7 +8,8 @@ module.exports = {
         extend: {
             colors: {
                 "rowdy-blue": "#0369B1",
-                "rowdy-red": "#F80A0A"
+                "rowdy-red": "#F80A0A",
+                "light-gray": "#EFEFEF"
             },
             keyframes: {
                 "slide-in": {
