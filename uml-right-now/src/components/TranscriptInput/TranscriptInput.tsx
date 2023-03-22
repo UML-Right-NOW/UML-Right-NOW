@@ -64,6 +64,6 @@ export default function TranscriptInput() {
     }
 
     return (
-        <input type="file" accept=".pdf" onChange={onFileInputChanged} />
+        <input className="rounded-3xl bg-rowdy-blue text-white mt-20 stroke-2 border-white" type="file" accept=".pdf" onChange={onFileInputChanged} />
     );
 }

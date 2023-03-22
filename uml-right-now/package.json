@@ -15,6 +15,7 @@
     "@mui/base": "^5.0.0-alpha.122",
     "@mui/material": "^5.11.13",
     "@mui/styles": "^5.11.13",
+    "@nextui-org/react": "^1.0.0-beta.12",
     "@types/formidable": "^2.0.5",
     "@types/node": "18.14.6",
     "@types/react": "18.0.28",

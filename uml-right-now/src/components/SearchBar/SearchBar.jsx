@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function ComboBox() {
+export default function SearchBar() {
     const classes = useStyles();
     return (
         <Autocomplete
@@ -37,7 +37,7 @@ export default function ComboBox() {
             disablePortal
             id="combo-box-demo"
             classes={classes}
-            options={top100Films}
+            options={DegreePaths}
             sx={{ width: 400, WebkitTextFillColor: "white", }}
             renderInput={(params) => <TextField {...params} label="Degree pathways" className='stroke-white stroke-7' />}
         />
@@ -45,11 +45,11 @@ export default function ComboBox() {
 }
 
 // classes exemples
-const top100Films = [
+const DegreePaths = [
     { label: 'Computer science general', year: 2023 },
     { label: 'Computer science software', year: 2023 },
     { label: 'Biology', year: 2023 },
-    { label: 'lawyer', year: 2023 },
+    { label: 'Lawyer', year: 2023 },
     { label: 'Math', year: 2023 },
     { label: "MIS", year: 2023 },
     { label: 'Software degree', year: 2023 },
@@ -57,14 +57,14 @@ const top100Films = [
         label: 'Buisseness',
         year: 2022,
     },
-    { label: 'accountant', year: 2023 },
+    { label: 'Accountant', year: 2023 },
     { label: 'English', year: 2023 },
     {
         label: 'French',
         year: 2003,
     },
     {
-        label: 'geography',
+        label: 'Geography',
         year: 2023,
     }
 ];
