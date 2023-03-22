@@ -57,6 +57,8 @@ export default function TranscriptInput() {
                 }).catch(err => {
                     console.log(err);
                 });
+                console.log(res);
+                router.push("/pathways");
             }).catch(err => {
                 console.log(err);
             });
