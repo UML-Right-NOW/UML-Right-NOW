@@ -25,7 +25,7 @@ export default function Home() {
                             <h1 className="text-9xl text-white">-or-</h1>
                         </div>
                         <div className=" flex justify-center" >
-                            <Tooltip content={"Upload Your UML transcript"} placement="bottomEnd">
+                            <Tooltip content={"Upload Your UML transcript so we can help you better with your degree path"} color="primary" placement="rightEnd">
                                 <TranscriptInput />
                             </Tooltip>
 
