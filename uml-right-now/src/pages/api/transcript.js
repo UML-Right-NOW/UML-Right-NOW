@@ -38,7 +38,7 @@ export default async function handler(req, res) {
     debug_printSemesters(semesters);
 
     // Respond to the frontend
-    res.status(200).json({ semesters });
+    res.send(200).json({ semesters: semesters });
 }
 
 /**

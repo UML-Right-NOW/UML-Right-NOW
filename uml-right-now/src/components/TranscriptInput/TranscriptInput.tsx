@@ -1,9 +1,13 @@
 // Next
 import React, { ChangeEvent } from "react";
+import { useRouter } from "next/router";
 
 export default function TranscriptInput() {
+    // State
+    const router = useRouter();
+
     // Event handlers
-    const onFileInputChanged = (event: ChangeEvent<HTMLInputElement>) => {
+    function onFileInputChanged (event: ChangeEvent<HTMLInputElement>) {
         // Retrieve the input element
         const inputElement = event.target as HTMLInputElement;
         if (inputElement === null || inputElement.files === null || inputElement.files.length === 0) {
@@ -35,16 +39,13 @@ export default function TranscriptInput() {
                 method: "POST",
                 body: formData
             }).then(res => {
-                res.json().then(data => {
-                    console.log(data);
-                }).catch(err => {
-                    console.log(err);
-                });
+                console.log(res);
+                router.push("/pathways");
             }).catch(err => {
                 console.log(err);
             });
         };
-    };
+    }
 
     return (
         <input type="file" accept=".pdf" onChange={onFileInputChanged} />
