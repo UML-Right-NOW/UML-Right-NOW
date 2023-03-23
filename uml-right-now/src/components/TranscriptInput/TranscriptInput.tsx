@@ -3,14 +3,17 @@ import React, { ChangeEvent, useContext } from "react";
 import { useRouter } from "next/router";
 
 // Contexts
-import { StudentInfoContext, StudentInfoContextType } from "@/contexts/StudentInfoContext";
+import { TranscriptContext, TranscriptContextType } from "@/contexts/TranscriptContext";
+
+// Libraries
+import Transcript from "@/Transcript";
 
 export default function TranscriptInput() {
     // State
     const router = useRouter();
 
     // Contexts
-    const { setStudentInfo } = useContext(StudentInfoContext) as StudentInfoContextType;
+    const { setTranscript: setStudentInfo } = useContext(TranscriptContext) as TranscriptContextType;
 
     // Event handlers
     function onFileInputChanged (event: ChangeEvent<HTMLInputElement>) {
@@ -47,7 +50,7 @@ export default function TranscriptInput() {
             }).then(res => {
                 res.json().then(data => {
                     // Cache the parsed transcript data
-                    setStudentInfo(data);
+                    setStudentInfo(new Transcript(data["semesters"]));
 
                     // Redirect the user to the /pathways page
                     router.push("/pathways");

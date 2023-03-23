@@ -2,22 +2,20 @@
 import React, { useContext } from "react";
 
 // Contexts
-import { StudentInfoContext, StudentInfoContextType } from "@/contexts/StudentInfoContext";
+import { TranscriptContext, TranscriptContextType } from "@/contexts/TranscriptContext";
 
 // Components
 import PathwayTable from "@/components/PathwayTable/PathwayTable";
-
-// Libraries
 import DegreePathway from "@/DegreePathway";
 
 export default function Pathways() {
     // Contexts
-    const { studentInfo } = useContext(StudentInfoContext) as StudentInfoContextType;
+    const { transcript } = useContext(TranscriptContext) as TranscriptContextType;
     
-    // Render the degree pathway if applicable
+    // Retrieve the transcript if applicable
     let degreePathway: null | DegreePathway = null;
-    if (studentInfo) {
-        degreePathway = new DegreePathway(studentInfo.semesters);
+    if (transcript) {
+        degreePathway = new DegreePathway(transcript.semesters);
     }
 
     return (
