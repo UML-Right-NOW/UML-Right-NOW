@@ -7,13 +7,16 @@ import Page from "@/components/Page/Page";
 
 // Contexts
 import HamburgerMenuContextProvider from "@/contexts/HamburgerMenuContext";
+import StudentInfoContextProvider from "@/contexts/StudentInfoContext";
 
 export default function App({ Component, pageProps }: AppProps) {
     return (
-        <HamburgerMenuContextProvider>
-            <Page>
-                <Component {...pageProps} />
-            </Page>
-        </HamburgerMenuContextProvider>
+        <StudentInfoContextProvider>
+            <HamburgerMenuContextProvider>
+                <Page>
+                    <Component {...pageProps} />
+                </Page>
+            </HamburgerMenuContextProvider>
+        </StudentInfoContextProvider>
     );
 }
