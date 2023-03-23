@@ -1,5 +1,5 @@
 // Next
-import React, { ChangeEvent } from "react";
+import { ChangeEvent } from "react";
 
 export default function TranscriptInput() {
     // Event handlers
@@ -20,7 +20,7 @@ export default function TranscriptInput() {
         fileReader.readAsArrayBuffer(file);
 
         // Define the reader's onload event handler 
-        fileReader.onload = function() {
+        fileReader.onload = function () {
             // Convert the file's array buffer into a typed array
             const typedArray = new Uint8Array(this.result as ArrayBuffer);
 
@@ -43,6 +43,6 @@ export default function TranscriptInput() {
     };
 
     return (
-        <input type="file" accept=".pdf" onChange={onFileInputChanged} />
+        <input className="rounded-3xl bg-rowdy-blue text-white mt-20 stroke-2 border-white" type="file" accept=".pdf" onChange={onFileInputChanged} />
     );
 }
