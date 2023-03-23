@@ -1,10 +1,16 @@
 import TranscriptInput from "@/components/TranscriptInput/TranscriptInput";
 import { Tooltip } from "@nextui-org/react";
 import Head from "next/head";
+import { useState } from "react";
 import SearchBar from "../components/SearchBar/SearchBar";
 
 export default function Home() {
     const backgroundimage1 = "https://images.pexels.com/photos/6147369/pexels-photo-6147369.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2";
+    const [entry, setEntry] = useState("");
+
+    function handleInput() {
+
+    }
 
     return (
         <>
