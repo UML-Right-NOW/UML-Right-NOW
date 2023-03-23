@@ -63,14 +63,16 @@ export default function SemesterElement({ semester }: SemesterElementProps) {
             <table className="
                 w-full
             ">
-                {/* Table Header */}
-                <CourseElement 
-                    courseCode="Course Code"
-                    courseName="Course Name"
-                    courseCredits="Course Credits" />
+                <tbody>
+                    {/* Table Header */}
+                    <CourseElement 
+                        courseCode="Course Code"
+                        courseName="Course Name"
+                        courseCredits="Course Credits" />
 
-                {/* Semester Courses */}
-                {courseElements}
+                    {/* Semester Courses */}
+                    {courseElements}
+                </tbody>
             </table>
         </div>
     );

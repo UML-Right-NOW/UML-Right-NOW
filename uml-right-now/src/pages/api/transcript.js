@@ -20,40 +20,58 @@ export default async function handler(req, res) {
         return;
     }
 
+    // Parse the form sent from the client
+    let pdfContents = "";
+    await parseForm(req).then(res => {
+        pdfContents = res;
+    }).catch(err => {
+        res.status(500).send({ message: err });
+        return;
+    });
+
+    // Get to the beginning of the undergraduate record (IGNORE TRANSFER CREDITS)
+    const transcriptHeaderIndex = pdfContents.indexOf(TRANSCRIPT_HEADER);
+    pdfContents = pdfContents.slice(transcriptHeaderIndex);
+
+    // Parse the PDF file's contents
+    const semesters = parseSemesters(pdfContents);
+    debug_printSemesters(semesters);
+
+    // Respond to the frontend
+    res.status(200).json({ semesters: semesters });
+}
+
+/**
+ * Reads a form contained within a given request from the client, parses the PDF
+ * file contained within this form, and returns its contents as a string.
+ * @param {*} req   The request from the client 
+ * @returns         A promise that resolves to the PDF string
+ */
+function parseForm(req) {
     // Initialize a new form
     const form = formidable();
 
     // Parse the PDF data from the client request
-    form.parse(req, async (err, fields, files) => {
-        if (err) {
-            res.status(500).send({ message: err });
-            return;
-        }
+    return new Promise((resolve, reject) => {
+        form.parse(req, async (err, fields, files) => {
+            if (err) {
+                reject(err);
+            }
 
-        // Retrieve the file from the request
-        const file = files["binary_data"];
+            // Retrieve the file from the request
+            const file = files["binary_data"];
 
-        // Retrieve the file path from the file
-        const filePath = file["filepath"];
+            // Retrieve the file path from the file
+            const filePath = file["filepath"];
 
-        // Read the PDF file
-        let pdfContents = "";
-        await getPdfContents(filePath).then(res => {
-            pdfContents = res;
-        }).catch(err => {
-            console.log(err);
+            // Read the PDF file
+            await getPdfContents(filePath).then(res => {
+                resolve(res);
+            }).catch(innerErr => {
+                reject(innerErr);
+            });
         });
-
-        // Get to the beginning of the undergraduate record (IGNORE TRANSFER CREDITS)
-        const transcriptHeaderIndex = pdfContents.indexOf(TRANSCRIPT_HEADER);
-        pdfContents = pdfContents.slice(transcriptHeaderIndex);
-
-        // Parse the PDF file's contents
-        const semesters = parseSemesters(pdfContents);
-        debug_printSemesters(semesters);
     });
-
-    res.status(200).send({ message: "ok" });
 }
 
 /**
@@ -66,7 +84,7 @@ function getPdfContents(filePath) {
         let pdfContents = "";
         new PdfReader().parseFileItems(filePath, (err, item) => {
             if (err) {
-                reject();
+                reject(err);
             } else if (!item) { // Reached EOF
                 resolve(pdfContents);
             } else if (item.text) { // Still parsing
@@ -85,12 +103,7 @@ function getPdfContents(filePath) {
 function parseSemesters(str) {
     const it = str.matchAll(SEMESTER_RE);
     const semesters = [];
-    for (;;) {
-        const curr = it.next();
-        if (curr.done) {
-            break;
-        }
-
+    for (let curr = it.next(); !curr.done; curr = it.next()) {
         // Determine the name and index of the current semester
         const semesterIndex = curr.value.index;
         const semesterName = curr.value[0];
@@ -121,12 +134,7 @@ function parseSemesters(str) {
 function parseCourses(str) {
     const courses = [];
     const it = str.matchAll(COURSE_RE);
-    for (;;) {
-        const curr = it.next();
-        if (curr.done) {
-            break;
-        }
-
+    for (let curr = it.next(); !curr.done; curr = it.next()) {
         // Retrieve the matched string
         const courseString = curr.value[0];
 
