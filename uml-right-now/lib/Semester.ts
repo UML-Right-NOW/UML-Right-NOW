@@ -3,7 +3,7 @@ import Course from "./Course";
 export default class Semester {
     // Members
     name: string;
-    courses: Course[];
+    courses: Course[] = [];
     creditsAttempted = 0;
     creditsEarned = 0;
 
@@ -12,13 +12,23 @@ export default class Semester {
      * @param name      The name of the semester (i.e. "Fall 2019")
      * @param courses   The list of courses contained within the semester
      */
-    constructor(name: string, courses: Course[]) {
+    constructor(name: string, courses?: Course[]) {
         this.name = name;
-        this.courses = courses;
-        this.courses.forEach(course => {
-            this.creditsAttempted += course.creditsAttempted;
-            this.creditsEarned += course.creditsEarned;
-        });
+        if (courses) {
+            courses.forEach(course => {
+                this.addCourse(course);
+            });
+        }
+    }
+
+    /**
+     * Adds a course to the semester's internal array of courses.
+     * @param course    The course to add
+     */
+    addCourse(course: Course) {
+        this.courses.push(course);
+        this.creditsAttempted += course.creditsAttempted;
+        this.creditsEarned += course.creditsEarned;
     }
 
     /**

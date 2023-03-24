@@ -27,9 +27,9 @@ export default function SemesterElement({ semester }: SemesterElementProps) {
     }
 
     // Generate the JSX for the list of courses
-    const courseElements = semester.courses.map(course => {
+    const courseElements = semester.courses.map((course, index) => {
         // Generate a unique key for the current course
-        const key = `${course.code}-${course.name}-${course.creditsAttempted}-${course.creditsEarned}`;
+        const key = `${new Date().getTime() / 1000}-${course.code}-${course.name}-${course.creditsAttempted}-${course.creditsEarned}-${index}`;
 
         return (
             <CourseElement 

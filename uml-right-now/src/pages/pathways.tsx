@@ -6,16 +6,20 @@ import { TranscriptContext, TranscriptContextType } from "@/contexts/TranscriptC
 
 // Components
 import PathwayTable from "@/components/PathwayTable/PathwayTable";
+
+// Libraries
+import PathwayGenerator from "@/PathwayGenerator";
 import DegreePathway from "@/DegreePathway";
 
 export default function Pathways() {
     // Contexts
     const { transcript } = useContext(TranscriptContext) as TranscriptContextType;
     
-    // Retrieve the transcript if applicable
-    let degreePathway: null | DegreePathway = null;
-    if (transcript) {
-        degreePathway = new DegreePathway(transcript.semesters);
+    // Compute the degree pathway if applicable
+    let degreePathway: DegreePathway | null = null;
+    const major = "Computer science general";   // TODO: Retrieve the major programatically
+    if (major) {
+        degreePathway = PathwayGenerator.generateDegreePathway("Computer science general", transcript);
     }
 
     return (
