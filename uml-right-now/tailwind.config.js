@@ -12,7 +12,8 @@ module.exports = {
             colors: {
                 "rowdy-blue": "#0369B1",
                 "rowdy-red": "#F80A0A",
-                "light-gray": "#EFEFEF"
+                "light-gray": "#EFEFEF",
+                "deep-grey": "#979797"
             },
             keyframes: {
                 "slide-in": {

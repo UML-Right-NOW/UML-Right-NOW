@@ -12,6 +12,8 @@
     "@emotion/react": "^11.10.6",
     "@emotion/server": "^11.10.0",
     "@emotion/styled": "^11.10.6",
+    "@fortawesome/free-regular-svg-icons": "^6.3.0",
+    "@fortawesome/free-solid-svg-icons": "^6.3.0",
     "@material-ui/core": "^4.12.4",
     "@material-ui/icons": "^4.11.3",
     "@mui/material": "^5.11.14",
@@ -28,6 +30,7 @@
     "pdfreader": "^3.0.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-pro-sidebar": "^1.0.0",
     "typescript": "4.9.5"
   },
   "devDependencies": {
