@@ -39,7 +39,7 @@ export default class PathwayGenerator {
             ]),
             new Semester("", [
                 new Course("comp 2010", "", 3, 0),
-                new Course("comp 2010r", "", 1, 0),
+                new Course("comp 2010l", "", 1, 0),
                 new Course("comp 2030", "", 3, 0),
                 new Course("comp 2030r", "", 1, 0),
                 new Course("math 2190", "", 3, 0),
@@ -48,7 +48,7 @@ export default class PathwayGenerator {
             new Semester("", [
                 new Course("engl 2200", "", 3, 0),
                 new Course("comp 2040", "", 3, 0),
-                new Course("math 3320", "", 3, 0),
+                new Course("math 3220", "", 3, 0),
                 new Course("math 3860", "", 3, 0),
                 new Course("xxxx xxxx", "", 4, 0),
             ]),

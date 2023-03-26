@@ -13,7 +13,7 @@ export default function TranscriptInput() {
     const router = useRouter();
 
     // Contexts
-    const { setTranscript: setStudentInfo } = useContext(TranscriptContext) as TranscriptContextType;
+    const { setTranscript } = useContext(TranscriptContext) as TranscriptContextType;
 
     // Event handlers
     function onFileInputChanged (event: ChangeEvent<HTMLInputElement>) {
@@ -50,7 +50,7 @@ export default function TranscriptInput() {
             }).then(res => {
                 res.json().then(data => {
                     // Cache the parsed transcript data
-                    setStudentInfo(new Transcript(data["semesters"]));
+                    setTranscript(new Transcript(data["courses"]));
 
                     // Redirect the user to the /pathways page
                     router.push("/pathways");
