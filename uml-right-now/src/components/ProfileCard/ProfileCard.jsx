@@ -3,7 +3,7 @@ import AvatarComp from "../Avatar/AvatarComp.jsx";
 
 export default function ProfileCard(props) {
     return (
-        <div className="h-40 w-96 m-4 rounded-2xl flex content-center items-center bg-light-gray">
+        <div className="h-auto w-96 m-4 lg:h-40  rounded-2xl flex flex-col lg:flex-row content-center items-center bg-light-gray">
             <div className="m-3">
                 <AvatarComp name={props.name} url={props.url} />
             </div>
