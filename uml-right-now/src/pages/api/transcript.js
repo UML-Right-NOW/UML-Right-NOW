@@ -3,15 +3,11 @@
 // Libraries
 import formidable from "formidable";
 import { PdfReader } from "pdfreader/PdfReader";
-import Semester from "../../../lib/Semester";
 import Course from "../../../lib/Course";
 
 // Constants
-const SEMESTER_RE = new RegExp(/\d{4} (fall|spring|summer|winter)/, "g");
 const COURSE_RE = new RegExp(/[a-z]{4} [0-9]{4}[a-z]? ([a-z :.&\-()]|\d(?!\.))+ \d+\.\d+ \d+\.\d+ ([a-z]+[+-]? )?\d+\.\d+/, "g");
-const TRANSCRIPT_HEADER = "beginning of undergraduate record";
-const COURSE_HEADER = "course description attempted earned grade points";
-const COURSE_FOOTER = "term gpa:";
+const TRANSFER_RE = new RegExp(/[a-z]{4} [0-9]{4}[a-z]? ([a-z :.&\-()]|\d(?!\.))+ \d+\.\d+ t/, "g");
 
 export default async function handler(req, res) {
     // Ensure that the request is a POST request
@@ -20,40 +16,54 @@ export default async function handler(req, res) {
         return;
     }
 
+    // Parse the form sent from the client
+    let pdfContents = "";
+    await parseForm(req).then(res => {
+        pdfContents = res;
+    }).catch(err => {
+        res.status(500).send({ message: err });
+        return;
+    });
+
+    // Parse the PDF file's contents
+    const courses = parseCourses(pdfContents);
+    debug_printCourses(courses);
+
+    // Respond to the frontend
+    res.status(200).json({ courses: courses });
+}
+
+/**
+ * Reads a form contained within a given request from the client, parses the PDF
+ * file contained within this form, and returns its contents as a string.
+ * @param {*} req   The request from the client 
+ * @returns         A promise that resolves to the PDF string
+ */
+function parseForm(req) {
     // Initialize a new form
     const form = formidable();
 
     // Parse the PDF data from the client request
-    form.parse(req, async (err, fields, files) => {
-        if (err) {
-            res.status(500).send({ message: err });
-            return;
-        }
+    return new Promise((resolve, reject) => {
+        form.parse(req, async (err, fields, files) => {
+            if (err) {
+                reject(err);
+            }
 
-        // Retrieve the file from the request
-        const file = files["binary_data"];
+            // Retrieve the file from the request
+            const file = files["binary_data"];
 
-        // Retrieve the file path from the file
-        const filePath = file["filepath"];
+            // Retrieve the file path from the file
+            const filePath = file["filepath"];
 
-        // Read the PDF file
-        let pdfContents = "";
-        await getPdfContents(filePath).then(res => {
-            pdfContents = res;
-        }).catch(err => {
-            console.log(err);
+            // Read the PDF file
+            await getPdfContents(filePath).then(res => {
+                resolve(res);
+            }).catch(innerErr => {
+                reject(innerErr);
+            });
         });
-
-        // Get to the beginning of the undergraduate record (IGNORE TRANSFER CREDITS)
-        const transcriptHeaderIndex = pdfContents.indexOf(TRANSCRIPT_HEADER);
-        pdfContents = pdfContents.slice(transcriptHeaderIndex);
-
-        // Parse the PDF file's contents
-        const semesters = parseSemesters(pdfContents);
-        debug_printSemesters(semesters);
     });
-
-    res.status(200).send({ message: "ok" });
 }
 
 /**
@@ -66,7 +76,7 @@ function getPdfContents(filePath) {
         let pdfContents = "";
         new PdfReader().parseFileItems(filePath, (err, item) => {
             if (err) {
-                reject();
+                reject(err);
             } else if (!item) { // Reached EOF
                 resolve(pdfContents);
             } else if (item.text) { // Still parsing
@@ -77,61 +87,79 @@ function getPdfContents(filePath) {
 }
 
 /**
- * Parses an array of semesters from a given transcript string.
- * NOTE: This function assumes that the given string begins at the beginning of an undergraduate record.
- * @param {*} str       The string from which to parse the array of semesters
- * @returns             An array of Semester objects
+ * Parses an array of courses from a given string.
+ * @param {*} str       The substring from which to parse the array of courses
+ * @returns             The array of parsed courses
  */
-function parseSemesters(str) {
-    const it = str.matchAll(SEMESTER_RE);
-    const semesters = [];
-    for (;;) {
-        const curr = it.next();
-        if (curr.done) {
-            break;
-        }
+function parseCourses(str) {
+    // Parse courses
+    const transferCourses = parseTransferCourses(str);
+    const regularCourses = parseRegularCourses(str); 
 
-        // Determine the name and index of the current semester
-        const semesterIndex = curr.value.index;
-        const semesterName = curr.value[0];
-
-        // Use each semester's "course header" and "course footer" text to create a substring
-        const courseHeaderSearchStartIndex = semesterIndex + semesterName.length;
-        const courseHeaderIndex = str.indexOf(COURSE_HEADER, courseHeaderSearchStartIndex);
-        const courseSearchStartIndex = courseHeaderIndex + COURSE_HEADER.length;
-        const courseSearchEndIndex = str.indexOf(COURSE_FOOTER, courseHeaderSearchStartIndex);
-        const courseSubstring = str.slice(courseSearchStartIndex, courseSearchEndIndex);
-
-        // Parse the semester's courses
-        const semesterCourses = parseCourses(courseSubstring);
-
-        // Cache the result
-        semesters.push(new Semester(semesterName, semesterCourses));
-    }
-
-    return semesters;
+    return transferCourses.concat(regularCourses);
 }
 
 /**
- * Parses an array of courses from a given transcript substring.
- * NOTE: This function assumes that the given string lies in between the beginning and end of a semester.
- * @param {*} str       The substring from which to parse the array of courses
- * @returns             An array of Course objects
+ * Parses an array of transfer courses from a given string.
+ * @param {*} str       The string from which to parse the array of transfer courses
+ * @returns             The array of parsed transfer courses
  */
-function parseCourses(str) {
-    const courses = [];
-    const it = str.matchAll(COURSE_RE);
-    for (;;) {
-        const curr = it.next();
-        if (curr.done) {
-            break;
-        }
+function parseTransferCourses(str) {
+    // Initialization
+    const transferCourses = [];
 
+    // Iterate over each matched transfer course
+    const transferIterator = str.matchAll(TRANSFER_RE);
+    for (let curr = transferIterator.next(); !curr.done; curr = transferIterator.next()) {
+        // Retrieve the matched string
+        const transferCourseString = curr.value[0];
+
+        // Parse the transfer course information from the matched string
+        const transferCourse = parseTransferCourse(transferCourseString);
+
+        // Cache the transfer course
+        transferCourses.push(transferCourse);
+    }
+
+    return transferCourses;
+}
+
+/**
+ * Parses a transfer course string to obtain the data required to initialize a Course object.
+ * @param {*} transferCourseString      The transfer course string to parse
+ * @returns                             The initialized Course object
+ */
+function parseTransferCourse(transferCourseString) {
+    // Convert the transfer course string into an array
+    const transferCourseInfo = transferCourseString.split(" ");
+
+    // Parse the transfer course information
+    const courseCode = transferCourseInfo[4] + " " + transferCourseInfo[5];
+    const creditsAttempted = parseFloat(transferCourseInfo[transferCourseInfo.length - 2]);
+    const creditsEarned = creditsAttempted;
+    const courseName = transferCourseInfo.slice(6, transferCourseInfo.length - 2).join(" ");
+
+    // Used the parsed transfer course information to initialize a new Course object
+    return new Course(courseCode, courseName, creditsAttempted, creditsEarned);
+}
+
+/**
+ * Parses an array of regular (non-transfer) courses from a given string.
+ * @param {*} str       The string from which to parse the array of regular courses
+ * @returns             The array of regular courses
+ */
+function parseRegularCourses(str) {
+    // Initialization
+    const courses = [];
+
+    // Iterate over each matched course
+    const courseIterator = str.matchAll(COURSE_RE);
+    for (let curr = courseIterator.next(); !curr.done; curr = courseIterator.next()) {
         // Retrieve the matched string
         const courseString = curr.value[0];
 
         // Parse the course information from the matched string
-        const course = parseCourse(courseString);
+        const course = parseRegularCourse(courseString);
 
         // Cache the course
         courses.push(course);
@@ -141,12 +169,11 @@ function parseCourses(str) {
 }
 
 /**
- * Parses a course from a given transcript substring.
- * NOTE: This function assumes that the given string contains ONLY course data.
- * @param {*} courseString      The substring from which to parse the course
- * @returns                     A Course object
+ * Parses a course string to obtain the data required to intialize a Course object
+ * @param {*} courseString      The course string to parse
+ * @returns                     The initialized Course object
  */
-function parseCourse(courseString) {
+function parseRegularCourse(courseString) {
     // Convert the course string into an array
     const courseInfo = courseString.split(" ");
 
@@ -169,25 +196,26 @@ function parseCourse(courseString) {
 }
 
 /**
- * Pretty-prints an array of semesters.
- * NOTE: This function should be used for debugging only (not in production).
- * @param {*} semesters     An array of Semester objects
+ * Prints a given array of courses.
+ * NOTE: For use in debugging only.
+ * @param {*} courses   The array of courses to print
  */
-function debug_printSemesters(semesters) {
-    let creditsAttempted = 0;
-    let creditsEarned = 0;
-    semesters.forEach(semester => {
-        creditsAttempted += semester.creditsAttempted;
-        creditsEarned += semester.creditsEarned;
-        console.log(semester.name.toUpperCase());
-        console.log();
-        semester.courses.forEach(course => {
-            console.log(course);
-        });
-        console.log(`Credits Attempted: ${semester.creditsAttempted}, Credits Earned: ${semester.creditsEarned}`);
-        console.log();
+function debug_printCourses(courses) {
+    // Initialization
+    let creditsAttempted = 0, creditsEarned = 0;
+
+    // Iterate over each course
+    courses.forEach(course => {
+        // Add the current course's stats to the running sums
+        creditsAttempted += course.creditsAttempted;
+        creditsEarned += course.creditsEarned;
+
+        // Display the course
+        console.log(course);
     });
-    console.log(`Total Credits Attempted: ${creditsAttempted}, Total Credits Earned: ${creditsEarned}`);
+
+    // Display the running sums
+    console.log(`Credits Attempted: ${creditsAttempted}, Credits Earned: ${creditsEarned}`);
 }
 
 // IMPORTANT: Required for formidable to work
