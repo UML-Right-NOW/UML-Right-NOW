@@ -29,7 +29,10 @@ export default function PathwayTable({ degreePathway }: PathwayTableProps) {
             w-11/12
             sm:w-5/6
             md:w-2/3
-            lg:w-1/2
+            xl:grid
+            xl:grid-cols-2
+            xl:gap-5
+            xl:items-start
         ">
             {semesterElements}
         </div>
