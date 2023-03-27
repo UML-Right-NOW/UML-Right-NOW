@@ -34,7 +34,7 @@ const SideNav = (props, { arr }) => {
         } else if (event.currentTarget.textContent == Menus[1].title) {
             setwhatWasClicked(false);
         }
-        console.log(user)
+        console.log(user);
     }
 
     function pageToRenderONe() {
@@ -42,12 +42,12 @@ const SideNav = (props, { arr }) => {
             return <div>
                 <h1 className="flex justify-center text-rowdy-blue text-center text-lg lg:text-5xl ">Your Info</h1>
                 <ProfileCard url={user[0].url} valueN={user[0].UserName} valueL={user[0].UserLName} />;
-            </div>
+            </div>;
         } else if (whatWasClicked == false) {
             return <div>
                 <h1 className="flex justify-center text-rowdy-blue text-center text-lg lg:text-5xl ">Your previous Generated degree path(s)</h1>
                 <PathWayGenerated propsArr={propsArr} />
-            </div>
+            </div>;
         }
     }
 

@@ -14,5 +14,5 @@ export default function ProfileCard(props) {
             </div>
 
         </div>
-    )
+    );
 }

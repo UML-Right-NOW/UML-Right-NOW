@@ -1,5 +1,5 @@
 
-import { Avatar, Grid } from '@nextui-org/react';
+import { Avatar, Grid } from "@nextui-org/react";
 
 export default function AvatarComp(props) {
     return (
@@ -13,5 +13,5 @@ export default function AvatarComp(props) {
             </Grid.Container>
         </div>
 
-    )
+    );
 }

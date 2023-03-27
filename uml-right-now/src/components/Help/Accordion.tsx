@@ -1,10 +1,18 @@
-import React,{useState, useRef}from "react";
+import React, { useState, useRef, MutableRefObject }from "react";
 import { FAQ } from "../../../lib/Help_text";
 
-const AccordionItem = ({ data}) => {
+// Types
+type AccordionItemType = {
+    data: {
+        question: string,
+        answer: string
+    }
+};
+
+const AccordionItem = ({ data }: AccordionItemType) => {
 
     const [show, setshow] = useState(false);
-    const contentReference = useRef();
+    const contentReference = useRef() as MutableRefObject<HTMLDivElement>;
   
     const { question, answer } = data;
   
