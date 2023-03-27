@@ -1,6 +1,12 @@
-import { Button, Card, Grid, Text } from "@nextui-org/react";
+import { Button, Card, Grid, Text, Tooltip } from "@nextui-org/react";
 
 export default function App({ propsArr }) {
+
+    function tooltips() {
+        return
+    }
+
+
     return (
         <Grid.Container gap={2} justify="flex-start">
             {propsArr.map((arr, index) => {
@@ -18,9 +24,11 @@ export default function App({ propsArr }) {
                             </Card.Body>
                             <Card.Divider />
                             <Card.Footer>
-                                <Button size="sm" className="bg-rowdy-blue">
-                                    See more details
-                                </Button>
+                                <Tooltip content={"Comming soon!"} color="primary" placement="rightEnd">
+                                    <Button onClick={tooltips} size="sm" className="bg-rowdy-blue">
+                                        See more details
+                                    </Button>
+                                </Tooltip>
                             </Card.Footer>
                         </Card>
                     </Grid>
