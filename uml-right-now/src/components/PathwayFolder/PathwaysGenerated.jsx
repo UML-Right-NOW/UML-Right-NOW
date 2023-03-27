@@ -3,7 +3,7 @@ import { Button, Card, Grid, Text, Tooltip } from "@nextui-org/react";
 export default function App({ propsArr }) {
 
     function tooltips() {
-        return
+        return;
     }
 
 
