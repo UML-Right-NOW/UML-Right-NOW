@@ -1,9 +1,22 @@
 // Next
-import { ChangeEvent } from "react";
+import React, { ChangeEvent, useContext } from "react";
+import { useRouter } from "next/router";
+
+// Contexts
+import { TranscriptContext, TranscriptContextType } from "@/contexts/TranscriptContext";
+
+// Libraries
+import Transcript from "@/Transcript";
 
 export default function TranscriptInput() {
+    // State
+    const router = useRouter();
+
+    // Contexts
+    const { setTranscript } = useContext(TranscriptContext) as TranscriptContextType;
+
     // Event handlers
-    const onFileInputChanged = (event: ChangeEvent<HTMLInputElement>) => {
+    function onFileInputChanged (event: ChangeEvent<HTMLInputElement>) {
         // Retrieve the input element
         const inputElement = event.target as HTMLInputElement;
         if (inputElement === null || inputElement.files === null || inputElement.files.length === 0) {
@@ -35,12 +48,20 @@ export default function TranscriptInput() {
                 method: "POST",
                 body: formData
             }).then(res => {
-                console.log(res);
+                res.json().then(data => {
+                    // Cache the parsed transcript data
+                    setTranscript(new Transcript(data["courses"]));
+
+                    // Redirect the user to the /pathways page
+                    router.push("/pathways");
+                }).catch(err => {
+                    console.log(err);
+                });
             }).catch(err => {
                 console.log(err);
             });
         };
-    };
+    }
 
     return (
         <input className="rounded-3xl bg-rowdy-blue text-white mt-20 stroke-2 border-white" type="file" accept=".pdf" onChange={onFileInputChanged} />
