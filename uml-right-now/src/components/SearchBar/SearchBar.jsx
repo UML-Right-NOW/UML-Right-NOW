@@ -1,6 +1,6 @@
 import { makeStyles } from "@material-ui/core/styles";
-import Autocomplete from '@mui/material/Autocomplete';
-import TextField from '@mui/material/TextField';
+import Autocomplete from "@mui/material/Autocomplete";
+import TextField from "@mui/material/TextField";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     },
     inputRoot: {
         color: "purple",
-        '&[class*="MuiOutlinedInput-root"] .MuiAutocomplete-input:first-child': {
+        "&[class*=\"MuiOutlinedInput-root\"] .MuiAutocomplete-input:first-child": {
             paddingLeft: 26
         },
         "& .MuiOutlinedInput-notchedOutline": {
@@ -46,25 +46,25 @@ export default function SearchBar() {
 
 // classes exemples
 const DegreePaths = [
-    { label: 'Computer science general', year: 2023 },
-    { label: 'Computer science software', year: 2023 },
-    { label: 'Biology', year: 2023 },
-    { label: 'Lawyer', year: 2023 },
-    { label: 'Math', year: 2023 },
+    { label: "Computer science general", year: 2023 },
+    { label: "Computer science software", year: 2023 },
+    { label: "Biology", year: 2023 },
+    { label: "Lawyer", year: 2023 },
+    { label: "Math", year: 2023 },
     { label: "MIS", year: 2023 },
-    { label: 'Software degree', year: 2023 },
+    { label: "Software degree", year: 2023 },
     {
-        label: 'Buisseness',
+        label: "Buisseness",
         year: 2022,
     },
-    { label: 'Accountant', year: 2023 },
-    { label: 'English', year: 2023 },
+    { label: "Accountant", year: 2023 },
+    { label: "English", year: 2023 },
     {
-        label: 'French',
+        label: "French",
         year: 2003,
     },
     {
-        label: 'Geography',
+        label: "Geography",
         year: 2023,
     }
 ];
