@@ -26,10 +26,9 @@
             "error",
             4
         ],
-        "linebreak-style": [
-            "error",
-            "unix"
-        ],
+        // "linebreak-style": [
+        //     "unix"
+        // ],
         "quotes": [
             "error",
             "double"
