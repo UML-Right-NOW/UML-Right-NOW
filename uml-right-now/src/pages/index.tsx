@@ -1,7 +1,8 @@
 import TranscriptInput from "@/components/TranscriptInput/TranscriptInput";
 import { Tooltip } from "@nextui-org/react";
 import Head from "next/head";
-import { useState, useEffect, useContext, useRouter } from "react";
+import { useState, useEffect, useContext } from "react";
+import { useRouter } from "next/router";
 import SearchBar from "../components/SearchBar/SearchBar";
 
 // Contexts
