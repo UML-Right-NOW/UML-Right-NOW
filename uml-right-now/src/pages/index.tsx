@@ -1,18 +1,31 @@
 import TranscriptInput from "@/components/TranscriptInput/TranscriptInput";
 import { Tooltip } from "@nextui-org/react";
 import Head from "next/head";
-import { useRouter } from "next/router";
-import { useState } from "react";
+import { useState, useEffect, useContext, useRouter } from "react";
 import SearchBar from "../components/SearchBar/SearchBar";
+
+// Contexts
+import { TranscriptContext, TranscriptContextType } from "@/contexts/TranscriptContext";
 
 export default function Home() {
     const backgroundimage1 = "https://images.pexels.com/photos/6147369/pexels-photo-6147369.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2";
     const [entry, setEntry] = useState("");
+
+    // Contexts
+    const { setTranscript, setMajor } = useContext(TranscriptContext) as TranscriptContextType;
+
+    // Initialize router
     const router = useRouter();
 
     function handleClick(event: any) {
         router.push("/pathways");
     }
+
+    useEffect(() => {
+        // Reset the transcript and major each time the home page is visited
+        setTranscript(null);
+        setMajor(null);
+    }, [setTranscript, setMajor]);
 
     return (
         <>
