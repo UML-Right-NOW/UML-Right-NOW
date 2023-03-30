@@ -2,6 +2,9 @@
 import React, { ChangeEvent, useContext } from "react";
 import { useRouter } from "next/router";
 
+// Components
+import { FileUploader } from "react-drag-drop-files";
+
 // Contexts
 import { TranscriptContext, TranscriptContextType } from "@/contexts/TranscriptContext";
 
@@ -16,16 +19,7 @@ export default function TranscriptInput() {
     const { setTranscript } = useContext(TranscriptContext) as TranscriptContextType;
 
     // Event handlers
-    function onFileInputChanged (event: ChangeEvent<HTMLInputElement>) {
-        // Retrieve the input element
-        const inputElement = event.target as HTMLInputElement;
-        if (inputElement === null || inputElement.files === null || inputElement.files.length === 0) {
-            return;
-        }
-
-        // Retrieve the file
-        const file = inputElement.files[0];
-
+    function onFileInputChanged (file: File) {
         // Initialize the file reader
         const fileReader = new FileReader();
 
@@ -51,9 +45,6 @@ export default function TranscriptInput() {
                 res.json().then(data => {
                     // Cache the parsed transcript data
                     setTranscript(new Transcript(data["courses"]));
-
-                    // Redirect the user to the /pathways page
-                    router.push("/pathways");
                 }).catch(err => {
                     console.log(err);
                 });
@@ -64,6 +55,16 @@ export default function TranscriptInput() {
     }
 
     return (
-        <input className="rounded-3xl bg-rowdy-blue text-white mt-20 stroke-2 border-white" type="file" accept=".pdf" onChange={onFileInputChanged} />
+        <FileUploader classes="
+            mt-10
+            bg-[rgba(0,0,0,0.5)]
+            !border-rowdy-blue
+            [&>*]:[&>*]:!text-white
+            [&>*]:[&>*]:!fill-rowdy-blue
+        " 
+        types={["PDF"]}
+        label="Upload or drop a UML transcript"
+        handleChange={onFileInputChanged} 
+        />
     );
 }
