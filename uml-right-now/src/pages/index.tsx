@@ -1,17 +1,29 @@
 import TranscriptInput from "@/components/TranscriptInput/TranscriptInput";
 import { Tooltip } from "@nextui-org/react";
 import Head from "next/head";
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
 import SearchBar from "../components/SearchBar/SearchBar";
+
+// Contexts
+import { TranscriptContext, TranscriptContextType } from "@/contexts/TranscriptContext";
 
 export default function Home() {
     const backgroundimage1 = "https://images.pexels.com/photos/6147369/pexels-photo-6147369.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2";
     const [entry, setEntry] = useState("");
 
+    // Contexts
+    const { setTranscript, setMajor } = useContext(TranscriptContext) as TranscriptContextType;
+
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     function handleInput() {
 
     }
+
+    useEffect(() => {
+        // Reset the transcript and major each time the home page is visited
+        setTranscript(null);
+        setMajor(null);
+    }, [setTranscript, setMajor]);
 
     return (
         <>
