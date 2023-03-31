@@ -1,5 +1,5 @@
 // Next
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 
 // Components
 import { FileUploader } from "react-drag-drop-files";
@@ -15,11 +15,22 @@ import Transcript from "@/Transcript";
 const FILE_TYPES = ["PDF"];
 
 export default function TranscriptInput() {
+    // State
+    const [transcriptFile, setTranscriptFile] = useState<File | null>(null);
+
     // Contexts
     const { setTranscript } = useContext(TranscriptContext) as TranscriptContextType;
 
     // Event handlers
     function onFileInputChanged (file: File) {
+        // Store the file
+        setTranscriptFile(file);
+
+        // Ensure that the file exists
+        if (!file) {
+            return;
+        }
+
         // Initialize the file reader
         const fileReader = new FileReader();
 
@@ -54,8 +65,18 @@ export default function TranscriptInput() {
         };
     }
 
+    function removeFile() {
+        setTranscriptFile(null);
+    }
+
     return (
-        <FileUploader classes="
+        <div className="
+            flex
+            flex-col
+            justify-start
+            items-center
+        ">
+            <FileUploader classes="
             text-white
             text-center
             text-sm
@@ -68,60 +89,89 @@ export default function TranscriptInput() {
             border-dashed
             rounded-lg
             hover:cursor-pointer
-            px-5
             py-2
             mx-5
             w-full
         " 
-        types={FILE_TYPES}
-        handleChange={onFileInputChanged} 
-        multiple={false}
-        >
-            {/* Icon */}
-            <AiFillFileAdd className="
+            types={FILE_TYPES}
+            handleChange={onFileInputChanged} 
+            multiple={false}
+            fileOrFiles={transcriptFile}
+            >
+                {/* Icon */}
+                <AiFillFileAdd className="
                 text-rowdy-blue
                 text-3xl
             "/>
 
-            {/* Text Container */}
-            <div className="
+                {/* Text Container */}
+                <div className="
                 flex
                 flex-col
                 justify-center
                 items-center
+                ml-5
             ">
-                {/* Text */}
-                <p className="
+                    {/* Text */}
+                    <p className="
                     flex
                     justify-center
                     items-center
-                    ml-5
                 ">
                     Upload a UML Transcript
-                </p>
+                    </p>
 
-                {/* File Types */}
-                <div className="
+                    {/* File Types Container */}
+                    <div className="
                     flex
                     justify-center
                     items-center
                     gap-2
                     mt-1
                 ">
-                    {FILE_TYPES.map(file_type => {
-                        return (
-                            <p className="
+                        {/* File Types */}
+                        {FILE_TYPES.map(file_type => {
+                            return (
+                                <p className="
                                 bg-rowdy-blue
                                 rounded-md
                                 text-white
                                 px-2
                             " key={file_type}>
-                                {file_type}
-                            </p>
-                        );
-                    })}
+                                    {file_type}
+                                </p>
+                            );
+                        })}
+                    </div>
+
+                    {/* Uploaded File */}
+                    {transcriptFile && (
+                        <p className="
+                            italic
+                            mt-2
+                        ">
+                            {transcriptFile.name}
+                        </p>
+                    )}
                 </div>
-            </div>
-        </FileUploader>
+            </FileUploader>
+
+            {/* Remove File Button */}
+            {transcriptFile && <button className="
+                bg-rowdy-red
+                text-white
+                text-sm
+                hover:cursor-pointer
+                px-5
+                py-2
+                rounded-lg
+                mt-2
+                hover:bg-white
+                hover:text-rowdy-red
+                duration-[0.2s]
+            " onClick={removeFile}>
+                Remove File
+            </button>}
+        </div>
     );
 }
