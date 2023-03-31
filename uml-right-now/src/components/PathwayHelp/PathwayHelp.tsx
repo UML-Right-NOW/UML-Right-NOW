@@ -1,5 +1,6 @@
 // Next
 import React from "react";
+import Link from "next/link";
 
 // Components
 import { BsBoxArrowRight } from "react-icons/bs";
@@ -32,7 +33,7 @@ export default function PathwayHelp() {
                 ">
                     Visit the home page to generate a pathway that will be displayed here
                 </p>
-                <a className="
+                <Link className="
                     bg-rowdy-blue
                     text-white
                     w-44
@@ -49,7 +50,7 @@ export default function PathwayHelp() {
                     hover:text-rowdy-blue
                 " href="/">
                     Take me there <BsBoxArrowRight />
-                </a>
+                </Link>
             </div>
         </div>
 
