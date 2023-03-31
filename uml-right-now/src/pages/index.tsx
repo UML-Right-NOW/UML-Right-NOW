@@ -21,7 +21,6 @@ export default function Home() {
 
 
     function handleClick(event: any) {
-
         router.push("/pathways");
     }
 
