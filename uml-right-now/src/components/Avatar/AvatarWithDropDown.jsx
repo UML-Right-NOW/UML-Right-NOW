@@ -1,7 +1,7 @@
 import { Dropdown, Grid, Text } from "@nextui-org/react";
 import Image from "next/image";
 import Link from "next/link";
-import { AiFillLinkedin, AiOutlineMail } from "react-icons/ai";
+//import { AiFillLinkedin } from "react-icons/ai";
 
 export default function App(Props) {
 
@@ -37,13 +37,14 @@ export default function App(Props) {
                         <Dropdown.Item key={Props.key} css={{ height: "$18", onMouseOver: "#0Ff0" }}>
                             <Text b color="inherit" css={{ d: "flex" }}>
                                 <Link to="#" href={"mailto:" + Props.email} >
-                                    <AiOutlineMail /> Send an Email
+                                    <h1> Send an Email</h1>
+
                                 </Link>
                             </Text>
                         </Dropdown.Item>
                         <Dropdown.Item key={Props.key} css={{ height: "$18" }}>
                             <Text b color="inherit" css={{ d: "flex" }}>
-                                <Link href={Props.linkIn}><AiFillLinkedin /> :Reach on linkedin</Link>
+                                <Link href={Props.linkIn}>Reach on linkedin</Link>
                             </Text>
                         </Dropdown.Item>
                     </Dropdown.Menu>
