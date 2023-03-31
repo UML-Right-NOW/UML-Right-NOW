@@ -4,6 +4,8 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import SearchBar from "../components/SearchBar/SearchBar";
+//import footer from "../components/Footer/Footer.jsx";
+import Footer from "../components/Footer/Footer.jsx";
 
 export default function Home() {
     const backgroundimage1 = "https://images.pexels.com/photos/6147369/pexels-photo-6147369.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2";
@@ -49,6 +51,7 @@ export default function Home() {
                     </div>
                 </div>
             </main>
+            <Footer />
         </>
     );
 }
