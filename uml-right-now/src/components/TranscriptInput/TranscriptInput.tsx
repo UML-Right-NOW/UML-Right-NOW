@@ -53,7 +53,7 @@ export default function TranscriptInput() {
                     setTranscript(new Transcript(data["courses"]));
 
                     // Redirect the user to the /pathways page
-                    //router.push("/pathways");
+                    router.push("/pathways");
                 }).catch(err => {
                     console.log(err);
                 });
