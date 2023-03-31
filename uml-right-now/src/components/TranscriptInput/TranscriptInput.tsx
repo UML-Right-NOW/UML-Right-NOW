@@ -1,9 +1,9 @@
 // Next
-import React, { ChangeEvent, useContext } from "react";
-import { useRouter } from "next/router";
+import React, { useContext } from "react";
 
 // Components
 import { FileUploader } from "react-drag-drop-files";
+import { AiFillFileAdd } from "react-icons/ai";
 
 // Contexts
 import { TranscriptContext, TranscriptContextType } from "@/contexts/TranscriptContext";
@@ -11,10 +11,10 @@ import { TranscriptContext, TranscriptContextType } from "@/contexts/TranscriptC
 // Libraries
 import Transcript from "@/Transcript";
 
-export default function TranscriptInput() {
-    // State
-    const router = useRouter();
+// Constants
+const FILE_TYPES = ["PDF"];
 
+export default function TranscriptInput() {
     // Contexts
     const { setTranscript } = useContext(TranscriptContext) as TranscriptContextType;
 
@@ -56,15 +56,72 @@ export default function TranscriptInput() {
 
     return (
         <FileUploader classes="
-            mt-10
+            text-white
+            text-center
+            text-sm
             bg-[rgba(0,0,0,0.5)]
-            !border-rowdy-blue
-            [&>*]:[&>*]:!text-white
-            [&>*]:[&>*]:!fill-rowdy-blue
+            flex
+            justify-center
+            items-center
+            border-rowdy-blue
+            border-2
+            border-dashed
+            rounded-lg
+            hover:cursor-pointer
+            px-5
+            py-2
+            mx-5
+            w-full
         " 
-        types={["PDF"]}
-        label="Upload or drop a UML transcript"
+        types={FILE_TYPES}
         handleChange={onFileInputChanged} 
-        />
+        multiple={false}
+        >
+            {/* Icon */}
+            <AiFillFileAdd className="
+                text-rowdy-blue
+                text-3xl
+            "/>
+
+            {/* Text Container */}
+            <div className="
+                flex
+                flex-col
+                justify-center
+                items-center
+            ">
+                {/* Text */}
+                <p className="
+                    flex
+                    justify-center
+                    items-center
+                    ml-5
+                ">
+                    Upload a UML Transcript
+                </p>
+
+                {/* File Types */}
+                <div className="
+                    flex
+                    justify-center
+                    items-center
+                    gap-2
+                    mt-1
+                ">
+                    {FILE_TYPES.map(file_type => {
+                        return (
+                            <p className="
+                                bg-rowdy-blue
+                                rounded-md
+                                text-white
+                                px-2
+                            " key={file_type}>
+                                {file_type}
+                            </p>
+                        );
+                    })}
+                </div>
+            </div>
+        </FileUploader>
     );
 }
