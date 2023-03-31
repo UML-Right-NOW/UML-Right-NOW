@@ -11,7 +11,7 @@ module.exports = {
             },
             colors: {
                 "rowdy-blue": "#0369B1",
-                "rowdy-red": "#F80A0A",
+                "rowdy-red": "#b30000",
                 "light-gray": "#EFEFEF",
                 "deep-grey": "#979797"
             },
