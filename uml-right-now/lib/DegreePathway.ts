@@ -142,14 +142,17 @@ export default class DegreePathway {
         let currSemester = new Semester(currSemesterName);
         for (let i = 0; i < courses.length; i++) {
             if (currSemester.creditsAttempted >= MIN_CREDITS_PER_SEMESTER || i === courses.length - 1) {
-                // Cache the current semester
-                semesters.push(currSemester);
+                // EDGE CASE: handle empty semesters
+                if (currSemester.courses.length > 0) {
+                    // Cache the current semester
+                    semesters.push(currSemester);
 
-                // Determine the name of the semester
-                currSemesterName = DegreePathway._getNextSemesterName(currSemesterName);
+                    // Determine the name of the semester
+                    currSemesterName = DegreePathway._getNextSemesterName(currSemesterName);
 
-                // Initialize a new semester
-                currSemester = new Semester(currSemesterName);
+                    // Initialize a new semester
+                    currSemester = new Semester(currSemesterName);
+                }
             } else {
                 // Retrieve the current course
                 const course = courses[i];
