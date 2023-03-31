@@ -13,10 +13,12 @@ import Transcript from "@/Transcript";
 
 // Constants
 const FILE_TYPES = ["PDF"];
+const MAX_SIZE_MB = 3;
 
 export default function TranscriptInput() {
     // State
     const [transcriptFile, setTranscriptFile] = useState<File | null>(null);
+    const [errorText, setErrorText] = useState<string | null>(null);
 
     // Contexts
     const { setTranscript } = useContext(TranscriptContext) as TranscriptContextType;
@@ -25,6 +27,9 @@ export default function TranscriptInput() {
     function onFileInputChanged (file: File) {
         // Store the file
         setTranscriptFile(file);
+
+        // Remove any error messages
+        setErrorText(null);
 
         // Ensure that the file exists
         if (!file) {
@@ -64,7 +69,11 @@ export default function TranscriptInput() {
             });
         };
     }
+    function onSizeError() {
+        setErrorText(`Uploaded file must be smaller than ${MAX_SIZE_MB} mb!`);
+    }
 
+    // Helpers
     function removeFile() {
         setTranscriptFile(null);
     }
@@ -95,8 +104,10 @@ export default function TranscriptInput() {
         " 
             types={FILE_TYPES}
             handleChange={onFileInputChanged} 
+            onSizeError={onSizeError}
             multiple={false}
             fileOrFiles={transcriptFile}
+            maxSize={MAX_SIZE_MB}
             >
                 {/* Icon */}
                 <AiFillFileAdd className="
@@ -155,6 +166,20 @@ export default function TranscriptInput() {
                     )}
                 </div>
             </FileUploader>
+
+            {/* Error Text */}
+            {errorText && (
+                <p className="
+                    text-rowdy-red
+                    italic
+                    mt-2
+                    bg-[rgba(0,0,0,0.7)]
+                    px-2
+                    py-1
+                ">
+                    {errorText}
+                </p>
+            )}
 
             {/* Remove File Button */}
             {transcriptFile && <button className="
