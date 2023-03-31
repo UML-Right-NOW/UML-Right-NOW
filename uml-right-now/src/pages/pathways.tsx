@@ -1,17 +1,17 @@
 // Next
-import React, { useContext, useState, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 
 // Contexts
 import { TranscriptContext, TranscriptContextType } from "@/contexts/TranscriptContext";
 
 // Components
-import PathwayTable from "@/components/PathwayTable/PathwayTable";
 import PathwayHelp from "@/components/PathwayHelp/PathwayHelp";
+import PathwayTable from "@/components/PathwayTable/PathwayTable";
 import { SpinnerDotted } from "spinners-react";
 
 // Libraries
-import PathwayGenerator from "@/PathwayGenerator";
 import DegreePathway from "@/DegreePathway";
+import PathwayGenerator from "@/PathwayGenerator";
 
 // Constants
 const ROWDY_BLUE_COLOR = "#0369B1";
@@ -42,6 +42,7 @@ export default function Pathways() {
             flex-col
             justify-start
             items-center
+            h-screen
             py-10
         ">
             {/* Loading Animation */}
@@ -49,9 +50,9 @@ export default function Pathways() {
                 style={{
                     width: "100px"
                 }}
-                enabled={isLoading} 
-                speed={100} 
-                color={ROWDY_BLUE_COLOR} 
+                enabled={isLoading}
+                speed={100}
+                color={ROWDY_BLUE_COLOR}
                 className="
                     absolute
                     top-1/2
@@ -82,10 +83,10 @@ export default function Pathways() {
                     </h1>
                     <PathwayTable degreePathway={degreePathway} />
                 </>
-            )} 
+            )}
 
             {/* Help Dialogue */}
             {!isLoading && !degreePathway && <PathwayHelp />}
-        </div>        
+        </div>
     );
 }
