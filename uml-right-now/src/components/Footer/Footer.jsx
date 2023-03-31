@@ -22,7 +22,7 @@ export default function Footer() {
 
             </div>
 
-            <div className="flex flex-col justify-center overflow-hidden lg:mr-20 w-auto bg-black bg-opacity-30 border-white border-2 rounded-full">
+            <div className="flex flex-col justify-center overflow-hidden lg:mr-20 w-auto bg-black bg-opacity-30 border-white border-2 rounded-lg	">
                 <div>
                     <h1 className="text-white text-center">Meet the Team? Click US!</h1>
                 </div>
