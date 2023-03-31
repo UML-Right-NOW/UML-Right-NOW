@@ -76,6 +76,7 @@ export default function TranscriptInput() {
     // Helpers
     function removeFile() {
         setTranscriptFile(null);
+        setTranscript(null);
     }
 
     return (
@@ -86,22 +87,22 @@ export default function TranscriptInput() {
             items-center
         ">
             <FileUploader classes="
-            text-white
-            text-center
-            text-sm
-            bg-[rgba(0,0,0,0.5)]
-            flex
-            justify-center
-            items-center
-            border-rowdy-blue
-            border-2
-            border-dashed
-            rounded-lg
-            hover:cursor-pointer
-            py-2
-            mx-5
-            w-full
-        " 
+                text-white
+                text-center
+                text-sm
+                bg-[rgba(0,0,0,0.5)]
+                flex
+                justify-center
+                items-center
+                border-rowdy-blue
+                border-2
+                border-dashed
+                rounded-lg
+                hover:cursor-pointer
+                py-2
+                mx-5
+                w-full
+            " 
             types={FILE_TYPES}
             handleChange={onFileInputChanged} 
             onSizeError={onSizeError}
@@ -111,35 +112,35 @@ export default function TranscriptInput() {
             >
                 {/* Icon */}
                 <AiFillFileAdd className="
-                text-rowdy-blue
-                text-3xl
-            "/>
+                    text-rowdy-blue
+                    text-3xl
+                "/>
 
                 {/* Text Container */}
                 <div className="
-                flex
-                flex-col
-                justify-center
-                items-center
-                ml-5
-            ">
-                    {/* Text */}
-                    <p className="
                     flex
+                    flex-col
                     justify-center
                     items-center
+                    ml-5
                 ">
+                    {/* Text */}
+                    <p className="
+                        flex
+                        justify-center
+                        items-center
+                    ">
                     Upload a UML Transcript
                     </p>
 
                     {/* File Types Container */}
                     <div className="
-                    flex
-                    justify-center
-                    items-center
-                    gap-2
-                    mt-1
-                ">
+                        flex
+                        justify-center
+                        items-center
+                        gap-2
+                        mt-1
+                    ">
                         {/* File Types */}
                         {FILE_TYPES.map(file_type => {
                             return (
