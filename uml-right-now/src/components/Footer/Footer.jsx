@@ -15,7 +15,7 @@ export default function Footer() {
         <div className="h-auto bg-rowdy-blue flex flex-col overflow-hidden lg:flex-row">
             <div className="flex flex-row pt-10 w-full justify-center">
 
-                <h1 className="text-white">@ {getYear} UML now, All rights reserved</h1>
+                <h1 className="text-white">@ {getYear} UML Right Now, All rights reserved</h1>
 
             </div>
 
