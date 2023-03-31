@@ -52,6 +52,13 @@ export default function Pathways() {
                 enabled={isLoading} 
                 speed={100} 
                 color={ROWDY_BLUE_COLOR} 
+                className="
+                    absolute
+                    top-1/2
+                    left-1/2
+                    -translate-x-1/2
+                    -translate-y-1/2
+                "
             />
 
             {/* Degree Pathway */}
