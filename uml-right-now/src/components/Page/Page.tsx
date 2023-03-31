@@ -2,14 +2,17 @@
 import { ReactNode, useContext } from "react";
 
 // Components
-import Nav from "../Nav/Nav";
 import HamburgerMenu from "../Nav/HamburgerMenu";
+import Nav from "../Nav/Nav";
 
 // Contexts
 import { HamburgerMenuContext, HamburgerMenuContextType } from "@/contexts/HamburgerMenuContext";
 
 // Library
 import PageInfo from "@/PageInfo";
+
+//footer
+import Footer from "../Footer/Footer.jsx";
 
 // Types
 type PageProps = {
@@ -39,6 +42,11 @@ export default function Page({ children }: PageProps) {
 
             {/* Hamburger Menu */}
             {children}
+
+
+            {/*footer*/}
+
+            <Footer />
         </>
     );
 }

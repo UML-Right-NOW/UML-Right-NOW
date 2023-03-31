@@ -18,7 +18,9 @@ export default function Home() {
     // Initialize router
     const router = useRouter();
 
+
     function handleClick(event: any) {
+        event.prebe
         router.push("/pathways");
     }
 
@@ -27,6 +29,11 @@ export default function Home() {
         setTranscript(null);
         setMajor(null);
     }, [setTranscript, setMajor]);
+
+    function handleSubmit(event: any) {
+
+        event.preventDefault();
+    }
 
     return (
         <>
@@ -38,29 +45,26 @@ export default function Home() {
             </Head>
             <main>
                 <div className="bg-rowdy-blue w-full backdrop-brightness-50 h-screen flex bg-rowdy-blue bg-cover bg-no-repeat bg-center" style={{ backgroundImage: `url(${backgroundimage1})` }} >
-                    <div className="absolute w-full h-full">
+                    <form onSubmit={handleSubmit} className="absolute w-full h-full">
                         <h1 className="md:text-4xl lg:text-9xl xl:text-7xl font-sans mt-20 text-center text-white mb-9">Enter Your <em className="xl:text-9xl text-rowdy-blue underline">major</em>  to get started</h1>
-                        <div className=" flex flex-col justify-center  mt-px">
+
+                        <div className=" flex flex-col justify-center w-auto mt-px bg-black ">
                             <div className=" flex justify-center mt-px">
                                 <SearchBar />
                             </div>
+                            <div className=" flex  justify-center" >
+                                <h1 className="text-7xl mt-6 text-white">-Optionally-</h1>
+                            </div>
+                            <div className=" flex justify-center" >
+                                <Tooltip content={"Upload Your UML transcript so we can help you better with your degree path"} color="primary" placement="rightEnd">
+                                    <TranscriptInput />
+                                </Tooltip>
+                            </div>
                             <div className=" flex justify-center mt-px">
-                                <button className="bg-rowdy-blue w-32 h-10 border-white border-4 text-white mt-5 rounded-3xl " onClick={handleClick} >Generate</button>
+                                <input type="submit" className="bg-rowdy-blue w-32 h-10 border-white border-4 text-white mt-5 rounded-3xl " onClick={handleClick} />
                             </div>
                         </div>
-                        <div className=" flex  justify-center" >
-                            <h1 className="text-7xl mt-6 text-white">-or-</h1>
-                        </div>
-                        <div className=" flex justify-center pt-10" >
-                            <Tooltip content={"Upload Your UML transcript so we can help you better with your degree path"} color="primary" placement="rightEnd">
-                                <TranscriptInput />
-                            </Tooltip>
-
-                        </div>
-                        <div className=" flex justify-center" >
-
-                        </div>
-                    </div>
+                    </form>
                 </div>
             </main>
         </>
