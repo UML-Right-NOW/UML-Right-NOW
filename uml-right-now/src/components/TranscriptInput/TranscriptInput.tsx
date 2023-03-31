@@ -145,11 +145,11 @@ export default function TranscriptInput() {
                         {FILE_TYPES.map(file_type => {
                             return (
                                 <p className="
-                                bg-rowdy-blue
-                                rounded-md
-                                text-white
-                                px-2
-                            " key={file_type}>
+                                    bg-rowdy-blue
+                                    rounded-md
+                                    text-white
+                                    px-2
+                                " key={file_type}>
                                     {file_type}
                                 </p>
                             );
