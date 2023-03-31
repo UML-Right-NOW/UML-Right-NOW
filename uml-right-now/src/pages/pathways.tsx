@@ -6,24 +6,33 @@ import { TranscriptContext, TranscriptContextType } from "@/contexts/TranscriptC
 
 // Components
 import PathwayTable from "@/components/PathwayTable/PathwayTable";
+import PathwayHelp from "@/components/PathwayHelp/PathwayHelp";
+import { SpinnerDotted } from "spinners-react";
 
 // Libraries
 import PathwayGenerator from "@/PathwayGenerator";
 import DegreePathway from "@/DegreePathway";
 
+// Constants
+const ROWDY_BLUE_COLOR = "#0369B1";
+
 export default function Pathways() {
     // Contexts
     const { transcript, major } = useContext(TranscriptContext) as TranscriptContextType;
     const [degreePathway, setDegreePathway] = useState<DegreePathway | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        // Compute the degree pathway if applicable
-        if (major) {
+        if (major) { // A major has been provided => generate a degree pathway
+            setIsLoading(true);
             PathwayGenerator.generateDegreePathway(major, transcript).then(pathway => {
+                setIsLoading(false);
                 setDegreePathway(pathway);
             }).catch(err => {
                 console.log(err);
             });
+        } else { // No major was provided => display a message for the user
+
         }
     }, [transcript, major]);
 
@@ -35,7 +44,41 @@ export default function Pathways() {
             items-center
             py-10
         ">
-            {degreePathway && <PathwayTable degreePathway={degreePathway} />} 
+            {/* Loading Animation */}
+            <SpinnerDotted
+                style={{
+                    width: "100px"
+                }}
+                enabled={isLoading} 
+                speed={100} 
+                color={ROWDY_BLUE_COLOR} 
+            />
+
+            {/* Degree Pathway */}
+            {degreePathway && (
+                <>
+                    <h1 className="
+                        text-xl
+                        mb-10
+                        text-center
+                        px-5
+                        py-2
+                        bg-light-gray
+                        rounded-xl
+                        mx-5
+                    ">
+                        Your generated pathway for:
+                        <br></br>
+                        <span className="
+                            text-rowdy-blue
+                        ">{major}</span>
+                    </h1>
+                    <PathwayTable degreePathway={degreePathway} />
+                </>
+            )} 
+
+            {/* Help Dialogue */}
+            {!isLoading && !degreePathway && <PathwayHelp />}
         </div>        
     );
 }
