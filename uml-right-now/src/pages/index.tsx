@@ -20,7 +20,7 @@ export default function Home() {
 
 
     function handleClick(event: any) {
-        event.prebe
+
         router.push("/pathways");
     }
 
