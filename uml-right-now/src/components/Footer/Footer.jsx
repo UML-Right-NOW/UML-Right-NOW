@@ -9,9 +9,6 @@ import AvatarWithDopDown from "../../components/Avatar/AvatarWithDropDown";
 
 export default function Footer() {
     const getYear = new Date().getFullYear();
-    const user = [
-        { UserName: "Dante-Sam", UserLName: "ElNITO", url: "../../../assets/logo.png" }
-    ];
 
     // I hardcoded here boys
     return (
@@ -24,13 +21,13 @@ export default function Footer() {
 
             <div className="flex flex-col justify-center overflow-hidden lg:mr-20 w-auto bg-black bg-opacity-30 border-white border-2 rounded-lg	">
                 <div>
-                    <h1 className="text-white text-center">Meet the Team? Click US!</h1>
+                    <h1 className="text-white  text-center font-bold">Meet the Team? Click US!</h1>
                 </div>
                 <div className="flex flex-row  overflow-hidden ">
                     <AvatarWithDopDown name="Anderson Torres" linkIn="https://www.linkedin.com/in/elnito/" email="ato.orte@gmail.com" url={anderson} />
                     <AvatarWithDopDown name="Sam Claflin" linkIn="https://www.linkedin.com/in/SamClaflin/" email="samclaflin7@gmail.com" url={sam} />
                     <AvatarWithDopDown name="John Youte" linkIn="https://www.linkedin.com/in/john-youte-2162391b8" email="johneyoute@gmail.com" url={john} />
-                    <AvatarWithDopDown name="Dante Suarez" linkIn="https://www.linkedin.com/in/dante-suarez/" email="ComingSoon.e=gmail.xom" url={logo} />
+                    <AvatarWithDopDown name="Dante Suarez" linkIn="https://www.linkedin.com/in/dante-suarez/" email="dante_suarez@student.uml.edu" url={logo} />
                 </div>
             </div>
 
