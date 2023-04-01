@@ -37,8 +37,29 @@ export default class DegreePathway {
         // Determine which courses have been completed and remove them from the array
         const usedCourses: Course[] = [];
         remainingCourses = remainingCourses.filter(remainingCourse => {
+            // Retrieve the current course code
+            const currCourseCode = remainingCourse.code;
+
+            // EDGE CASE: check for requirements that can be satisfied by multiple courses
+            const courseCodeOptions = [];
+            if (currCourseCode.includes("/")) {
+                // Split the course code by the optional delimeter (/)
+                const currCourseCodeSplit = currCourseCode.split("/");
+
+                // Iterate over each substring
+                for (let i = 0; i < currCourseCodeSplit.length; i++) {
+                    // Retrieve the current course code
+                    const curr = currCourseCodeSplit[i].trim();
+
+                    // Ensure that the course code is valid
+                    if (!DegreePathway._isValidCourseCode(curr)) {
+                        break;
+                    }
+                }
+            }
+
             // Search for the current course in the list of completed courses
-            const matchingCourse = completedCourses.find(completedCourse => remainingCourse.code === completedCourse.code);
+            const matchingCourse = completedCourses.find(completedCourse => currCourseCode === completedCourse.code);
 
             if (matchingCourse === undefined) { // The current course wasn't found => keep it in the array
                 return true;
@@ -277,5 +298,18 @@ export default class DegreePathway {
         }
 
         return split[1];
+    }
+
+    private static _isValidCourseCode(str: string) : boolean {
+        // Retrieve the course code and department 
+        const courseDepartment = DegreePathway._getCourseDepartment(str);
+        const courseNumber = DegreePathway._getCourseNumber(str);
+
+        // Null check
+        if (courseDepartment === null || courseNumber === null) {
+            return false;
+        }
+
+        return courseDepartment.length === 4 && courseNumber.length === 4;
     }
 }
