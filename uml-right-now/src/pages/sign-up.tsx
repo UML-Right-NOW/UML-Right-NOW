@@ -1,32 +1,34 @@
 import Head from "next/head";
 import {useState, useEffect} from "react";
-// import { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import axios, { AxiosError } from "axios";
-// import{ signIn } from "next-auth/react";
-// import { LoginUserParams } from "../types";
+import{ signIn } from "next-auth/react";
+import { LoginUserParams } from "../types";
 
 export default function SignUp() {
-
+    //sign in data
     const [data, setData] = useState({
         email: "",
         password: "",
         confirmPassword: "",
     });
 
+    //Loading state, router, error messages
     const [loading, setLoading] = useState(false);
-    // const router = useRouter();
+    const router = useRouter();
     const [submitError, setSubmitError] = useState<string>("");
 
-    // const loginUser = async ({email, password} : LoginUserParams) => {
-    //     const res = await signIn("credentials", {
-    //         redirect: false,
-    //         email,
-    //         password
-    //     });
+    const loginUser = async ({email, password} : LoginUserParams) => {
+        const res = await signIn("credentials", {
+            redirect: false,
+            email,
+            password
+        });
     
-    //     return res;
-    // };
+        return res;
+    };
 
+    //Function validates data passed in by user. Returns boolean based on whether data entered was okay or not
     const validateData = (): boolean => {
         const err = [];
 
@@ -44,8 +46,11 @@ export default function SignUp() {
 
     };
 
+    //Function runs when form has been submitted
     const handleSignup = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+
+        //Validate data.  If data is good, sign up user and route to home page
         const isValid = validateData();
         if(isValid) {
             try {
@@ -53,16 +58,15 @@ export default function SignUp() {
                 const apiRes = await axios.post("/api/auth/signup", data);
 
                 if(apiRes?.data?.success) {
-                    // const loginRes = await loginUser({
-                    //     email: data.email,
-                    //     password: data.password
-                    // });
-
-                    // if(loginRes && !loginRes.ok) {
-                    //     setSubmitError(loginRes.error || "");
-                    // }else {
-                    //     router.push("/");
-                    // }
+                    const loginRes = await loginUser({
+                        email: data.email,
+                        password: data.password
+                    });
+                    if(loginRes && !loginRes.ok) {
+                        setSubmitError(loginRes.error || "");
+                    }else {
+                        router.push("/ProfilePage");
+                    }
 
                 }
 
@@ -76,13 +80,13 @@ export default function SignUp() {
         }
     };
 
+    //Every time an input field is changed, add the character to the data value
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         
         setData({...data, [event.target.name]: event.target.value});
-        console.log(data.email);
     };
     
-
+    //Prevent hydration errors  ¯\_(ツ)_/¯ 
     const [didMount, setDidMount] = useState(false);
     useEffect(() => {
         setDidMount(true);
@@ -132,7 +136,7 @@ export default function SignUp() {
                             <a href="#" className="text-m hover:underline">Forgot Password?</a>
                             
                             <div className="mt-6">
-                                <button type="submit" /*disabled={loading}*/ className="w-full px-4 py-2 tracking-wide text-white bg-rowdy-blue rounded-md transition-colors duration-200 transform focus:outline-none">
+                                <button type="submit" disabled={loading} className="w-full px-4 py-2 tracking-wide text-white bg-rowdy-blue rounded-md transition-colors duration-200 transform focus:outline-none">
                                 Create Account
                                 </button>
                             </div>
