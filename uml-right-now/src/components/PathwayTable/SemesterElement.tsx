@@ -57,13 +57,11 @@ export default function SemesterElement({ semester }: SemesterElementProps) {
                 text-xl
                 font-bold
                 mb-3
-                capitalize
             ">{semester.name}</p>
 
             {/* Main Table */}
             <table className="
                 w-full
-                uppercase
             ">
                 <tbody>
                     {/* Table Header */}
