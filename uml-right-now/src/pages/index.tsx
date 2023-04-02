@@ -18,7 +18,7 @@ export default function Home() {
 
     // Initialize router
     const router = useRouter();
-
+    const textSafe = [{ text: "Creating an account or logging in is essential to make the most of our website. You'll get access to features such as saving searches and preferences, personalized recommendations, and our comprehensive pathway generator. Sign up today and enjoy a seamless experience." }, { text: "Your data privacy and security are our top priority. We use robust encryption and adhere to data protection laws to keep your personal information confidential and secure." }];
 
     function handleClick(event: any) {
         router.push("/pathways");
@@ -69,8 +69,7 @@ export default function Home() {
                         </div>
                     </form>
                 </div>
-                <div className="bg-rowdy-blue h-3/6 p-6 justify-center bg-opacity-80 >
-">
+                <div className="bg-rowdy-blue h-3/6 p-6 justify-center bg-opacity-80">
                     <h1 className="text-3xl font-bold text-rowdy-blue text-center text-white">Join UML-right-now</h1>
                     <div className="grid grid-cols lg:grid-cols-2 justify-center p-5">
                         <div className="border-white border-b-2 p-5 lg:border-r-2 lg:border-b-0">
@@ -90,6 +89,3 @@ export default function Home() {
         </>
     );
 }
-
-const textSafe = [{ text: "Creating an account or logging in is essential to make the most of our website. You'll get access to features such as saving searches and preferences, personalized recommendations, and our comprehensive pathway generator. Sign up today and enjoy a seamless experience." },
-{ text: "Your data privacy and security are our top priority. We use robust encryption and adhere to data protection laws to keep your personal information confidential and secure." }];
