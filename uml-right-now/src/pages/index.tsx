@@ -51,7 +51,7 @@ export default function Home() {
                 <div className="bg-rowdy-blue w-full backdrop-brightness-50 h-screen flex bg-rowdy-blue bg-cover bg-no-repeat bg-center" style={{ backgroundImage: `url(${backgroundimage1})` }} >
                     <form onSubmit={handleSubmit} className="absolute w-full h-full">
                         <h1 className="text-2xl md:text-4xl lg:text-6xl font-sans mt-20 text-center text-white mb-9">Enter Your <em className="text-rowdy-blue underline">major</em>  to get started</h1>
-                        <div className="flex flex-col justify-center w-auto mt-px p-10 bg-black border-white border-t-1 bg-opacity-50">
+                        <div className="flex flex-col justify-center w-auto mt-px p-10 bg-black border-white border-t-1 bg-opacity-20">
                             <div className=" flex justify-center mt-px">
                                 <SearchBar />
                             </div>
@@ -69,7 +69,7 @@ export default function Home() {
                         </div>
                     </form>
                 </div>
-                <div className="bg-rowdy-blue h-3/6 justify-center bg-opacity-80 >
+                <div className="bg-rowdy-blue h-3/6 p-6 justify-center bg-opacity-80 >
 ">
                     <h1 className="text-3xl font-bold text-rowdy-blue text-center text-white">Join UML-right-now</h1>
                     <div className="grid grid-cols lg:grid-cols-2 justify-center p-5">
