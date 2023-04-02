@@ -103,12 +103,12 @@ export default function TranscriptInput() {
                 mx-5
                 w-full
             "
-                types={FILE_TYPES}
-                handleChange={onFileInputChanged}
-                onSizeError={onSizeError}
-                multiple={false}
-                fileOrFiles={transcriptFile}
-                maxSize={MAX_SIZE_MB}
+            types={FILE_TYPES}
+            handleChange={onFileInputChanged}
+            onSizeError={onSizeError}
+            multiple={false}
+            fileOrFiles={transcriptFile}
+            maxSize={MAX_SIZE_MB}
             >
                 {/* Icon */}
                 <AiFillFileAdd className="
