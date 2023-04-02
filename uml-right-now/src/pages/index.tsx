@@ -78,4 +78,4 @@ export default function Home() {
 }
 
 const textSafe = [{ text: "Creating an account or logging in is essential to make the most of our website. You'll get access to features such as saving searches and preferences, personalized recommendations, and our comprehensive pathway generator. Sign up today and enjoy a seamless experience." },
-{ text: "Your data privacy and security are our top priority. We use robust encryption and adhere to data protection laws to keep your personal information confidential and secure." }]
+{ text: "Your data privacy and security are our top priority. We use robust encryption and adhere to data protection laws to keep your personal information confidential and secure." }];
