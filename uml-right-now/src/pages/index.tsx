@@ -4,13 +4,11 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import SearchBar from "../components/SearchBar/SearchBar";
-import { useSession } from "next-auth/react";
 
 export default function Home() {
     const backgroundimage1 = "https://images.pexels.com/photos/6147369/pexels-photo-6147369.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2";
     const [entry, setEntry] = useState("");
     const router = useRouter();
-    const { data: session }: any = useSession();
 
     function handleClick(event: any) {
         router.push("/pathways");
@@ -27,13 +25,6 @@ export default function Home() {
             <main>
                 <div className="bg-rowdy-blue w-full backdrop-brightness-50 h-screen flex bg-rowdy-blue bg-cover bg-no-repeat bg-center" style={{ backgroundImage: `url(${backgroundimage1})` }} >
                     <div className="absolute w-full h-full">
-                        <div>{
-                            session && <p>
-                                {
-                                    `Hello ${session?.user?.email}`
-                                }
-                            </p>
-                        }</div>
                         <h1 className="md:text-4xl lg:text-9xl xl:text-7xl font-sans mt-20 text-center text-white mb-9">Enter Your <em className="xl:text-9xl text-rowdy-blue underline">major</em>  to get started</h1>
                         <div className=" flex flex-col justify-center  mt-px">
                             <div className=" flex justify-center mt-px">
