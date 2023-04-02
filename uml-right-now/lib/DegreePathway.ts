@@ -66,20 +66,6 @@ export default class DegreePathway {
     }
 
     /**
-     * Organizes the pathway's current list of semesters based on _createFutureSemesters
-     */
-    organizeSemesters() {
-        // Concatenate each semesters' courses into a single array
-        let courses: Course[] = [];
-        this.semesters.forEach(semester => {
-            courses = courses.concat(semester.courses);
-        });
-
-        // Create future semesters
-        this.semesters = DegreePathway._createFutureSemesters(courses);
-    }
-
-    /**
      * Matches courses that have not yet been used to remaining electives (both department and general).
      * @param remainingCourses      The array of remaining courses with electives
      * @param unusedCourses         The array of courses that have not yet been used
@@ -254,7 +240,7 @@ export default class DegreePathway {
      * @returns             The department code if the provided course code is valid; null otherwise
      */
     private static _getCourseDepartment(courseCode: string): string | null {
-        const split = courseCode.split(".");
+        const split = courseCode.split(" ");
         if (split.length !== 2) {
             return null;
         }
@@ -268,7 +254,7 @@ export default class DegreePathway {
      * @returns             The course number if the provided course code is valid; null otherwise
      */
     private static _getCourseNumber(courseCode: string): string | null {
-        const split = courseCode.split(".");
+        const split = courseCode.split(" ");
         if (split.length !== 2) {
             return null;
         }
