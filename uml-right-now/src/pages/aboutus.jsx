@@ -19,7 +19,7 @@ export default function AboutUs() {
             <CardForAboutUs name="Anderson Torres" linkedin="https://www.linkedin.com/in/elnito/" email="ato.orte@gmail.com" url={anderson} quote={aboutUsText.at(0)} />
             <CardForAboutUs name="Dante Suarez" linkedin="https://www.linkedin.com/in/dante-suarez/" email="dante_suarez@student.uml.edu" url={logo} quote={aboutUsText.at(0)} />
         </div>
-    )
+    );
 }
 
 

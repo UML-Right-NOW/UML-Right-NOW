@@ -1,4 +1,4 @@
-import { CssBaseline } from '@nextui-org/react';
+import { CssBaseline } from "@nextui-org/react";
 import { Head, Html, Main, NextScript } from "next/document";
 
 export default function Document() {
