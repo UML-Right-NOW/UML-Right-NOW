@@ -1,10 +1,6 @@
 
-//import logo from "../../../assets/logo.png";
-import anderson from "../../../assets/anderson.jpg";
-import john from "../../../assets/john.jpg";
-import logo from "../../../assets/logo.png";
-import sam from "../../../assets/sam.jpg";
-import AvatarWithDopDown from "../../components/Avatar/AvatarWithDropDown";
+import Link from "next/link";
+
 
 
 export default function Footer() {
@@ -12,28 +8,25 @@ export default function Footer() {
 
     // I hardcoded here boys
     return (
-        <div className="h-auto bg-rowdy-blue flex flex-col overflow-hidden lg:flex-row">
-            <div className="flex flex-row pt-10 w-full justify-center">
-
-                <h1 className="text-white">@ {getYear} UML Right Now, All rights reserved</h1>
+        <div className="h-auto bg-rowdy-blue flex flex-col h-36 overflow-hidden  lg:flex-row">
+            <div className="flex flex-col m-6 justify-center w-full">
+                <h1 className="text-white text-center ">© {getYear} UML Right Now, All rights reserved</h1>
+                <Link className="bg-rowdy-blue rounded-xl m-6" to="#" href="/aboutus" >
+                    <h1 className="text-white text-center font-bold underline m-6">About Us</h1>
+                </Link>
 
             </div>
-
-            <div className="flex flex-col justify-center overflow-hidden lg:mr-20 w-auto bg-black bg-opacity-30 border-white border-2 rounded-lg	">
-                <div>
-                    <h1 className="text-white  text-center font-bold">Meet the Team? Click US!</h1>
-                </div>
-                <div className="flex flex-row  overflow-hidden ">
-
-                    <AvatarWithDopDown key="" name="Anderson Torres" linkIn="https://www.linkedin.com/in/elnito/" email="ato.orte@gmail.com" url={anderson} />
-                    <AvatarWithDopDown name="Sam Claflin" linkIn="https://www.linkedin.com/in/SamClaflin/" email="samclaflin7@gmail.com" url={sam} />
-                    <AvatarWithDopDown name="John Youte" linkIn="https://www.linkedin.com/in/john-youte-2162391b8" email="johneyoute@gmail.com" url={john} />
-                    <AvatarWithDopDown name="Dante Suarez" linkIn="https://www.linkedin.com/in/dante-suarez/" email="dante_suarez@student.uml.edu" url={logo} />
-
-                </div>
-            </div>
-
         </div>
     )
 
 }
+
+
+
+
+
+
+
+
+
+

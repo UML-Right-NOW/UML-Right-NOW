@@ -12,8 +12,7 @@ import { HamburgerMenuContext, HamburgerMenuContextType } from "@/contexts/Hambu
 import PageInfo from "@/PageInfo";
 
 //footer
-import Footer from "../Footer/Footer.jsx";
-
+import Footer from "../Footer/Footer";
 // Types
 type PageProps = {
     children: ReactNode
