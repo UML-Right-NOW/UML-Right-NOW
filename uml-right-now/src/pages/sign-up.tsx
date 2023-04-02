@@ -65,7 +65,7 @@ export default function SignUp() {
                     if(loginRes && !loginRes.ok) {
                         setSubmitError(loginRes.error || "");
                     }else {
-                        router.push("/ProfilePage");
+                        router.push("/");
                     }
 
                 }
