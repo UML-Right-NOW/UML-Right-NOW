@@ -6,28 +6,27 @@ import type { AppProps } from "next/app";
 import Page from "@/components/Page/Page";
 
 //nextUi
-import { NextUIProvider } from '@nextui-org/react';
+
+import { SSRProvider } from '@react-aria/ssr';
 
 // Contexts
 import HamburgerMenuContextProvider from "@/contexts/HamburgerMenuContext";
 import TranscriptContextProvider from "@/contexts/TranscriptContext";
 
+
 export default function App({ Component, pageProps }: AppProps) {
     return (
-        <NextUIProvider>
-            <TranscriptContextProvider>
-                <HamburgerMenuContextProvider>
 
-                    <Page>
+        <TranscriptContextProvider>
+            <HamburgerMenuContextProvider>
 
+                <Page>
+                    <SSRProvider>
                         <Component {...pageProps} />
-
-                    </Page>
-
-                </HamburgerMenuContextProvider>
-            </TranscriptContextProvider>
-        </NextUIProvider>
-
+                    </SSRProvider>
+                </Page>
+            </HamburgerMenuContextProvider>
+        </TranscriptContextProvider>
 
     );
 }
