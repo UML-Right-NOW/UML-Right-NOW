@@ -7,7 +7,7 @@ import Page from "@/components/Page/Page";
 
 //nextUi
 
-import { SSRProvider } from '@react-aria/ssr';
+import { SSRProvider } from "@react-aria/ssr";
 
 // Contexts
 import HamburgerMenuContextProvider from "@/contexts/HamburgerMenuContext";

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 // Next
 import Image from "next/image";
 import Link from "next/link";
