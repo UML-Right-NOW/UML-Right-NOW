@@ -1,8 +1,92 @@
 import Head from "next/head";
 import {useState, useEffect} from "react";
+import { useRouter } from "next/router";
+import axios, { AxiosError } from "axios";
+import{ signIn } from "next-auth/react";
+import { LoginUserParams } from "../types";
 
 export default function SignUp() {
+    //sign in data
+    const [data, setData] = useState({
+        email: "",
+        password: "",
+        confirmPassword: "",
+    });
 
+    //Loading state, router, error messages
+    const [loading, setLoading] = useState(false);
+    const router = useRouter();
+    const [submitError, setSubmitError] = useState<string>("");
+
+    const loginUser = async ({email, password} : LoginUserParams) => {
+        const res = await signIn("credentials", {
+            redirect: false,
+            email,
+            password
+        });
+    
+        return res;
+    };
+
+    //Function validates data passed in by user. Returns boolean based on whether data entered was okay or not
+    const validateData = (): boolean => {
+        const err = [];
+
+        if(data.password?.length < 6) {
+            err.push({password: "Password should be at least 6 characters long"});
+        } else if (data.password !== data.confirmPassword) {
+            err.push({confirmPassword: "Passwords don't match"});
+        }
+
+        if(err.length > 0) {
+            return false;
+        } else {
+            return true;
+        }
+
+    };
+
+    //Function runs when form has been submitted
+    const handleSignup = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+
+        //Validate data.  If data is good, sign up user and route to home page
+        const isValid = validateData();
+        if(isValid) {
+            try {
+                setLoading(true);
+                const apiRes = await axios.post("/api/auth/signup", data);
+
+                if(apiRes?.data?.success) {
+                    const loginRes = await loginUser({
+                        email: data.email,
+                        password: data.password
+                    });
+                    if(loginRes && !loginRes.ok) {
+                        setSubmitError(loginRes.error || "");
+                    }else {
+                        router.push("/");
+                    }
+
+                }
+
+            } catch (error: unknown) {
+                if(error instanceof AxiosError) {
+                    const errorMsg = error.response?.data?.error;
+                    setSubmitError(errorMsg);
+                }
+            }
+            setLoading(false);
+        }
+    };
+
+    //Every time an input field is changed, add the character to the data value
+    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        
+        setData({...data, [event.target.name]: event.target.value});
+    };
+    
+    //Prevent hydration errors  ¯\_(ツ)_/¯ 
     const [didMount, setDidMount] = useState(false);
     useEffect(() => {
         setDidMount(true);
@@ -25,31 +109,21 @@ export default function SignUp() {
                 <div className="mt-20 relative flex-col justify-center min-h-screen overflow-hidden">
                     <div className="w-full p-6 m-auto lg:max-w-xl">
                         <h1 className="text-3xl font-semibold text-left text-rowdy-blue">Sign Up</h1>
-                        <form className="mt-6">
+                        <form onSubmit={handleSignup} className="mt-6">
 
                             <div className="mb-2">
-                                <label htmlFor="username" className="block text-m font-semibold">Username</label>
-                                <input type="username" className="block w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring focus:ring-opacity-40"/>
-                            </div>
-
-                            <div className="mb-2">
-                                <label htmlFor="email" className="block text-m font-semibold">Email</label>
-                                <input type="email" className="block w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring focus:ring-opacity-40"/>
-                            </div>
-
-                            <div className="mb-2">
-                                <label htmlFor="verifyEmail" className="block text-m font-semibold">Re-Enter Email</label>
-                                <input type="email" className="block w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring focus:ring-opacity-40"/>
+                                <label htmlFor="email"className="block text-m font-semibold">Email</label>
+                                <input type="email" name="email" value={data.email} onChange={handleInputChange} required className="block w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring focus:ring-opacity-40"/>
                             </div>
 
                             <div className="mb-2">
                                 <label htmlFor="password" className="block text-m font-semibold">Password</label>
-                                <input type="password" className="block w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring focus:ring-opacity-40"/>
+                                <input type="password" name="password" value={data.password} onChange={handleInputChange} required className="block w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring focus:ring-opacity-40"/>
                             </div>
 
                             <div className="mb-2">
                                 <label htmlFor="verifyPassword" className="block text-m font-semibold">Re-Enter Password</label>
-                                <input type="password" className="block w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring focus:ring-opacity-40"/>
+                                <input type="password" name="confirmPassword" value={data.confirmPassword} onChange={handleInputChange} required className="block w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring focus:ring-opacity-40"/>
                             </div>
 
                             <div className="mt-2 mb-2 text-xs">
@@ -62,7 +136,7 @@ export default function SignUp() {
                             <a href="#" className="text-m hover:underline">Forgot Password?</a>
                             
                             <div className="mt-6">
-                                <button className="w-full px-4 py-2 tracking-wide text-white bg-rowdy-blue rounded-md transition-colors duration-200 transform focus:outline-none">
+                                <button type="submit" disabled={loading} className="w-full px-4 py-2 tracking-wide text-white bg-rowdy-blue rounded-md transition-colors duration-200 transform focus:outline-none">
                                 Create Account
                                 </button>
                             </div>
