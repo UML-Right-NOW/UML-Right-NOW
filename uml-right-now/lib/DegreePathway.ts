@@ -28,14 +28,56 @@ export default class DegreePathway {
      * @param completedCourses      The list of completed courses to remove from the internal list of semesters
      */
     removeCompletedCourses(completedCourses: Course[]) {
-        // Store all of the pathway's courses in a single array
+        // Compile all of the pathway's courses in a single array
+        let remainingCourses = this._getRemainingCourses();
+
+        // Match all explicit course requirements
+        [remainingCourses, completedCourses] = DegreePathway._matchExplicitCourseRequirements(remainingCourses, completedCourses);
+
+        // Match all unused courses to electives
+        remainingCourses = DegreePathway._matchElectives(remainingCourses, completedCourses);
+
+        // Sort the remaining courses into future semesters
+        this.semesters = DegreePathway._createFutureSemesters(remainingCourses);
+    }
+
+    /**
+     * Organizes the pathway's current list of semesters based on _createFutureSemesters
+     */
+    organizeSemesters() {
+        // Concatenate each semesters' courses into a single array
+        let courses: Course[] = [];
+        this.semesters.forEach(semester => {
+            courses = courses.concat(semester.courses);
+        });
+
+        // Create future semesters
+        this.semesters = DegreePathway._createFutureSemesters(courses);
+    }
+
+    /**
+     * Compiles all semesters' courses into a single array.
+     * @returns     The compiled array of courses
+     */
+    private _getRemainingCourses(): Course[] {
         let remainingCourses: Course[] = [];
         this.semesters.forEach(semester => {
             remainingCourses = remainingCourses.concat(semester.courses);
         });
 
-        // Determine which courses have been completed and remove them from the array
-        // TODO: Change this to usedCourseCodes and store course codes instead of courses themselves
+        return remainingCourses;
+    }
+
+    /**
+     * Matches completed courses to as many explicit course requirements as possible.
+     * @param remainingCourses      The list of remaining courses to match
+     * @param completedCourses      The list of courses that have been completed
+     * @returns                     A tuple of two course arrays in which the first is an 
+     *                              updated array of remaining courses and the second is an
+     *                              updated array of completed courses
+     */
+    private static _matchExplicitCourseRequirements(remainingCourses: Course[], completedCourses: Course[]): [Course[], Course[]] {
+        // Filter explicit course matches
         const usedCourseCodes: string[] = [];
         remainingCourses = remainingCourses.filter(remainingCourse => {
             // Retrieve the current course code
@@ -90,34 +132,26 @@ export default class DegreePathway {
             return false;
         });
 
-        // Determine which courses have not yet been used
-        const unusedCourses = completedCourses.filter(completedCourse => {
+        // Retrieve a list of courses that haven't yet been used
+        completedCourses = DegreePathway._getUnusedCourses(completedCourses, usedCourseCodes);
+
+        return [remainingCourses, completedCourses];
+    }
+
+    /**
+     * Determines which courses within an array of completed courses have been applied and should be removed.
+     * @param completedCourses      The array of completed courses
+     * @param usedCourseCodes       An array of courses codes that have been applied
+     * @returns                     An array of courses that haven't yet been applied
+     */
+    private static _getUnusedCourses(completedCourses: Course[], usedCourseCodes: string[]): Course[] {
+        return completedCourses.filter(completedCourse => {
             // Search for the completed course in the list of used courses
-            const matchingCourse = usedCourseCodes.find(usedCourseCode => usedCourseCode === completedCourse.code);
+            const matchingCourse = usedCourseCodes.find(usedCourseCode => DegreePathway._courseCodesEqual(usedCourseCode, completedCourse.code));
 
             // If the current course wasn't found in the list of used courses, keep it in the list of unused courses
             return matchingCourse === undefined;
         });
-
-        // Match all unused courses to electives
-        remainingCourses = DegreePathway._matchElectives(remainingCourses, unusedCourses);
-
-        // Sort the remaining courses into future semesters
-        this.semesters = DegreePathway._createFutureSemesters(remainingCourses);
-    }
-
-    /**
-     * Organizes the pathway's current list of semesters based on _createFutureSemesters
-     */
-    organizeSemesters() {
-        // Concatenate each semesters' courses into a single array
-        let courses: Course[] = [];
-        this.semesters.forEach(semester => {
-            courses = courses.concat(semester.courses);
-        });
-
-        // Create future semesters
-        this.semesters = DegreePathway._createFutureSemesters(courses);
     }
 
     /**
@@ -144,13 +178,13 @@ export default class DegreePathway {
             // Attempt to find an unused course with the same department
             const matchingUnusedCourse = unusedCourses.find(unusedCourse => {
                 const departmentCode2 = DegreePathway._getCourseDepartment(unusedCourse.code);
-                return departmentCode1 === departmentCode2;
+                return DegreePathway._courseCodesEqual(departmentCode1, departmentCode2);
             });
 
             // If an unused course falls within the same department, both it and the current elective must be removed
             if (matchingUnusedCourse !== undefined) {
                 // Remove the matched course from the list of unused courses
-                unusedCourses = unusedCourses.filter(unusedCourse => unusedCourse.code !== matchingUnusedCourse.code);
+                unusedCourses = unusedCourses.filter(unusedCourse => !DegreePathway._courseCodesEqual(unusedCourse.code, matchingUnusedCourse.code));
 
                 // Remove the current department elective from the list
                 return false;
@@ -344,14 +378,12 @@ export default class DegreePathway {
      * @param code2     The second course code
      * @returns         true if the course codes are equal; false otherwise
      */
-    private static _courseCodesEqual(code1: string, code2: string): boolean {
-        // Handle null, empty, and undefined
-        if (!code1 && !code2) {
+    private static _courseCodesEqual(code1: string | null, code2: string | null): boolean {
+        if (!code1 && !code2) { // Handle both null, empty, or undefined
             return true;
-        }
-
-        // EDGE CASE: Handle labs with differing suffixes
-        if (DegreePathway._courseIsLab(code1) && DegreePathway._courseIsLab(code2)) {
+        } else if (!code1 || !code2) { // Handle a single null, empty, or undefined
+            return false;
+        } else if (DegreePathway._courseIsLab(code1) && DegreePathway._courseIsLab(code2)) { // EDGE CASE: Handle labs with differing suffixes
             return code1.slice(0, code1.length - 1) === code2.slice(0, code2.length - 1);
         }
 
