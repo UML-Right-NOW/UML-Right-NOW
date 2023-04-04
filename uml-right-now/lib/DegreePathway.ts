@@ -162,16 +162,25 @@ export default class DegreePathway {
      */
     private static _matchElectives(remainingCourses: Course[], unusedCourses: Course[]): Course[] {
         // Retrieve arrays of department and general electives
-        const departmentElectives = DegreePathway._getDepartmentElectives(remainingCourses);
-        const generalElectives = DegreePathway._getGeneralElectives(remainingCourses);
+        let departmentElectives = DegreePathway._getDepartmentElectives(remainingCourses);
+        let generalElectives = DegreePathway._getGeneralElectives(remainingCourses);
 
-        // Retrieve an array of remaining courses that are not electives
-        const miscCourses = remainingCourses.filter(course => {
-            return !DegreePathway._isDepartmentElective(course.code) && !DegreePathway._isGeneralElective(course.code);
-        });
+        // Match department electives (MUST BE DONE FIRST)
+        [departmentElectives, unusedCourses] = DegreePathway._matchDepartmentElectives(departmentElectives, unusedCourses);
 
-        // Filter the department electives (MUST BE DONE FIRST)
-        const filteredDepartmentElectives = departmentElectives.filter(departmentElective => {
+        // Match general electives (MUST BE DONE SECOND)
+        [generalElectives, unusedCourses] = DegreePathway._matchGeneralElectives(departmentElectives, unusedCourses);
+
+        // Retrieve an array of miscellaneous courses
+        const miscCourses = DegreePathway._getMiscCourses(remainingCourses);
+
+        // Concatenate the three arrays
+        return miscCourses.concat(departmentElectives).concat(generalElectives);
+    }
+
+    private static _matchDepartmentElectives(departmentElectives: Course[], unusedCourses: Course[]): [Course[], Course[]] {
+        // Match as many unused courses to department elective requirements as possible
+        departmentElectives = departmentElectives.filter(departmentElective => {
             // Retrieve the current department elective's department code
             const departmentCode1 = DegreePathway._getCourseDepartment(departmentElective.code);
 
@@ -194,13 +203,39 @@ export default class DegreePathway {
             return true;
         });
 
-        // Filter the general electives (MUST BE DONE SECOND)
-        const filteredGeneralElectives = generalElectives.filter((generalElective, index) => {
-            return index >= unusedCourses.length;
+        return [departmentElectives, unusedCourses];
+    }
+
+    private static _matchGeneralElectives(generalElectives: Course[], unusedCourses: Course[]): [Course[], Course[]] {
+        // Initialization
+        const usedCourseCodes: string[] = [];
+
+        // Match as many unused courses to general elective requirements as possible
+        generalElectives = generalElectives.filter((_generalElective, index) => {
+            if (index >= unusedCourses.length) {
+                return false;
+            }
+
+            usedCourseCodes.push(unusedCourses[index].code);
+            return true;
         });
 
-        // Concatenate the two arrays
-        return miscCourses.concat(filteredDepartmentElectives).concat(filteredGeneralElectives);
+        // Remove used courses from the list of unused courses
+        unusedCourses = unusedCourses.filter(unusedCourse => {
+            // Iterate over all used course codes
+            for (let i = 0; i < usedCourseCodes.length; i++) {
+                const curr = usedCourseCodes[i];
+                if (DegreePathway._courseCodesEqual(curr, unusedCourse.code)) {
+                    // The current course code was found in the list of used course codes => remove the course from the array
+                    return false;
+                }
+            }
+
+            // The current course code was not found in the list of used course codes => keep the course in the array
+            return true;
+        });
+
+        return [generalElectives, unusedCourses];
     }
 
     /**
@@ -298,6 +333,17 @@ export default class DegreePathway {
      */
     private static _getGeneralElectives(courses: Course[]): Course[] {
         return courses.filter(course => DegreePathway._isGeneralElective(course.code));
+    }
+
+    /**
+     * Determines which courses in a given array of courses are neither departmenet electives nor general electives.
+     * @param courses   The array of courses
+     * @returns         The array of miscellaneous courses
+     */
+    private static _getMiscCourses(courses: Course[]): Course[] {
+        return courses.filter(course => {
+            return !DegreePathway._isDepartmentElective(course.code) && !DegreePathway._isGeneralElective(course.code);
+        });
     }
 
     /**
