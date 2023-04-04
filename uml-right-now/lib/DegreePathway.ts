@@ -35,13 +35,14 @@ export default class DegreePathway {
         });
 
         // Determine which courses have been completed and remove them from the array
-        const usedCourses: Course[] = [];
+        // TODO: Change this to usedCourseCodes and store course codes instead of courses themselves
+        const usedCourseCodes: string[] = [];
         remainingCourses = remainingCourses.filter(remainingCourse => {
             // Retrieve the current course code
             const currCourseCode = remainingCourse.code;
 
             // EDGE CASE: check for requirements that can be satisfied by multiple courses
-            const courseCodeOptions = [];
+            const courseCodeOptions: string[] = [];
             if (currCourseCode.includes("/")) {
                 // Split the course code by the optional delimeter (/)
                 const currCourseCodeSplit = currCourseCode.split("/");
@@ -53,27 +54,46 @@ export default class DegreePathway {
 
                     // Ensure that the course code is valid
                     if (!DegreePathway._isValidCourseCode(curr)) {
+                        // Clear the array of course code options
+                        courseCodeOptions.length = 0;
+
+                        // If the current substring is not valid, none of the substrings can be considered valid
                         break;
                     }
+
+                    // If the course code is valid, append it to the array of course code options
+                    courseCodeOptions.push(curr);
                 }
             }
 
             // Search for the current course in the list of completed courses
-            const matchingCourse = completedCourses.find(completedCourse => currCourseCode === completedCourse.code);
+            const matchingCourse = courseCodeOptions.length > 0
+                ? completedCourses.find(completedCourse => { // One or more cours code options are present => each one must be checked
+                    for (let i = 0; i < courseCodeOptions.length; i++) {
+                        const curr = courseCodeOptions[i];
+                        if (DegreePathway._courseCodesEqual(curr, completedCourse.code)) {
+                            return true;
+                        }
+                    }
+                    return false;
+                })
+                : completedCourses.find(completedCourse => { // No course code options are present => look for a direct match
+                    return DegreePathway._courseCodesEqual(currCourseCode, completedCourse.code);
+                });
 
             if (matchingCourse === undefined) { // The current course wasn't found => keep it in the array
                 return true;
             }
 
             // The current course was found => mark it as used and remove it from the array
-            usedCourses.push(matchingCourse);
+            usedCourseCodes.push(matchingCourse.code);
             return false;
         });
 
         // Determine which courses have not yet been used
         const unusedCourses = completedCourses.filter(completedCourse => {
             // Search for the completed course in the list of used courses
-            const matchingCourse = usedCourses.find(usedCourse => usedCourse.code === completedCourse.code);
+            const matchingCourse = usedCourseCodes.find(usedCourseCode => usedCourseCode === completedCourse.code);
 
             // If the current course wasn't found in the list of used courses, keep it in the list of unused courses
             return matchingCourse === undefined;
@@ -300,6 +320,11 @@ export default class DegreePathway {
         return split[1];
     }
 
+    /**
+     * Determines whether a given string represents a valid course code
+     * @param str   The string to check
+     * @returns     true if the given string represents a valid course code; false otherwise
+     */
     private static _isValidCourseCode(str: string) : boolean {
         // Retrieve the course code and department 
         const courseDepartment = DegreePathway._getCourseDepartment(str);
@@ -310,6 +335,43 @@ export default class DegreePathway {
             return false;
         }
 
-        return courseDepartment.length === 4 && courseNumber.length === 4;
+        return courseDepartment.length === 4 && (courseNumber.length === 4 || courseNumber.length === 5);
+    }
+
+    /**
+     * Determines whether two given course codes are equal.
+     * @param code1     The first course code
+     * @param code2     The second course code
+     * @returns         true if the course codes are equal; false otherwise
+     */
+    private static _courseCodesEqual(code1: string, code2: string): boolean {
+        // Handle null, empty, and undefined
+        if (!code1 && !code2) {
+            return true;
+        }
+
+        // EDGE CASE: Handle labs with differing suffixes
+        if (DegreePathway._courseIsLab(code1) && DegreePathway._courseIsLab(code2)) {
+            return code1.slice(0, code1.length - 1) === code2.slice(0, code2.length - 1);
+        }
+
+        return code1 === code2;
+    }
+
+    /**
+     * Determines whether a given course code represents a lab course
+     * @param courseCode    The course code to check
+     * @returns             true if the given course code represents a lab; false otherwise
+     */
+    private static _courseIsLab(courseCode: string) {
+        // Immediately return false if the given string is null, empty, undefined, or not a course code
+        if (!courseCode || !DegreePathway._isValidCourseCode(courseCode)) {
+            return false;
+        }
+
+        // Retrieve the last character
+        const lastChar = courseCode[courseCode.length - 1];
+
+        return lastChar === "l" || lastChar === "r";
     }
 }
