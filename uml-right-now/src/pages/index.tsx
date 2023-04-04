@@ -1,7 +1,7 @@
 import TranscriptInput from "@/components/TranscriptInput/TranscriptInput";
 import { Tooltip } from "@nextui-org/react";
 import Head from "next/head";
-import { useState, useEffect, useContext } from "react";
+import { useEffect, useContext } from "react";
 import { useRouter } from "next/router";
 import SearchBar from "../components/SearchBar/SearchBar";
 
@@ -10,7 +10,6 @@ import { TranscriptContext, TranscriptContextType } from "@/contexts/TranscriptC
 
 export default function Home() {
     const backgroundimage1 = "https://images.pexels.com/photos/6147369/pexels-photo-6147369.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2";
-    const [entry, setEntry] = useState("");
 
     // Contexts
     const { setTranscript, setMajor } = useContext(TranscriptContext) as TranscriptContextType;
@@ -18,7 +17,7 @@ export default function Home() {
     // Initialize router
     const router = useRouter();
 
-    function handleClick(event: any) {
+    function handleClick() {
         router.push("/pathways");
     }
 
@@ -37,7 +36,7 @@ export default function Home() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main>
-                <div className="bg-rowdy-blue w-full backdrop-brightness-50 h-screen flex bg-rowdy-blue bg-cover bg-no-repeat bg-center" style={{ backgroundImage: `url(${backgroundimage1})` }} >
+                <div className="bg-rowdy-blue w-full backdrop-brightness-50 h-screen flex bg-cover bg-no-repeat bg-center" style={{ backgroundImage: `url(${backgroundimage1})` }} >
                     <div className="absolute w-full h-full">
                         <h1 className="md:text-4xl lg:text-9xl xl:text-7xl font-sans mt-20 text-center text-white mb-9">Enter Your <em className="xl:text-9xl text-rowdy-blue underline">major</em>  to get started</h1>
                         <div className=" flex flex-col justify-center  mt-px">
