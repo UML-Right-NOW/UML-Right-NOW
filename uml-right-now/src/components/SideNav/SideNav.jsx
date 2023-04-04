@@ -4,7 +4,7 @@ import PathWayGenerated from "../PathwayFolder/PathwaysGenerated.jsx";
 import ProfileCard from "../ProfileCard/ProfileCard.jsx";
 
 
-const SideNav = (props, { arr }) => {
+const SideNav = () => {
     const [open, setOpen] = useState(true);
     const [whatWasClicked, setwhatWasClicked] = useState(false);
     const Menus = [

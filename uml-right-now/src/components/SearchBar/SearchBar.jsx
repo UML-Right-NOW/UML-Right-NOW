@@ -2,9 +2,9 @@
 import { useContext } from "react";
 
 // Components
-import { makeStyles } from "@material-ui/core/styles";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
+import { makeStyles } from "@mui/styles";
 
 // Libraries
 import { majors } from "@/Majors";
@@ -13,7 +13,7 @@ import { majors } from "@/Majors";
 import { TranscriptContext } from "@/contexts/TranscriptContext";
 
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
     root: {
         "& .MuiInputLabel-outlined:not(.MuiInputLabel-shrink)": {
             transform: "translate(34px, 20px) scale(1);"
