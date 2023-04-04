@@ -37,8 +37,29 @@ export default class DegreePathway {
         // Determine which courses have been completed and remove them from the array
         const usedCourses: Course[] = [];
         remainingCourses = remainingCourses.filter(remainingCourse => {
+            // Retrieve the current course code
+            const currCourseCode = remainingCourse.code;
+
+            // EDGE CASE: check for requirements that can be satisfied by multiple courses
+            const courseCodeOptions = [];
+            if (currCourseCode.includes("/")) {
+                // Split the course code by the optional delimeter (/)
+                const currCourseCodeSplit = currCourseCode.split("/");
+
+                // Iterate over each substring
+                for (let i = 0; i < currCourseCodeSplit.length; i++) {
+                    // Retrieve the current course code
+                    const curr = currCourseCodeSplit[i].trim();
+
+                    // Ensure that the course code is valid
+                    if (!DegreePathway._isValidCourseCode(curr)) {
+                        break;
+                    }
+                }
+            }
+
             // Search for the current course in the list of completed courses
-            const matchingCourse = completedCourses.find(completedCourse => remainingCourse.code === completedCourse.code);
+            const matchingCourse = completedCourses.find(completedCourse => currCourseCode === completedCourse.code);
 
             if (matchingCourse === undefined) { // The current course wasn't found => keep it in the array
                 return true;
@@ -142,14 +163,17 @@ export default class DegreePathway {
         let currSemester = new Semester(currSemesterName);
         for (let i = 0; i < courses.length; i++) {
             if (currSemester.creditsAttempted >= MIN_CREDITS_PER_SEMESTER || i === courses.length - 1) {
-                // Cache the current semester
-                semesters.push(currSemester);
+                // EDGE CASE: handle empty semesters
+                if (currSemester.courses.length > 0) {
+                    // Cache the current semester
+                    semesters.push(currSemester);
 
-                // Determine the name of the semester
-                currSemesterName = DegreePathway._getNextSemesterName(currSemesterName);
+                    // Determine the name of the semester
+                    currSemesterName = DegreePathway._getNextSemesterName(currSemesterName);
 
-                // Initialize a new semester
-                currSemester = new Semester(currSemesterName);
+                    // Initialize a new semester
+                    currSemester = new Semester(currSemesterName);
+                }
             } else {
                 // Retrieve the current course
                 const course = courses[i];
@@ -274,5 +298,18 @@ export default class DegreePathway {
         }
 
         return split[1];
+    }
+
+    private static _isValidCourseCode(str: string) : boolean {
+        // Retrieve the course code and department 
+        const courseDepartment = DegreePathway._getCourseDepartment(str);
+        const courseNumber = DegreePathway._getCourseNumber(str);
+
+        // Null check
+        if (courseDepartment === null || courseNumber === null) {
+            return false;
+        }
+
+        return courseDepartment.length === 4 && courseNumber.length === 4;
     }
 }
