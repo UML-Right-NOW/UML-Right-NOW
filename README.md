@@ -1,6 +1,6 @@
 # UML Right NOW
 
-[Logo](logo.png "Logo")
+![Logo](logo.png "Logo")
 
 ## Overview
 
