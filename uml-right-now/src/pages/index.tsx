@@ -20,10 +20,6 @@ export default function Home() {
     const router = useRouter();
     const textSafe = [{ text: "Creating an account or logging in is essential to make the most of our website. You'll get access to features such as saving searches and preferences, personalized recommendations, and our comprehensive pathway generator. Sign up today and enjoy a seamless experience." }, { text: "Your data privacy and security are our top priority. We use robust encryption and adhere to data protection laws to keep your personal information confidential and secure." }];
 
-    function handleClickForsignUpPage() {
-        router.push("/sign-up");
-    }
-
     useEffect(() => {
         // Reset the transcript and major each time the home page is visited
         setTranscript(null);
@@ -78,7 +74,7 @@ export default function Home() {
                         </div>
                     </div>
                     <div className="flex justify-center">
-                        <input type="submit" value="Sign Up Now" className="bg-white rounded-full hover:w-36 p-3 m-6 text-center cursor-pointer" onClick={handleClickForsignUpPage} />
+                        <a href="/sign-up" className="bg-white rounded-full hover:w-36 p-3 m-6 text-center cursor-pointer">Sign Up Now</a>
                     </div>
                 </div>
             </main>
