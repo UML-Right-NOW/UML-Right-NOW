@@ -14,7 +14,7 @@ export default class PathwayGenerator {
                     const completedCourses = transcript.getCompletedCourses();
 
                     // 3. Remove all completed courses from the full degree pathway
-                    fullPathway.removeCompletedCourses(completedCourses);
+                    fullPathway.matchCompletedCourses(completedCourses);
                 } else {
                     // 4. Simply organize the pathway's semesters if no transcript was provided
                     fullPathway.organizeSemesters();
