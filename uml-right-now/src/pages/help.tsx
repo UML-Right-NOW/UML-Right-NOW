@@ -1,7 +1,19 @@
-import Infocards from "@/components/Help/Card";
-import Accordion from "@/components/Help/Accordion";
+import Accordion from "@/components/Accordion/Accordion";
 import Head from "next/head";
-export default function App() {
+import UmlCards from "@/components/Card/Card";
+
+// information display on help page
+const FAQ = [
+    {question: "Which is the current version?", answer: "Version 0.002"},
+    {question: "Do you use transfer credits to get the pathway?", answer: "At the moment we do at a basic level"},
+    {question: "What is Lorem Ipsum?", answer: "Lorem ipsum dolor sit amet, consectetur"},
+];
+const HelpCards = [
+    { Title: "Overview", Content: "lorLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.e " },
+    { Title: "Generating Degree Pathways", Content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." },
+    { Title: "Accessing Reports", Content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." },
+];
+export default function HELP() {
     return (
         <>
             <Head>
@@ -11,7 +23,7 @@ export default function App() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main>
-                <Infocards  />
+                <UmlCards  Props={HelpCards}/>
                 <br></br>
                 <h1 className=" 
         hover:uppercase 
@@ -22,7 +34,7 @@ export default function App() {
         ">
                     <b>Frequently Asks Questions</b>
                 </h1>
-                <Accordion/>
+                <Accordion Items={FAQ} />
             </main>
         </>
       

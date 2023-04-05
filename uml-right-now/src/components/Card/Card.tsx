@@ -1,25 +1,28 @@
 import { Card, Text} from "@nextui-org/react";
-import { Help_info } from "../../../lib/Help_text";
+interface Props {
+    Title: string;
+    Content: string;
+}
 
-export default function Infocards() {
+export default function UmlCards({Props}:{Props: Props[]})  {
     return (
         <>
-            {Help_info.map(text => {
+            {Props.map((item:Props,index) => {
                 return (
                     <Card className="hover:scale-105 hover:shadow-sm"
-                        key={text.Title}
+                        key={index}
                         css={{
                             width: "91.666667%",
-                            display:"flex",
+                            display:"flex-row",
                             justifyContent:"center",
                             alignItems:"center",
                             margin:"2% auto auto auto", padding:"3%", 
                             filter: "drop-shadow(0 5px 0.1rem rgb(3 105 177))"}} >
                         <Text b className=" hover:uppercase text-center 
-                    ">{text.Title}</Text>
+                    ">{item.Title}</Text>
                         <Card.Body >
                             <Text>
-                                {text.Content}
+                                {item.Content}
                             </Text>
                         </Card.Body>         
                     </Card>
