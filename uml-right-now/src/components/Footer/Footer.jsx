@@ -8,25 +8,13 @@ export default function Footer() {
 
     // I hardcoded here boys
     return (
-        <div className="h-auto bg-rowdy-blue p-6 h-36 overflow-hidden lg:flex-row">
-            <div className="flex flex-col justify-center w-full">
-                <h1 className="text-white text-center ">© {getYear} UML Right Now, All rights reserved</h1>
-                <Link className="bg-rowdy-blue rounded-xl m-6" to="#" href="/aboutus" >
-                    <h1 className="text-white text-center font-bold hover:underline hover:font-black  m-6">About Us</h1>
+        <div className="bg-rowdy-blue p-6 h-36 overflow-hidden flex justify-center items-center">
+            <div className="flex flex-col justify-center items-center w-full text-white text-center">
+                <p className="text-xs mb-5">© {getYear} UML Right Now, All rights reserved</p>
+                <Link href="/about-us" className="text-lg underline">
+                    Meet the Team
                 </Link>
-
             </div>
         </div>
     );
-
 }
-
-
-
-
-
-
-
-
-
-

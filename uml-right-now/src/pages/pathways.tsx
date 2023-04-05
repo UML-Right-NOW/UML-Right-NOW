@@ -37,7 +37,7 @@ export default function Pathways() {
     }, [transcript, major]);
 
     return (
-        <div className="
+        <main className="
             flex
             flex-col
             justify-start
@@ -86,6 +86,6 @@ export default function Pathways() {
 
             {/* Help Dialogue */}
             {!isLoading && !degreePathway && <PathwayHelp />}
-        </div>
+        </main>
     );
 }

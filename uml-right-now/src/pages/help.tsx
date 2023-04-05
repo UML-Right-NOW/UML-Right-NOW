@@ -26,12 +26,12 @@ export default function HELP() {
                 <UmlCards  Props={HelpCards}/>
                 <br></br>
                 <h1 className=" 
-        hover:uppercase 
-        w-1/2 
-        m-auto
-        flex
-        justify-center
-        ">
+                    hover:uppercase 
+                    w-1/2 
+                    m-auto
+                    flex
+                    justify-center
+                ">
                     <b>Frequently Asks Questions</b>
                 </h1>
                 <Accordion Items={FAQ} />

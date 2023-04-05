@@ -19,11 +19,11 @@ export default function App({ Component, pageProps }: AppProps) {
         <SessionProvider session={pageProps.session}>
             <TranscriptContextProvider>
                 <HamburgerMenuContextProvider>
-                    <Page>
-                        <SSRProvider>
+                    <SSRProvider>
+                        <Page>
                             <Component {...pageProps} />
-                        </SSRProvider>
-                    </Page>
+                        </Page>
+                    </SSRProvider>
                 </HamburgerMenuContextProvider>
             </TranscriptContextProvider>
         </SessionProvider>
