@@ -13,7 +13,7 @@ export default function UmlCards({Props}:{Props: Props[]})  {
                         key={index}
                         css={{
                             width: "91.666667%",
-                            display:"flex",
+                            display:"flex-row",
                             justifyContent:"center",
                             alignItems:"center",
                             margin:"2% auto auto auto", padding:"3%", 
