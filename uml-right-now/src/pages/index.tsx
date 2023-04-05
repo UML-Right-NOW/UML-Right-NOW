@@ -1,9 +1,8 @@
 import TranscriptInput from "@/components/TranscriptInput/TranscriptInput";
 import { Tooltip } from "@nextui-org/react";
 import Head from "next/head";
-import { useEffect, useContext } from "react";
 import { useRouter } from "next/router";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { BsRocketTakeoffFill, BsSafe2Fill } from "react-icons/bs";
 import SearchBar from "../components/SearchBar/SearchBar";
 
