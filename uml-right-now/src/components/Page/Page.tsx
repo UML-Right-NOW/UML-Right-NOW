@@ -1,6 +1,7 @@
 // Next
-import { ReactNode, useContext } from "react";
+import { ReactNode, useContext, useEffect, useState } from "react";
 import Head from "next/head";
+import { useSession } from "next-auth/react";
 
 // Components
 import HamburgerMenu from "../Nav/HamburgerMenu";
@@ -21,17 +22,38 @@ type PageProps = {
 };
 
 // Pages
-const pages = [
+const defaultPages = [
     new PageInfo("Home", "/"),
     new PageInfo("Pathways", "/pathways"),
     new PageInfo("Help", "help"),
-    new PageInfo("Sign Up", "sign-up"),
-    new PageInfo("Login", "login")
+    new PageInfo("About", "about-us"),
+];
+const loggedOutPages = [
+    new PageInfo("Login", "/login")
+];
+const loggedInPages = [
+    new PageInfo("Profile", "profile")
 ];
 
 export default function Page({ children }: PageProps) {
+    // State
+    const [pages, setPages] = useState<PageInfo[]>([]);
+
+    // Auth
+    const session = useSession();
+
     // Contexts
     const { hamburgerMenuIsVisible } = useContext(HamburgerMenuContext) as HamburgerMenuContextType;
+
+    useEffect(() => {
+        // Initialize the array of pages
+        const newPages = session.status === "authenticated"
+            ? defaultPages.concat(loggedInPages)
+            : defaultPages.concat(loggedOutPages);
+
+        // Set the pages
+        setPages(newPages);
+    }, [session]);
 
     return (
         <>
@@ -52,9 +74,7 @@ export default function Page({ children }: PageProps) {
             {/* Hamburger Menu */}
             {children}
 
-
-            {/*footer*/}
-
+            {/* Footer */}
             <Footer />
         </>
     );
