@@ -1,11 +1,20 @@
 // Next
 import React from "react";
-import Link from "next/link";
+import { useRouter } from "next/router";
 
 // Components
 import { BsBoxArrowRight } from "react-icons/bs";
+import PrimaryButton from "../Inputs/Buttons/PrimaryButton";
 
 export default function PathwayHelp() {
+    // Router
+    const router = useRouter();
+
+    // Event handlers
+    const handleClick = () => {
+        router.push("/");
+    };
+
     return (
         <div className="
             w-full
@@ -33,26 +42,10 @@ export default function PathwayHelp() {
                 ">
                     Visit the home page to generate a pathway that will be displayed here
                 </p>
-                <Link className="
-                    bg-rowdy-blue
-                    text-white
-                    w-44
-                    px-5
-                    py-2
-                    rounded-md
-                    flex
-                    justify-between
-                    items-center
-                    duration-[0.1s]
-                    border-2
-                    border-rowdy-blue
-                    hover:bg-white
-                    hover:text-rowdy-blue
-                " href="/">
+                <PrimaryButton onClick={handleClick}>
                     Take me there <BsBoxArrowRight />
-                </Link>
+                </PrimaryButton>
             </div>
         </div>
-
     );
 }

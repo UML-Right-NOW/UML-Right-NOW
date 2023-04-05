@@ -4,6 +4,7 @@ import { AxiosError } from "axios";
 import { LoginUserParams } from "../types";
 import{ signIn } from "next-auth/react";
 import Script from "next/script";
+import PrimaryButton from "@/components/Inputs/Buttons/PrimaryButton";
 
 export default function Login() {
 
@@ -87,9 +88,9 @@ export default function Login() {
                         <a href="#" className="text-m hover:underline">Forgot Password?</a>
                             
                         <div className="mt-6">
-                            <button type="submit" disabled={loading} className="w-full px-4 py-2 tracking-wide text-white bg-rowdy-blue rounded-md transition-colors duration-200 transform focus:outline-none">
+                            <PrimaryButton type="submit" disabled={loading} classes="w-40">
                                 Login
-                            </button>
+                            </PrimaryButton>
                         </div>
                     </form>
 

@@ -1,10 +1,11 @@
 import TranscriptInput from "@/components/TranscriptInput/TranscriptInput";
-import { Tooltip } from "@nextui-org/react";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { FormEvent, useContext, useEffect } from "react";
 import { BsRocketTakeoffFill, BsSafe2Fill } from "react-icons/bs";
 import SearchBar from "../components/SearchBar/SearchBar";
+import PrimaryButton from "@/components/Inputs/Buttons/PrimaryButton";
+import { AiOutlineCheck } from "react-icons/ai";
+import { BsBoxArrowRight } from "react-icons/bs";
 
 // Contexts
 import { TranscriptContext, TranscriptContextType } from "@/contexts/TranscriptContext";
@@ -29,6 +30,11 @@ export default function Home() {
         event.preventDefault();
         router.push("/pathways");
     }
+
+    // Event handlers
+    const handleClick = () => {
+        router.push("/sign-up");
+    };
 
     return (
         <main>
@@ -55,20 +61,26 @@ export default function Home() {
                     </div>
 
                     {/* Submit Button */}
-                    <button type="submit" className="bg-rowdy-blue w-32 h-10 hover:w-36 hover:bg-rowdy-blue-variation border-white border-2 text-white mt-10 rounded-3xl cursor-pointer ">
-                        Generate
-                    </button>
+                    <PrimaryButton classes="mt-20" type="submit">
+                        Generate <AiOutlineCheck />
+                    </PrimaryButton>
                 </form>
             </div>
 
             {/* Lower Section */}
-            <div className="bg-rowdy-blue h-3/6 p-6 justify-center bg-opacity-80">
+            <div className="bg-rowdy-blue h-3/6 p-6 flex flex-col justify-start items-center bg-opacity-80">
+                {/* Subheading */}
                 <h2 className="text-3xl font-bold text-center text-white">Join UML Right NOW</h2>
+
+                {/* Grid */}
                 <div className="grid grid-cols lg:grid-cols-2 justify-center p-5">
+                    {/* First Grid Cell */}
                     <div className="border-white border-b-2 p-5 lg:border-r-2 lg:border-b-0">
                         <div className="flex justify-center m-4"><BsRocketTakeoffFill size={50} color="white" /></div>
                         <h1 className="text-center text-white font-bold lg:text-left">{textSafe[0].text}</h1>
                     </div>
+
+                    {/* Second Grid Cell */}
                     <div className="p-5">
                         <div className="flex justify-center m-4"><BsSafe2Fill size={50} color="white" /></div>
                         <h1 className="text-white font-bold text-center lg:text-left">{textSafe[1].text}</h1>
@@ -76,9 +88,15 @@ export default function Home() {
                 </div>
 
                 {/* Sign Up Button */}
-                <div className="flex justify-center">
-                    <Link href="/sign-up" className="bg-white rounded-full hover:w-36 p-3 m-6 text-center cursor-pointer">Sign Up Now</Link>
-                </div>
+                <PrimaryButton classes="
+                    !bg-white
+                    !text-rowdy-blue
+                    !border-white
+                    hover:!bg-transparent
+                    hover:!text-white
+                " onClick={handleClick}>
+                    Sign up now <BsBoxArrowRight />
+                </PrimaryButton>
             </div>
         </main>
     );

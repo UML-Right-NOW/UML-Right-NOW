@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import axios, { AxiosError } from "axios";
 import{ signIn } from "next-auth/react";
 import { LoginUserParams } from "../types";
+import PrimaryButton from "@/components/Inputs/Buttons/PrimaryButton";
 
 export default function SignUp() {
     //sign in data
@@ -131,9 +132,9 @@ export default function SignUp() {
                         <a href="#" className="text-m hover:underline">Forgot Password?</a>
                             
                         <div className="mt-6">
-                            <button type="submit" disabled={loading} className="w-full px-4 py-2 tracking-wide text-white bg-rowdy-blue rounded-md transition-colors duration-200 transform focus:outline-none">
+                            <PrimaryButton type="submit" disabled={loading} classes="w-56">
                                 Create Account
-                            </button>
+                            </PrimaryButton>
                         </div>
                     </form>
 
