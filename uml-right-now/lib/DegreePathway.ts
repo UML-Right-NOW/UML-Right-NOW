@@ -27,7 +27,7 @@ export default class DegreePathway {
      * of semesters is stored within the DegreePathway instance, NOT returned.
      * @param completedCourses      The list of completed courses to remove from the internal list of semesters
      */
-    removeCompletedCourses(completedCourses: Course[]) {
+    matchCompletedCourses(completedCourses: Course[]) {
         // Compile all of the pathway's courses in a single array
         let remainingCourses = this._getRemainingCourses();
 
@@ -169,7 +169,7 @@ export default class DegreePathway {
         [departmentElectives, unusedCourses] = DegreePathway._matchDepartmentElectives(departmentElectives, unusedCourses);
 
         // Match general electives (MUST BE DONE SECOND)
-        [generalElectives, unusedCourses] = DegreePathway._matchGeneralElectives(departmentElectives, unusedCourses);
+        [generalElectives, unusedCourses] = DegreePathway._matchGeneralElectives(generalElectives, unusedCourses);
 
         // Retrieve an array of miscellaneous courses
         const miscCourses = DegreePathway._getMiscCourses(remainingCourses);
@@ -213,11 +213,11 @@ export default class DegreePathway {
         // Match as many unused courses to general elective requirements as possible
         generalElectives = generalElectives.filter((_generalElective, index) => {
             if (index >= unusedCourses.length) {
-                return false;
+                return true;
             }
 
             usedCourseCodes.push(unusedCourses[index].code);
-            return true;
+            return false;
         });
 
         // Remove used courses from the list of unused courses
