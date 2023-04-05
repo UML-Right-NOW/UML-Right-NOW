@@ -32,29 +32,38 @@ export default function Home() {
 
     return (
         <main>
-            <div className="w-full backdrop-brightness-50 h-screen flex bg-rowdy-blue bg-cover bg-no-repeat bg-center" style={{ backgroundImage: `url(${backgroundimage1})` }} >
-                <form onSubmit={handleSubmit} className="absolute w-full h-full">
-                    <h1 className="text-2xl md:text-4xl lg:text-6xl font-sans mt-20 text-center text-white mb-9">Enter Your <em className="text-rowdy-blue underline">major</em>  to get started</h1>
-                    <div className="flex flex-col justify-center w-auto mt-px p-10 bg-black border-white border-t-1 bg-opacity-20">
-                        <div className=" flex justify-center mt-px">
-                            <SearchBar />
-                        </div>
-                        <div className=" flex justify-center" >
-                            <h1 className="text-4xl m-8 text-white">Optionally</h1>
-                        </div>
-                        <div className=" flex justify-center m-8" >
-                            <Tooltip content={"Upload Your UML transcript so we can help you better with your degree path"} color="primary" placement="rightEnd">
-                                <TranscriptInput />
-                            </Tooltip>
-                        </div>
-                        <div className=" flex justify-center mt-px">
-                            <input type="submit" value="Generate" className="bg-rowdy-blue w-32 h-10 hover:w-36 hover:bg-rowdy-blue-variation border-white border-2 text-white mt-6 rounded-3xl cursor-pointer " />
-                        </div>
+            {/* Landing Section */}
+            <div className="w-full backdrop-brightness-50 min-h-screen flex flex-col justify-start items-center bg-rowdy-blue bg-cover bg-no-repeat bg-center" style={{ backgroundImage: `url(${backgroundimage1})` }} >
+                {/* Main Heading */}
+                <h1 className="text-white text-center text-4xl sm:text-5xl md:text-6xl font-bold mt-10">UML Right NOW</h1>
+
+                {/* Subheading */}
+                <h2 className="text-center text-2xl sm:text-3xl md:text-4xl text-white mt-5 italic px-10">Your last advising appointment is a few clicks away!</h2>
+
+                {/* Main Form */}
+                <form onSubmit={handleSubmit} className="w-full mt-10 flex flex-col justify-center items-center p-10 bg-black border-white border-t-1 bg-opacity-20 mb-32">
+                    {/* Search Bar */}
+                    <h2 className="text-2xl font-sans text-center text-white">Enter your major to get started</h2>
+                    <div className="mt-5 w-[275px] sm:w-[400px]">
+                        <SearchBar />
                     </div>
+
+                    {/* Transcript Input */}
+                    <h3 className="text-2xl text-white mt-10">Optionally...</h3>
+                    <div className="mt-5" >
+                        <TranscriptInput />
+                    </div>
+
+                    {/* Submit Button */}
+                    <button type="submit" className="bg-rowdy-blue w-32 h-10 hover:w-36 hover:bg-rowdy-blue-variation border-white border-2 text-white mt-10 rounded-3xl cursor-pointer ">
+                        Generate
+                    </button>
                 </form>
             </div>
+
+            {/* Lower Section */}
             <div className="bg-rowdy-blue h-3/6 p-6 justify-center bg-opacity-80">
-                <h1 className="text-3xl font-bold text-center text-white">Join UML-right-now</h1>
+                <h2 className="text-3xl font-bold text-center text-white">Join UML Right NOW</h2>
                 <div className="grid grid-cols lg:grid-cols-2 justify-center p-5">
                     <div className="border-white border-b-2 p-5 lg:border-r-2 lg:border-b-0">
                         <div className="flex justify-center m-4"><BsRocketTakeoffFill size={50} color="white" /></div>
@@ -65,6 +74,8 @@ export default function Home() {
                         <h1 className="text-white font-bold text-center lg:text-left">{textSafe[1].text}</h1>
                     </div>
                 </div>
+
+                {/* Sign Up Button */}
                 <div className="flex justify-center">
                     <Link href="/sign-up" className="bg-white rounded-full hover:w-36 p-3 m-6 text-center cursor-pointer">Sign Up Now</Link>
                 </div>

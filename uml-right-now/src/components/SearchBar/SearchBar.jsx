@@ -20,6 +20,9 @@ const useStyles = makeStyles(() => ({
         },
         "&.Mui-focused .MuiInputLabel-outlined": {
             color: "purple"
+        },
+        "&.MuiAutocomplete-root": {
+            width: "100%"
         }
     },
     inputRoot: {
@@ -57,8 +60,8 @@ export default function SearchBar() {
             id="combo-box-demo"
             classes={classes}
             options={majors}
-            sx={{ width: 400, WebkitTextFillColor: "white", }}
-            renderInput={(params) => <TextField {...params} label="Degree pathways" className='stroke-white stroke-7' />}
+            sx={{ width: "", WebkitTextFillColor: "white" }}
+            renderInput={(params) => <TextField {...params} label="Major" className='stroke-white stroke-7' />}
             onChange={handleAutocompleteChanged}
         />
     );
