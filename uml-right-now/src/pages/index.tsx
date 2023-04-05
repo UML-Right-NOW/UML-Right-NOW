@@ -1,8 +1,9 @@
 import TranscriptInput from "@/components/TranscriptInput/TranscriptInput";
 import { Tooltip } from "@nextui-org/react";
 import Head from "next/head";
+import Link from "next/link";
 import { useRouter } from "next/router";
-import { useContext, useEffect } from "react";
+import { FormEvent, useContext, useEffect } from "react";
 import { BsRocketTakeoffFill, BsSafe2Fill } from "react-icons/bs";
 import SearchBar from "../components/SearchBar/SearchBar";
 
@@ -25,7 +26,7 @@ export default function Home() {
         setMajor(null);
     }, [setTranscript, setMajor]);
 
-    function handleSubmit(event: any) {
+    function handleSubmit(event: FormEvent) {
         event.preventDefault();
         router.push("/pathways");
     }
@@ -39,7 +40,7 @@ export default function Home() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main>
-                <div className="bg-rowdy-blue w-full backdrop-brightness-50 h-screen flex bg-rowdy-blue bg-cover bg-no-repeat bg-center" style={{ backgroundImage: `url(${backgroundimage1})` }} >
+                <div className="w-full backdrop-brightness-50 h-screen flex bg-rowdy-blue bg-cover bg-no-repeat bg-center" style={{ backgroundImage: `url(${backgroundimage1})` }} >
                     <form onSubmit={handleSubmit} className="absolute w-full h-full">
                         <h1 className="text-2xl md:text-4xl lg:text-6xl font-sans mt-20 text-center text-white mb-9">Enter Your <em className="text-rowdy-blue underline">major</em>  to get started</h1>
                         <div className="flex flex-col justify-center w-auto mt-px p-10 bg-black border-white border-t-1 bg-opacity-20">
@@ -61,7 +62,7 @@ export default function Home() {
                     </form>
                 </div>
                 <div className="bg-rowdy-blue h-3/6 p-6 justify-center bg-opacity-80">
-                    <h1 className="text-3xl font-bold text-rowdy-blue text-center text-white">Join UML-right-now</h1>
+                    <h1 className="text-3xl font-bold text-center text-white">Join UML-right-now</h1>
                     <div className="grid grid-cols lg:grid-cols-2 justify-center p-5">
                         <div className="border-white border-b-2 p-5 lg:border-r-2 lg:border-b-0">
                             <div className="flex justify-center m-4"><BsRocketTakeoffFill size={50} color="white" /></div>
@@ -73,7 +74,7 @@ export default function Home() {
                         </div>
                     </div>
                     <div className="flex justify-center">
-                        <a href="/sign-up" className="bg-white rounded-full hover:w-36 p-3 m-6 text-center cursor-pointer">Sign Up Now</a>
+                        <Link href="/sign-up" className="bg-white rounded-full hover:w-36 p-3 m-6 text-center cursor-pointer">Sign Up Now</Link>
                     </div>
                 </div>
             </main>
