@@ -44,7 +44,7 @@ export default function Home() {
                 <h1 className="text-white text-center text-4xl sm:text-5xl md:text-6xl font-bold mt-10">UML Right NOW</h1>
 
                 {/* Subheading */}
-                <h2 className="text-center text-2xl sm:text-3xl md:text-4xl text-white mt-5 italic px-10">Your last advising appointment is a few clicks away!</h2>
+                <h2 className="text-center text-2xl sm:text-3xl md:text-4xl text-white mt-5 italic px-10">Your custom degree pathway is just a few clicks away!</h2>
 
                 {/* Main Form */}
                 <form onSubmit={handleSubmit} className="w-full mt-10 flex flex-col justify-center items-center p-10 bg-black border-white border-t-1 bg-opacity-20 mb-32">

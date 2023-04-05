@@ -16,7 +16,7 @@ export default function AboutUs() {
     ];
 
     return (
-        <main className="h-auto px-6">
+        <main className="px-6">
             <div className="bg-rowdy-blue px-6 text-white">
                 <h1 className="text-center lg:text-left m-6">{aboutUsText.at(2)}</h1>
             </div>

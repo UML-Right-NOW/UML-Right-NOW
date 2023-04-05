@@ -43,7 +43,6 @@ export default function Pathways() {
             justify-start
             items-center
             py-10
-            min-h-screen
         ">
             {/* Loading Animation */}
             <SpinnerDotted
