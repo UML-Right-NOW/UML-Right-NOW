@@ -42,7 +42,6 @@ export default function Pathways() {
             flex-col
             justify-start
             items-center
-            h-screen
             py-10
         ">
             {/* Loading Animation */}

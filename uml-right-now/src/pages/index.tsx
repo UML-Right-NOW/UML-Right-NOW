@@ -1,8 +1,8 @@
 import TranscriptInput from "@/components/TranscriptInput/TranscriptInput";
 import { Tooltip } from "@nextui-org/react";
 import Head from "next/head";
-import { useState, useEffect, useContext } from "react";
 import { useRouter } from "next/router";
+import { useContext, useEffect, useState } from "react";
 import { BsRocketTakeoffFill, BsSafe2Fill } from "react-icons/bs";
 import SearchBar from "../components/SearchBar/SearchBar";
 
@@ -20,11 +20,7 @@ export default function Home() {
     const router = useRouter();
     const textSafe = [{ text: "Creating an account or logging in is essential to make the most of our website. You'll get access to features such as saving searches and preferences, personalized recommendations, and our comprehensive pathway generator. Sign up today and enjoy a seamless experience." }, { text: "Your data privacy and security are our top priority. We use robust encryption and adhere to data protection laws to keep your personal information confidential and secure." }];
 
-    function handleClick(event: any) {
-        router.push("/pathways");
-    }
-
-    function handleClickTwo() {
+    function handleClickForsignUpPage() {
         router.push("/sign-up");
     }
 
@@ -35,8 +31,8 @@ export default function Home() {
     }, [setTranscript, setMajor]);
 
     function handleSubmit(event: any) {
-
         event.preventDefault();
+        router.push("/pathways");
     }
 
     return (
@@ -64,7 +60,7 @@ export default function Home() {
                                 </Tooltip>
                             </div>
                             <div className=" flex justify-center mt-px">
-                                <input type="submit" value="Generate" className="bg-rowdy-blue w-32 h-10 border-white border-2 text-white mt-6 rounded-3xl cursor-pointer" onClick={handleClick} />
+                                <input type="submit" value="Generate" className="bg-rowdy-blue w-32 h-10 hover:w-36 hover:bg-rowdy-blue-variation border-white border-2 text-white mt-6 rounded-3xl cursor-pointer " />
                             </div>
                         </div>
                     </form>
@@ -82,7 +78,7 @@ export default function Home() {
                         </div>
                     </div>
                     <div className="flex justify-center">
-                        <button className="bg-white rounded-full p-3 m-6 text-center" onClick={handleClickTwo}>Sign Up Now</button>
+                        <input type="submit" value="Sign Up Now" className="bg-white rounded-full hover:w-36 p-3 m-6 text-center cursor-pointer" onClick={handleClickForsignUpPage} />
                     </div>
                 </div>
             </main>

@@ -12,7 +12,7 @@ export default function Footer() {
             <div className="flex flex-col justify-center w-full">
                 <h1 className="text-white text-center ">© {getYear} UML Right Now, All rights reserved</h1>
                 <Link className="bg-rowdy-blue rounded-xl m-6" to="#" href="/aboutus" >
-                    <h1 className="text-white text-center font-bold underline m-6">About Us</h1>
+                    <h1 className="text-white text-center font-bold hover:underline hover:font-black  m-6">About Us</h1>
                 </Link>
 
             </div>
