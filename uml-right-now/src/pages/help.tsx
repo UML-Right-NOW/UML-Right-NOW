@@ -1,6 +1,6 @@
 import Accordion from "@/components/Accordion/Accordion";
-import Head from "next/head";
 import UmlCards from "@/components/Card/Card";
+import Head from "next/head";
 
 // information display on help page
 const FAQ = [

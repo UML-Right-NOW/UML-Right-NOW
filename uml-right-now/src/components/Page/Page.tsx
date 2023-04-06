@@ -1,20 +1,11 @@
-// Next
-import { ReactNode, useContext, useEffect, useState } from "react";
-import Head from "next/head";
+import PageInfo from "@/PageInfo";
+import { HamburgerMenuContext, HamburgerMenuContextType } from "@/contexts/HamburgerMenuContext";
 import { useSession } from "next-auth/react";
-
-// Components
+import Head from "next/head";
+import { ReactNode, useContext, useEffect, useState } from "react";
+import Footer from "../Footer/Footer";
 import HamburgerMenu from "../Nav/HamburgerMenu";
 import Nav from "../Nav/Nav";
-
-// Contexts
-import { HamburgerMenuContext, HamburgerMenuContextType } from "@/contexts/HamburgerMenuContext";
-
-// Library
-import PageInfo from "@/PageInfo";
-
-//footer
-import Footer from "../Footer/Footer";
 
 // Types
 type PageProps = {

@@ -1,11 +1,6 @@
-// Next
-import React, { useState, useEffect } from "react";
-
-// Components
-import CourseElement from "./CourseElement";
-
-// Libraries
 import Semester from "@/Semester";
+import { useEffect, useState } from "react";
+import CourseElement from "./CourseElement";
 
 // Types
 type SemesterElementProps = {

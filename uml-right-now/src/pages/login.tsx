@@ -1,10 +1,10 @@
-import {useState, useEffect} from "react";
-import { useRouter } from "next/router";
-import { AxiosError } from "axios";
-import { LoginUserParams } from "../types";
-import{ signIn } from "next-auth/react";
-import Script from "next/script";
 import PrimaryButton from "@/components/Inputs/Buttons/PrimaryButton";
+import { AxiosError } from "axios";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/router";
+import Script from "next/script";
+import { useEffect, useState } from "react";
+import { LoginUserParams } from "../types";
 
 export default function Login() {
 

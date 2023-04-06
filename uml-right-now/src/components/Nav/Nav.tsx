@@ -1,15 +1,8 @@
-// Next
+import PageInfo from "@/PageInfo";
 import Image from "next/image";
 import Link from "next/link";
-
-// Components
-import Hamburger from "./Hamburger";
-
-// Library
-import PageInfo from "@/PageInfo";
-
-// Assets
 import logo from "../../../assets/logo.png";
+import Hamburger from "./Hamburger";
 
 // Tailwind
 const navItemsClass = `

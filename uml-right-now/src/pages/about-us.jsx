@@ -1,4 +1,3 @@
-
 import anderson from "../../assets/anderson.jpg";
 import john from "../../assets/john.jpg";
 import logo from "../../assets/logo.png";

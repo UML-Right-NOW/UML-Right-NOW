@@ -1,18 +1,11 @@
-// Next
-import { useContext } from "react";
-
-// Components
+import { majors } from "@/Majors";
+import { TranscriptContext } from "@/contexts/TranscriptContext";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import { makeStyles } from "@mui/styles";
+import { useContext } from "react";
 
-// Libraries
-import { majors } from "@/Majors";
-
-// Contexts
-import { TranscriptContext } from "@/contexts/TranscriptContext";
-
-
+// Constants
 const useStyles = makeStyles(() => ({
     root: {
         "& .MuiInputLabel-outlined:not(.MuiInputLabel-shrink)": {

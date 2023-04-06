@@ -1,17 +1,10 @@
-// Next
-import { useContext, useEffect, useState } from "react";
-
-// Contexts
-import { TranscriptContext, TranscriptContextType } from "@/contexts/TranscriptContext";
-
-// Components
-import PathwayHelp from "@/components/PathwayHelp/PathwayHelp";
-import PathwayTable from "@/components/PathwayTable/PathwayTable";
-import { SpinnerDotted } from "spinners-react";
-
-// Libraries
 import DegreePathway from "@/DegreePathway";
 import PathwayGenerator from "@/PathwayGenerator";
+import PathwayHelp from "@/components/PathwayHelp/PathwayHelp";
+import PathwayTable from "@/components/PathwayTable/PathwayTable";
+import { TranscriptContext, TranscriptContextType } from "@/contexts/TranscriptContext";
+import { useContext, useEffect, useState } from "react";
+import { SpinnerDotted } from "spinners-react";
 
 // Constants
 const ROWDY_BLUE_COLOR = "#0369B1";

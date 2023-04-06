@@ -1,4 +1,3 @@
-// Next
 import React, { ReactNode } from "react";
 
 // Types

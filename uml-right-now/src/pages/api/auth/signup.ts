@@ -1,9 +1,9 @@
 import { connectToMongoDB } from "@/mongodb";
+import { IUser } from "@/types";
+import { hash } from "bcryptjs";
+import mongoose from "mongoose";
 import { NextApiRequest, NextApiResponse } from "next";
 import User from "../../../../models/user";
-import { hash } from "bcryptjs";
-import { IUser } from "@/types";
-import mongoose from "mongoose";
 
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {

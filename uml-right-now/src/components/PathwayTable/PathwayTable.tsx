@@ -1,11 +1,5 @@
-// Next
-import React from "react";
-
-// Components
-import SemesterElement from "./SemesterElement";
-
-// Libraries
 import DegreePathway from "@/DegreePathway";
+import SemesterElement from "./SemesterElement";
 
 // Types
 type PathwayTableProps = {

@@ -1,7 +1,4 @@
-// Next
 import { useState, createContext, ReactNode } from "react";
-
-// Libraries 
 import Transcript from "@/Transcript";
 
 // Types

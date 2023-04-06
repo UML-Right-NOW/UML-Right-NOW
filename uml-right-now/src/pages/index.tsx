@@ -1,11 +1,10 @@
+import PrimaryButton from "@/components/Inputs/Buttons/PrimaryButton";
 import TranscriptInput from "@/components/TranscriptInput/TranscriptInput";
 import { useRouter } from "next/router";
 import { FormEvent, useContext, useEffect } from "react";
-import { BsRocketTakeoffFill, BsSafe2Fill } from "react-icons/bs";
-import SearchBar from "../components/SearchBar/SearchBar";
-import PrimaryButton from "@/components/Inputs/Buttons/PrimaryButton";
 import { AiOutlineCheck } from "react-icons/ai";
-import { BsBoxArrowRight } from "react-icons/bs";
+import { BsBoxArrowRight, BsRocketTakeoffFill, BsSafe2Fill } from "react-icons/bs";
+import SearchBar from "../components/SearchBar/SearchBar";
 
 // Contexts
 import { TranscriptContext, TranscriptContextType } from "@/contexts/TranscriptContext";

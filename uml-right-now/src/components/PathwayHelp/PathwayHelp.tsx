@@ -1,8 +1,4 @@
-// Next
-import React from "react";
 import { useRouter } from "next/router";
-
-// Components
 import { BsBoxArrowRight } from "react-icons/bs";
 import PrimaryButton from "../Inputs/Buttons/PrimaryButton";
 

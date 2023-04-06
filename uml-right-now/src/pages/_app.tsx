@@ -1,13 +1,7 @@
-// Next
-import "@/styles/globals.css";
-import type { AppProps } from "next/app";
-
-// Components
 import Page from "@/components/Page/Page";
-
-//nextUi
-
+import "@/styles/globals.css";
 import { SSRProvider } from "@react-aria/ssr";
+import type { AppProps } from "next/app";
 
 // Contexts
 import HamburgerMenuContextProvider from "@/contexts/HamburgerMenuContext";
