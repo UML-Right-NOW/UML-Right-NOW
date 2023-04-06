@@ -71,6 +71,7 @@ export default function Nav({ pages }: NavProps) {
                         src={logo} 
                         alt="UML Right NOW Logo" 
                         fill
+                        sizes="100%"
                     />
                 </div>
             </Link>
