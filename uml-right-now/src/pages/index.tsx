@@ -67,7 +67,7 @@ export default function Home() {
             </div>
 
             {/* Lower Section */}
-            <div className="bg-rowdy-blue h-3/6 p-6 flex flex-col justify-start items-center bg-opacity-80">
+            <div className="bg-light-blue h-3/6 p-6 flex flex-col justify-start items-center">
                 {/* Subheading */}
                 <h2 className="text-3xl font-bold text-center text-white">Join UML Right NOW</h2>
 
@@ -89,7 +89,7 @@ export default function Home() {
                 {/* Sign Up Button */}
                 <PrimaryButton classes="
                     !bg-white
-                    !text-rowdy-blue
+                    !text-light-blue
                     !border-white
                     hover:!bg-transparent
                     hover:!text-white
