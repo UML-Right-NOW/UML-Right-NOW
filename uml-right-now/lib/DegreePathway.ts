@@ -1,4 +1,3 @@
-// Libraries
 import Semester from "./Semester";
 import Course from "./Course";
 

@@ -1,5 +1,5 @@
-import { MongoClient } from "mongodb";
 import * as dotenv from "dotenv";
+import { MongoClient } from "mongodb";
 
 // Retrieve environment variables
 dotenv.config();

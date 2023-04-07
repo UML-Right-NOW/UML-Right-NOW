@@ -1,8 +1,7 @@
-// Libraries
-import Transcript from "./Transcript";
+import Course from "./Course";
 import DegreePathway from "./DegreePathway";
 import Semester from "./Semester";
-import Course from "./Course";
+import Transcript from "./Transcript";
 
 export default class PathwayGenerator {
     static async generateDegreePathway(major: string, transcript: Transcript | null): Promise<DegreePathway> {

@@ -1,9 +1,6 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-
-// Libraries
+import * as dotenv from "dotenv";
 import formidable from "formidable";
 import { PdfReader } from "pdfreader/PdfReader";
-import * as dotenv from "dotenv";
 import Course from "../../../lib/Course";
 
 // Load environment variables

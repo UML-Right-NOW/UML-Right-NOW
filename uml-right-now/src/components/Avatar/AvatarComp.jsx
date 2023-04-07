@@ -1,4 +1,3 @@
-
 import { Avatar, Grid } from "@nextui-org/react";
 
 export default function AvatarComp(props) {

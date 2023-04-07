@@ -1,12 +1,7 @@
-// Next
+import PageInfo from "@/PageInfo";
+import { HamburgerMenuContext, HamburgerMenuContextType } from "@/contexts/HamburgerMenuContext";
 import Link from "next/link";
 import { useContext } from "react";
-
-// Contexts
-import { HamburgerMenuContext, HamburgerMenuContextType } from "@/contexts/HamburgerMenuContext";
-
-// Library
-import PageInfo from "@/PageInfo";
 
 // Types
 type HamburgerMenuProps = {

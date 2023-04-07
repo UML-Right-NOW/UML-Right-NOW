@@ -1,18 +1,11 @@
-// Next
-import { useContext } from "react";
-
-// Components
+import { majors } from "@/Majors";
+import { TranscriptContext } from "@/contexts/TranscriptContext";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
 import { makeStyles } from "@mui/styles";
+import { useContext } from "react";
 
-// Libraries
-import { majors } from "@/Majors";
-
-// Contexts
-import { TranscriptContext } from "@/contexts/TranscriptContext";
-
-
+// Constants
 const useStyles = makeStyles(() => ({
     root: {
         "& .MuiInputLabel-outlined:not(.MuiInputLabel-shrink)": {
@@ -20,6 +13,9 @@ const useStyles = makeStyles(() => ({
         },
         "&.Mui-focused .MuiInputLabel-outlined": {
             color: "purple"
+        },
+        "&.MuiAutocomplete-root": {
+            width: "100%"
         }
     },
     inputRoot: {
@@ -57,8 +53,8 @@ export default function SearchBar() {
             id="combo-box-demo"
             classes={classes}
             options={majors}
-            sx={{ width: 400, WebkitTextFillColor: "white", }}
-            renderInput={(params) => <TextField {...params} label="Degree pathways" className='stroke-white stroke-7' />}
+            sx={{ width: "", WebkitTextFillColor: "white" }}
+            renderInput={(params) => <TextField {...params} label="Major" className='stroke-white stroke-7' />}
             onChange={handleAutocompleteChanged}
         />
     );
