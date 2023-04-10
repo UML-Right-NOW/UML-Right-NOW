@@ -18,6 +18,7 @@ export default function SignUp() {
     const [loading, setLoading] = useState(false);
     const router = useRouter();
     const [submitError, setSubmitError] = useState<string>("");
+    const [validationErrors, setValidationErrors] = useState<string>("");
 
     const loginUser = async ({email, password} : LoginUserParams) => {
         const res = await signIn("credentials", {
@@ -31,13 +32,15 @@ export default function SignUp() {
 
     //Function validates data passed in by user. Returns boolean based on whether data entered was okay or not
     const validateData = (): boolean => {
-        const err = [];
+        let err = "";
 
         if(data.password?.length < 6) {
-            err.push({password: "Password should be at least 6 characters long"});
+            err = "Password should be at least 6 characters long";
         } else if (data.password !== data.confirmPassword) {
-            err.push({confirmPassword: "Passwords don't match"});
+            err = "Passwords don't match";
         }
+
+        setValidationErrors(err);
 
         if(err.length > 0) {
             return false;
@@ -97,6 +100,8 @@ export default function SignUp() {
         return null;
     }
 
+    console.log(submitError);
+
     return (
         <main>
             {/* Sign in with Google */}
@@ -137,6 +142,20 @@ export default function SignUp() {
                             </PrimaryButton>
                         </div>
                     </form>
+
+                    {
+                        (submitError != "") &&
+                        <p className="mt-8 text-xl text-red-600 text-left">
+                            {submitError}
+                        </p>
+                    }
+
+                    {
+                        (validationErrors != "") &&
+                        <p className="mt-8 text-xl text-red-600 text-left">
+                            {validationErrors}
+                        </p>
+                    }
 
                     <p className="mt-8 text-m font-light text-left">
                             Already have an account?{" "}
