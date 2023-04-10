@@ -30,14 +30,35 @@ export default function SignUp() {
         return res;
     };
 
+    function containsUppercase(str: string) {
+        return /[A-Z]/.test(str);
+    }
+
+    function containsNumber(str: string) {
+        return /\d/.test(str);
+    }
+
+    function containsSpecialChars(str: string) {
+        const specialChars =
+          // eslint-disable-next-line no-useless-escape
+          /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+        return specialChars.test(str);
+    }
+
     //Function validates data passed in by user. Returns boolean based on whether data entered was okay or not
     const validateData = (): boolean => {
         let err = "";
 
-        if(data.password?.length < 6) {
-            err = "Password should be at least 6 characters long";
+        if(data.password?.length < 10) {
+            err = "Password should be at least 10 characters long";
         } else if (data.password !== data.confirmPassword) {
             err = "Passwords don't match";
+        } else if (!containsUppercase(data.password)) {
+            err = "Password should contain a capital letter";
+        } else if (!containsNumber(data.password)) {
+            err = "Password should contain a number";
+        } else if (!containsSpecialChars(data.password)) {
+            err = "Password should contain a special character";
         }
 
         setValidationErrors(err);
