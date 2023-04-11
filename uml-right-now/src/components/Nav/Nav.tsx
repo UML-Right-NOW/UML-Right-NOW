@@ -1,8 +1,10 @@
 import PageInfo from "@/PageInfo";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import logo from "../../../assets/logo.png";
 import Hamburger from "./Hamburger";
+import SignOutButton from "../Inputs/Buttons/SignOutButton";
 
 // Tailwind
 const navItemsClass = `
@@ -19,6 +21,9 @@ type NavProps = {
 };
 
 export default function Nav({ pages }: NavProps) {
+    // State
+    const session = useSession();
+
     // Assemble nav items
     const navItems = pages.map(page => {
         return (
@@ -29,7 +34,7 @@ export default function Nav({ pages }: NavProps) {
     });
 
     // Split the nav items into left and right sides
-    const mid = Math.floor(navItems.length / 2);
+    const mid = Math.floor(navItems.length / 2) + (session.status === "authenticated" ? 1 : 0);
     const navItemsLeft = navItems.slice(0, mid);
     const navItemsRight = navItems.slice(mid);
 
@@ -80,10 +85,11 @@ export default function Nav({ pages }: NavProps) {
             <ul className={`
                 ${navItemsClass}
                 justify-start
-                [&>li]:mr-6
+                [&>li]:mr-4
                 lg:[&>li]:mr-10
             `}>
                 {navItemsRight}
+                {session.status === "authenticated" && <SignOutButton />}
             </ul>
 
             {/* Hamburger */}
