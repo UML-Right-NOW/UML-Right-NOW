@@ -16,14 +16,14 @@ type PageProps = {
 const defaultPages = [
     new PageInfo("Home", "/"),
     new PageInfo("Pathways", "/pathways"),
-    new PageInfo("Help", "help"),
-    new PageInfo("About", "about-us"),
+    new PageInfo("Help", "/help"),
+    new PageInfo("About", "/about-us"),
 ];
 const loggedOutPages = [
     new PageInfo("Login", "/login")
 ];
 const loggedInPages = [
-    new PageInfo("Profile", "profile")
+    new PageInfo("Profile", "/profile")
 ];
 
 export default function Page({ children }: PageProps) {
