@@ -1,12 +1,9 @@
-// Next
+import PageInfo from "@/PageInfo";
+import { HamburgerMenuContext, HamburgerMenuContextType } from "@/contexts/HamburgerMenuContext";
 import Link from "next/link";
 import { useContext } from "react";
-
-// Contexts
-import { HamburgerMenuContext, HamburgerMenuContextType } from "@/contexts/HamburgerMenuContext";
-
-// Library
-import PageInfo from "@/PageInfo";
+import SignOutButton from "../Inputs/Buttons/SignOutButton";
+import { useSession } from "next-auth/react";
 
 // Types
 type HamburgerMenuProps = {
@@ -14,6 +11,9 @@ type HamburgerMenuProps = {
 };
 
 export default function HamburgerMenu({ pages }: HamburgerMenuProps) {
+    // State
+    const session = useSession();
+
     // Contexts
     const { setHamburgerMenuIsVisible } = useContext(HamburgerMenuContext) as HamburgerMenuContextType;
 
@@ -71,6 +71,7 @@ export default function HamburgerMenu({ pages }: HamburgerMenuProps) {
                     sm:[&>li]:mb-10
                 ">
                     {navItems}
+                    {session.status === "authenticated" && <SignOutButton />}
                 </ul>
             </div>
         </div>

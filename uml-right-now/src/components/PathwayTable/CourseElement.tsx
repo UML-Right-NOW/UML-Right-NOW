@@ -1,6 +1,3 @@
-// Next
-import React from "react";
-
 // Types
 type CourseElementProps = {
     courseCode: string,

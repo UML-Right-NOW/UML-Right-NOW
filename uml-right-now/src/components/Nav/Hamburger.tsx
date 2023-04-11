@@ -1,8 +1,5 @@
-// Next
-import { useContext } from "react";
-
-// Contexts
 import { HamburgerMenuContext, HamburgerMenuContextType } from "@/contexts/HamburgerMenuContext";
+import { useContext } from "react";
 
 // Tailwind
 const hamburgerBarClassBase = `
