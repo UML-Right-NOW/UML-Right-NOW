@@ -18,6 +18,7 @@ export default function SignUp() {
     const [loading, setLoading] = useState(false);
     const router = useRouter();
     const [submitError, setSubmitError] = useState<string>("");
+    const [validationErrors, setValidationErrors] = useState<string>("");
 
     const loginUser = async ({email, password} : LoginUserParams) => {
         const res = await signIn("credentials", {
@@ -29,15 +30,38 @@ export default function SignUp() {
         return res;
     };
 
+    function containsUppercase(str: string) {
+        return /[A-Z]/.test(str);
+    }
+
+    function containsNumber(str: string) {
+        return /\d/.test(str);
+    }
+
+    function containsSpecialChars(str: string) {
+        const specialChars =
+          // eslint-disable-next-line no-useless-escape
+          /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+        return specialChars.test(str);
+    }
+
     //Function validates data passed in by user. Returns boolean based on whether data entered was okay or not
     const validateData = (): boolean => {
-        const err = [];
+        let err = "";
 
-        if(data.password?.length < 6) {
-            err.push({password: "Password should be at least 6 characters long"});
+        if(data.password?.length < 10) {
+            err = "Password should be at least 10 characters long";
         } else if (data.password !== data.confirmPassword) {
-            err.push({confirmPassword: "Passwords don't match"});
+            err = "Passwords don't match";
+        } else if (!containsUppercase(data.password)) {
+            err = "Password should contain a capital letter";
+        } else if (!containsNumber(data.password)) {
+            err = "Password should contain a number";
+        } else if (!containsSpecialChars(data.password)) {
+            err = "Password should contain a special character";
         }
+
+        setValidationErrors(err);
 
         if(err.length > 0) {
             return false;
@@ -97,6 +121,8 @@ export default function SignUp() {
         return null;
     }
 
+    console.log(submitError);
+
     return (
         <main>
             {/* Sign in with Google */}
@@ -123,7 +149,7 @@ export default function SignUp() {
                         </div>
 
                         <div className="mt-2 mb-2 text-xs">
-                            <p>Password must be longer than 10 characters</p>
+                            <p>Password must be at least 10 characters</p>
                             <p>Password must contain at least one capital letter</p>
                             <p>Password must contain at least one number</p>
                             <p>Password must contain at least one special character, i.e. !@#$%^&*</p>
@@ -137,6 +163,20 @@ export default function SignUp() {
                             </PrimaryButton>
                         </div>
                     </form>
+
+                    {
+                        (submitError != "") &&
+                        <p className="mt-8 text-xl text-red-600 text-left">
+                            {submitError}
+                        </p>
+                    }
+
+                    {
+                        (validationErrors != "") &&
+                        <p className="mt-8 text-xl text-red-600 text-left">
+                            {validationErrors}
+                        </p>
+                    }
 
                     <p className="mt-8 text-m font-light text-left">
                             Already have an account?{" "}

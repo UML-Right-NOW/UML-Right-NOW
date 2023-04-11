@@ -65,6 +65,8 @@ export default function Login() {
         return null;
     }
 
+    //console.log(submitError);
+
     return (
         <main>
             {/* Sign in with Google */}
@@ -93,6 +95,14 @@ export default function Login() {
                             </PrimaryButton>
                         </div>
                     </form>
+
+                    
+                    {
+                        (submitError != "") &&
+                        <p className="mt-8 text-xl text-red-600 text-left">
+                            {submitError}
+                        </p>
+                    }
 
                     <p className="mt-8 text-m font-light text-left">
                             Need an account?{" "}
