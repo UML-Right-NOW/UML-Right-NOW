@@ -149,7 +149,7 @@ export default function SignUp() {
                         </div>
 
                         <div className="mt-2 mb-2 text-xs">
-                            <p>Password must be longer than 10 characters</p>
+                            <p>Password must be at least 10 characters</p>
                             <p>Password must contain at least one capital letter</p>
                             <p>Password must contain at least one number</p>
                             <p>Password must contain at least one special character, i.e. !@#$%^&*</p>
