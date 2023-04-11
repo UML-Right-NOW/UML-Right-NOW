@@ -4,14 +4,13 @@ import Head from "next/head";
 
 // information display on help page
 const FAQ = [
-    {question: "Which is the current version?", answer: "Version 0.002"},
+    {question: "Which is the current version?", answer: "Version 0.1"},
     {question: "Do you use transfer credits to get the pathway?", answer: "At the moment we do at a basic level"},
-    {question: "What is Lorem Ipsum?", answer: "Lorem ipsum dolor sit amet, consectetur"},
 ];
 const HelpCards = [
-    { Title: "Overview", Content: "lorLorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.e " },
-    { Title: "Generating Degree Pathways", Content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." },
-    { Title: "Accessing Reports", Content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat." },
+    { Title: "Overview", Content: "UML Right NOW aims to be an improved, fully-automated version of the UML NOW Schedule Builder. With this web app, students are able to generate entire degree pathways in just a few clicks. By selecting a major offered by UML and optionally uploading an unofficial UML transcript, UML Right NOW will determine what course requirements have yet to be satisfied and sort these courses into one or more semesters. This renders not only Schedule Builder, but the need for academic advising appointments, obsolete. Additionally, students can create an account to save their generated degree pathways for convenient viewing in the future." },
+    { Title: "Generating Degree Pathways", Content: "There is two ways to generate a Pathway: 1) Simply select/type your major and hit generate and you will get a pathway (sign up required for tailored Pathways). 2) Additionally, from selecting a mayor you can upload your transcript and a new pathway with the remaining classes that you will need to Graduate is generated. (More ways coming soon)" },
+    { Title: "Accessing Reports", Content: "Reports are available for signed up user and they will be on your profile page. Additionally, there is the ability of downloading a PDF version of your Pathway.(Coming soon)" },
 ];
 export default function HELP() {
     return (
