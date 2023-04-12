@@ -1,4 +1,3 @@
-// Next
 import { useState, createContext, ReactNode } from "react";
 
 // Types

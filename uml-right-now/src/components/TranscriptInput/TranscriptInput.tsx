@@ -1,30 +1,33 @@
-// Next
-import React, { ChangeEvent, useContext } from "react";
-import { useRouter } from "next/router";
-
-// Contexts
-import { TranscriptContext, TranscriptContextType } from "@/contexts/TranscriptContext";
-
-// Libraries
 import Transcript from "@/Transcript";
+import { TranscriptContext, TranscriptContextType } from "@/contexts/TranscriptContext";
+import { useContext, useState } from "react";
+import { FileUploader } from "react-drag-drop-files";
+import { AiFillFileAdd } from "react-icons/ai";
+
+// Constants
+const FILE_TYPES = ["PDF"];
+const MAX_SIZE_MB = 3;
 
 export default function TranscriptInput() {
     // State
-    const router = useRouter();
+    const [transcriptFile, setTranscriptFile] = useState<File | null>(null);
+    const [errorText, setErrorText] = useState<string | null>(null);
 
     // Contexts
     const { setTranscript } = useContext(TranscriptContext) as TranscriptContextType;
 
     // Event handlers
-    function onFileInputChanged (event: ChangeEvent<HTMLInputElement>) {
-        // Retrieve the input element
-        const inputElement = event.target as HTMLInputElement;
-        if (inputElement === null || inputElement.files === null || inputElement.files.length === 0) {
+    function onFileInputChanged (file: File) {
+        // Store the file
+        setTranscriptFile(file);
+
+        // Remove any error messages
+        setErrorText(null);
+
+        // Ensure that the file exists
+        if (!file) {
             return;
         }
-
-        // Retrieve the file
-        const file = inputElement.files[0];
 
         // Initialize the file reader
         const fileReader = new FileReader();
@@ -51,9 +54,6 @@ export default function TranscriptInput() {
                 res.json().then(data => {
                     // Cache the parsed transcript data
                     setTranscript(new Transcript(data["courses"]));
-
-                    // Redirect the user to the /pathways page
-                    router.push("/pathways");
                 }).catch(err => {
                     console.log(err);
                 });
@@ -62,8 +62,135 @@ export default function TranscriptInput() {
             });
         };
     }
+    function onSizeError() {
+        setErrorText(`Uploaded file must be smaller than ${MAX_SIZE_MB} mb!`);
+    }
+
+    // Helpers
+    function removeFile() {
+        setTranscriptFile(null);
+        setTranscript(null);
+    }
 
     return (
-        <input className="rounded-3xl bg-rowdy-blue text-white mt-20 stroke-2 border-white" type="file" accept=".pdf" onChange={onFileInputChanged} />
+        <div className="
+            flex
+            flex-col
+            justify-start
+            items-center
+        ">
+            <FileUploader classes="
+                text-white
+                text-center
+                text-sm
+                bg-[rgba(0,0,0,0.5)]
+                flex
+                justify-center
+                items-center
+                border-rowdy-blue
+                border-2
+                border-dashed
+                rounded-lg
+                hover:cursor-pointer
+                py-2
+                mx-5
+                w-full
+            " 
+            types={FILE_TYPES}
+            handleChange={onFileInputChanged} 
+            onSizeError={onSizeError}
+            multiple={false}
+            fileOrFiles={transcriptFile}
+            maxSize={MAX_SIZE_MB}
+            >
+                {/* Icon */}
+                <AiFillFileAdd className="
+                    text-rowdy-blue
+                    text-3xl
+                "/>
+
+                {/* Text Container */}
+                <div className="
+                    flex
+                    flex-col
+                    justify-center
+                    items-center
+                    ml-5
+                ">
+                    {/* Text */}
+                    <p className="
+                        flex
+                        justify-center
+                        items-center
+                    ">
+                    Upload a UML Transcript
+                    </p>
+
+                    {/* File Types Container */}
+                    <div className="
+                        flex
+                        justify-center
+                        items-center
+                        gap-2
+                        mt-1
+                    ">
+                        {/* File Types */}
+                        {FILE_TYPES.map(file_type => {
+                            return (
+                                <p className="
+                                    bg-rowdy-blue
+                                    rounded-md
+                                    text-white
+                                    px-2
+                                " key={file_type}>
+                                    {file_type}
+                                </p>
+                            );
+                        })}
+                    </div>
+
+                    {/* Uploaded File */}
+                    {transcriptFile && (
+                        <p className="
+                            italic
+                            mt-2
+                        ">
+                            {transcriptFile.name}
+                        </p>
+                    )}
+                </div>
+            </FileUploader>
+
+            {/* Error Text */}
+            {errorText && (
+                <p className="
+                    text-rowdy-red
+                    italic
+                    mt-2
+                    bg-[rgba(0,0,0,0.7)]
+                    px-2
+                    py-1
+                ">
+                    {errorText}
+                </p>
+            )}
+
+            {/* Remove File Button */}
+            {transcriptFile && <button className="
+                bg-rowdy-red
+                text-white
+                text-sm
+                hover:cursor-pointer
+                px-5
+                py-2
+                rounded-lg
+                mt-2
+                hover:bg-white
+                hover:text-rowdy-red
+                duration-[0.2s]
+            " onClick={removeFile}>
+                Remove File
+            </button>}
+        </div>
     );
 }

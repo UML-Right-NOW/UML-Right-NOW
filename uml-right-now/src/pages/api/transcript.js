@@ -1,9 +1,10 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-
-// Libraries
+import * as dotenv from "dotenv";
 import formidable from "formidable";
 import { PdfReader } from "pdfreader/PdfReader";
 import Course from "../../../lib/Course";
+
+// Load environment variables
+dotenv.config();
 
 // Constants
 const COURSE_RE = new RegExp(/[a-z]{4} [0-9]{4}[a-z]? ([a-z :.&\-()]|\d(?!\.))+ \d+\.\d+ \d+\.\d+ ([a-z]+[+-]? )?\d+\.\d+/, "g");
@@ -27,7 +28,11 @@ export default async function handler(req, res) {
 
     // Parse the PDF file's contents
     const courses = parseCourses(pdfContents);
-    debug_printCourses(courses);
+
+    // Display the results of the parse in development environemnts only
+    if (process.env.NODE_ENV === "development") {
+        debug_printCourses(courses);
+    }
 
     // Respond to the frontend
     res.status(200).json({ courses: courses });
@@ -134,7 +139,7 @@ function parseTransferCourse(transferCourseString) {
     const transferCourseInfo = transferCourseString.split(" ");
 
     // Parse the transfer course information
-    const courseCode = transferCourseInfo[4] + " " + transferCourseInfo[5];
+    const courseCode = transferCourseInfo[4] + "." + transferCourseInfo[5];
     const creditsAttempted = parseFloat(transferCourseInfo[transferCourseInfo.length - 2]);
     const creditsEarned = creditsAttempted;
     const courseName = transferCourseInfo.slice(6, transferCourseInfo.length - 2).join(" ");
@@ -178,7 +183,7 @@ function parseRegularCourse(courseString) {
     const courseInfo = courseString.split(" ");
 
     // Parse the course information
-    const courseCode = courseInfo[0] + " " + courseInfo[1];
+    const courseCode = courseInfo[0] + "." + courseInfo[1];
     const grade = parseFloat(courseInfo[courseInfo.length - 2]);
     let courseName, creditsAttempted, creditsEarned;
     if (isNaN(grade)) { // A letter grade is present in the "Grade" column

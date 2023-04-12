@@ -1,11 +1,6 @@
-// Next
-import React, { useState, useEffect } from "react";
-
-// Components
-import CourseElement from "./CourseElement";
-
-// Libraries
 import Semester from "@/Semester";
+import { useEffect, useState } from "react";
+import CourseElement from "./CourseElement";
 
 // Types
 type SemesterElementProps = {
@@ -57,11 +52,13 @@ export default function SemesterElement({ semester }: SemesterElementProps) {
                 text-xl
                 font-bold
                 mb-3
+                capitalize
             ">{semester.name}</p>
 
             {/* Main Table */}
             <table className="
                 w-full
+                uppercase
             ">
                 <tbody>
                     {/* Table Header */}

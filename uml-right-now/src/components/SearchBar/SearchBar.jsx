@@ -1,15 +1,21 @@
-import { makeStyles } from "@material-ui/core/styles";
+import { majors } from "@/Majors";
+import { TranscriptContext } from "@/contexts/TranscriptContext";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";
+import { makeStyles } from "@mui/styles";
+import { useContext } from "react";
 
-
-const useStyles = makeStyles((theme) => ({
+// Constants
+const useStyles = makeStyles(() => ({
     root: {
         "& .MuiInputLabel-outlined:not(.MuiInputLabel-shrink)": {
             transform: "translate(34px, 20px) scale(1);"
         },
         "&.Mui-focused .MuiInputLabel-outlined": {
             color: "purple"
+        },
+        "&.MuiAutocomplete-root": {
+            width: "100%"
         }
     },
     inputRoot: {
@@ -30,6 +36,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SearchBar() {
+    // Contexts
+    const { setMajor } = useContext(TranscriptContext);
+
+    // Helpers
+    const handleAutocompleteChanged = (event, value) => {
+        // Store the selected major in the global context
+        setMajor(value);
+    };
+
     const classes = useStyles();
     return (
         <Autocomplete
@@ -37,34 +52,10 @@ export default function SearchBar() {
             disablePortal
             id="combo-box-demo"
             classes={classes}
-            options={DegreePaths}
-            sx={{ width: 400, WebkitTextFillColor: "white", }}
-            renderInput={(params) => <TextField {...params} label="Degree pathways" className='stroke-white stroke-7' />}
+            options={majors}
+            sx={{ width: "", WebkitTextFillColor: "white" }}
+            renderInput={(params) => <TextField {...params} label="Major" className='stroke-white stroke-7' />}
+            onChange={handleAutocompleteChanged}
         />
     );
 }
-
-// classes exemples
-const DegreePaths = [
-    { label: "Computer science general", year: 2023 },
-    { label: "Computer science software", year: 2023 },
-    { label: "Biology", year: 2023 },
-    { label: "Lawyer", year: 2023 },
-    { label: "Math", year: 2023 },
-    { label: "MIS", year: 2023 },
-    { label: "Software degree", year: 2023 },
-    {
-        label: "Buisseness",
-        year: 2022,
-    },
-    { label: "Accountant", year: 2023 },
-    { label: "English", year: 2023 },
-    {
-        label: "French",
-        year: 2003,
-    },
-    {
-        label: "Geography",
-        year: 2023,
-    }
-];

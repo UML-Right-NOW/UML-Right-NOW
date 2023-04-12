@@ -1,15 +1,13 @@
 import React, { useState, useRef, MutableRefObject }from "react";
-import { FAQ } from "../../../lib/Help_text";
 
 // Types
-type AccordionItemType = {
-    data: {
+export type AccordionItemType = {
+    
         question: string,
         answer: string
-    }
 };
 
-const AccordionItem = ({ data }: AccordionItemType) => {
+const AccordionItem = ( data : AccordionItemType) => {
 
     const [show, setshow] = useState(false);
     const contentReference = useRef() as MutableRefObject<HTMLDivElement>;
@@ -67,15 +65,15 @@ const AccordionItem = ({ data }: AccordionItemType) => {
     );
 };
   
-const Accordion = () => {
+function Accordion({Items}:{Items: AccordionItemType[]}) {
     return (
         <ul >
-            {FAQ.map((data, index) => (
-                <AccordionItem key={index} data={data} />
+            {Items.map((item:AccordionItemType, index) => (
+                <AccordionItem  key={index} question={item.question} answer={item.answer}/>
             ))}
         </ul>
     );
-};
+}
 
 export default Accordion;
 
