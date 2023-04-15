@@ -1,15 +1,13 @@
-import DegreePathway from "@/DegreePathway";
-import PathwayGenerator from "@/PathwayGenerator";
 import PathwayHelp from "@/components/PathwayHelp/PathwayHelp";
 import PathwayTable from "@/components/PathwayTable/PathwayTable";
+import PrintPathway from "@/components/PdfFile/Print";
 import { TranscriptContext, TranscriptContextType } from "@/contexts/TranscriptContext";
 import { useContext, useEffect, useState } from "react";
 import { SpinnerDotted } from "spinners-react";
-
-// Libraries
+import PrimaryButton from "@/components/Inputs/Buttons/PrimaryButton";
+//libraries
 import DegreePathway from "@/DegreePathway";
 import PathwayGenerator from "@/PathwayGenerator";
-
 // Constants
 const ROWDY_BLUE_COLOR = "#0369B1";
 
@@ -18,10 +16,10 @@ export default function Pathways() {
     const { transcript, major } = useContext(TranscriptContext) as TranscriptContextType;
     const [degreePathway, setDegreePathway] = useState<DegreePathway | null>(null);
     const [isLoading, setIsLoading] = useState(false);
-    const [ShowPathway, PrintVersion] = useState(true);
+    const [Web_View, PrintVersion] = useState(true);
     // allow to change from the pintable vertion to the default
     const toggleVersions = () => {
-        PrintVersion(!ShowPathway);
+        PrintVersion(!Web_View);
     };
     useEffect(() => {
         if (major) { // A major has been provided => generate a degree pathway
@@ -61,28 +59,11 @@ export default function Pathways() {
                     -translate-y-1/2
                 "
             />
-           
             {/* Degree Pathway */}
             {degreePathway && (
-                <>
-                    <button className=" bg-rowdy-blue
-            text-white 
-            text-lg 
-            text-center
-            sm:px-3 sm:py-1
-            md:px-2 md:py-1
-            lg:px-6 lg:py-3
-            rounded-full 
-            flex 
-            justify-center
-            items-center
-            border-2
-             border-rowdy-blue
-            [&>*]:ml-2
-            hover:bg-white
-            hover:text-rowdy-blue
-            duration-[0.2s]" onClick={toggleVersions}>{!ShowPathway ? "Show Web-View" : "Show Printable"}</button>
-                    {ShowPathway ? 
+                <>  {/* button hiden on small screens as print is not center */}
+                    <PrimaryButton  classes="hidden md:block" onClick={toggleVersions}>{!Web_View ? "Show Web-View" : "Show Printable"}</PrimaryButton>
+                    {Web_View ? 
                         // web-view version
                         <> 
                             <h1 className="

@@ -22,14 +22,13 @@ export default function PrintableTable({ degreePathway }: PathwayTableProps) {
 
     return (
         <div className="
-        grid
-        grid-cols-1
-        justify-center
-        items-center
-        gap-y-4
-        max-w-5xl
-        mx-auto
-        ">
+            justify-start
+            items-center
+            grid-cols-1
+            gap-y-4
+            flex-col
+            "
+        > 
             {semesterElements}
         </div>
     );
