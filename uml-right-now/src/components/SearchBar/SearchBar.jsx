@@ -53,8 +53,8 @@ export default function SearchBar() {
             id="combo-box-demo"
             classes={classes}
             options={majors}
-            sx={{ width: "", WebkitTextFillColor: "white" }}
-            renderInput={(params) => <TextField {...params} label="Major" className='stroke-white stroke-7' />}
+            sx={{ width: "auto", WebkitTextFillColor: "white" }}
+            renderInput={(params) => <TextField {...params} label="Major" className='stroke-white stroke-7' required />}
             onChange={handleAutocompleteChanged}
         />
     );
