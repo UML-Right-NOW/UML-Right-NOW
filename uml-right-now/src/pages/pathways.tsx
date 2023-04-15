@@ -1,18 +1,14 @@
-// Next
-import { useContext, useEffect, useState } from "react";
-
-// Contexts
-import { TranscriptContext, TranscriptContextType } from "@/contexts/TranscriptContext";
-
-// Components
+import DegreePathway from "@/DegreePathway";
+import PathwayGenerator from "@/PathwayGenerator";
 import PathwayHelp from "@/components/PathwayHelp/PathwayHelp";
 import PathwayTable from "@/components/PathwayTable/PathwayTable";
+import { TranscriptContext, TranscriptContextType } from "@/contexts/TranscriptContext";
+import { useContext, useEffect, useState } from "react";
 import { SpinnerDotted } from "spinners-react";
 
 // Libraries
 import DegreePathway from "@/DegreePathway";
 import PathwayGenerator from "@/PathwayGenerator";
-import PrintPathway from "@/components/PdfFile/Print";
 
 // Constants
 const ROWDY_BLUE_COLOR = "#0369B1";
@@ -42,7 +38,7 @@ export default function Pathways() {
     }, [transcript, major]);
 
     return (
-        <div className="
+        <main className="
             flex
             flex-col
             justify-start
@@ -116,6 +112,6 @@ export default function Pathways() {
 
             {/* Help Dialogue */}
             {!isLoading && !degreePathway && <PathwayHelp />}
-        </div>
+        </main>
     );
 }

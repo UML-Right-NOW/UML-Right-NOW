@@ -3,7 +3,6 @@ import { FcGraduationCap, FcLeftDown2, FcViewDetails } from "react-icons/fc";
 import PathWayGenerated from "../PathwayFolder/PathwaysGenerated.jsx";
 import ProfileCard from "../ProfileCard/ProfileCard.jsx";
 
-
 const SideNav = () => {
     const [open, setOpen] = useState(true);
     const [whatWasClicked, setwhatWasClicked] = useState(false);

@@ -1,8 +1,7 @@
-// Libraries
-import Transcript from "./Transcript";
+import Course from "./Course";
 import DegreePathway from "./DegreePathway";
 import Semester from "./Semester";
-import Course from "./Course";
+import Transcript from "./Transcript";
 
 export default class PathwayGenerator {
     static async generateDegreePathway(major: string, transcript: Transcript | null): Promise<DegreePathway> {
@@ -14,7 +13,7 @@ export default class PathwayGenerator {
                     const completedCourses = transcript.getCompletedCourses();
 
                     // 3. Remove all completed courses from the full degree pathway
-                    fullPathway.removeCompletedCourses(completedCourses);
+                    fullPathway.matchCompletedCourses(completedCourses);
                 } else {
                     // 4. Simply organize the pathway's semesters if no transcript was provided
                     fullPathway.organizeSemesters();

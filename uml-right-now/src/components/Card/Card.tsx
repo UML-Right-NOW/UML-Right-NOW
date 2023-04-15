@@ -1,4 +1,5 @@
 import { Card, Text} from "@nextui-org/react";
+
 interface Props {
     Title: string;
     Content: string;

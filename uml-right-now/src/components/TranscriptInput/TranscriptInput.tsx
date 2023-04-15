@@ -1,15 +1,8 @@
-// Next
-import React, { useContext, useState } from "react";
-
-// Components
+import Transcript from "@/Transcript";
+import { TranscriptContext, TranscriptContextType } from "@/contexts/TranscriptContext";
+import { useContext, useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
 import { AiFillFileAdd } from "react-icons/ai";
-
-// Contexts
-import { TranscriptContext, TranscriptContextType } from "@/contexts/TranscriptContext";
-
-// Libraries
-import Transcript from "@/Transcript";
 
 // Constants
 const FILE_TYPES = ["PDF"];

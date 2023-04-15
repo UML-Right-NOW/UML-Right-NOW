@@ -1,13 +1,8 @@
-// Next
-import { NextApiRequest, NextApiResponse } from "next";
-
-// Database
-import clientPromise from "@/mongo";
-
-// Libraries
-import DegreePathway from "@/DegreePathway";
 import Course from "@/Course";
+import DegreePathway from "@/DegreePathway";
 import Semester from "@/Semester";
+import clientPromise from "@/mongo";
+import { NextApiRequest, NextApiResponse } from "next";
 
 // Types
 type Data = {

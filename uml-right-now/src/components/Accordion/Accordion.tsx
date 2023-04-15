@@ -1,6 +1,5 @@
 import React, { useState, useRef, MutableRefObject }from "react";
 
-
 // Types
 export type AccordionItemType = {
     
