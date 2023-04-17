@@ -1,5 +1,4 @@
 import PathwayHelp from "@/components/PathwayHelp/PathwayHelp";
-import PathwayTable from "@/components/PathwayTable/PathwayTable";
 import PrintPathway from "@/components/PdfFile/Print";
 import { TranscriptContext, TranscriptContextType } from "@/contexts/TranscriptContext";
 import { useContext, useEffect, useState } from "react";
@@ -16,11 +15,6 @@ export default function Pathways() {
     const { transcript, major } = useContext(TranscriptContext) as TranscriptContextType;
     const [degreePathway, setDegreePathway] = useState<DegreePathway | null>(null);
     const [isLoading, setIsLoading] = useState(false);
-    const [Web_View, PrintVersion] = useState(true);
-    // allow to change from the pintable vertion to the default
-    const toggleVersions = () => {
-        PrintVersion(!Web_View);
-    };
     useEffect(() => {
         if (major) { // A major has been provided => generate a degree pathway
             setIsLoading(true);
@@ -61,34 +55,8 @@ export default function Pathways() {
             />
             {/* Degree Pathway */}
             {degreePathway && (
-                <>  {/* button hiden on small screens as print is not center */}
-                    <PrimaryButton  classes="hidden md:block" onClick={toggleVersions}>{!Web_View ? "Show Web-View" : "Show Printable"}</PrimaryButton>
-                    {Web_View ? 
-                        // web-view version
-                        <> 
-                            <h1 className="
-                      text-xl
-                      mb-10
-                      text-center
-                      px-5
-                      py-2
-                  bg-light-gray
-                    rounded-xl
-                        mx-5
-                    ">
-                        Your generated pathway for:
-                                <br></br>
-                                <span className="
-                            text-rowdy-blue
-                        ">{major}</span>
-                            </h1>
-                            <PathwayTable degreePathway={degreePathway} 
-                            /> 
-                        </>
-                        : //printable version
-                        <PrintPathway degreePathway={degreePathway} major={major} />}
-                </>
                 
+                <PrintPathway degreePathway={degreePathway} major={major} isColumn={true} />
             )}
 
             {/* Help Dialogue */}
