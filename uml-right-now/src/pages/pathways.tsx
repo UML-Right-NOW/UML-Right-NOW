@@ -3,7 +3,6 @@ import PrintPathway from "@/components/PdfFile/Print";
 import { TranscriptContext, TranscriptContextType } from "@/contexts/TranscriptContext";
 import { useContext, useEffect, useState } from "react";
 import { SpinnerDotted } from "spinners-react";
-import PrimaryButton from "@/components/Inputs/Buttons/PrimaryButton";
 //libraries
 import DegreePathway from "@/DegreePathway";
 import PathwayGenerator from "@/PathwayGenerator";
@@ -56,7 +55,7 @@ export default function Pathways() {
             {/* Degree Pathway */}
             {degreePathway && (
                 
-                <PrintPathway degreePathway={degreePathway} major={major} isColumn={true} />
+                <PrintPathway degreePathway={degreePathway} major={major} />
             )}
 
             {/* Help Dialogue */}

@@ -9,17 +9,23 @@ interface PrintPathwayProps {
     isColumn?: boolean;
 }
 
-const PrintPathway: React.FC<PrintPathwayProps> = ({ degreePathway, major, isColumn }) => {
+const PrintPathway: React.FC<PrintPathwayProps> = ({ degreePathway, major }) => {
     const componentRef = useRef<HTMLDivElement>(null);
+    const [isColumn,setColumn]= useState(true);
+    const [isLoading, setIsLoading] = useState(false);
     const handlePrint = useReactToPrint({
         
-        onBeforeGetContent: () => {
-            isColumn = ! isColumn;
-
+        onBeforeGetContent: async () => {
+            // Wait for component to be updated before getting its content
+            setIsLoading(true);
+            setColumn(false);
+            await new Promise((resolve) => setTimeout(resolve, 100));
+            
         },
         content: () => componentRef.current,
         onAfterPrint: () =>{
-            isColumn = ! isColumn;
+            setColumn(true);
+            setIsLoading(false);
             
         }
     });
@@ -31,7 +37,7 @@ const PrintPathway: React.FC<PrintPathwayProps> = ({ degreePathway, major, isCol
                 fixed 
                 bottom-10
                 "
-                onClick={handlePrint}> Print Your Pathway
+                onClick={handlePrint}> {isLoading ? "Getting ready" : "Print Your Pathway"}
                 </PrimaryButton>}
             <div
                 ref={componentRef}>
