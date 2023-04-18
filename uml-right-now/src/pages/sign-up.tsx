@@ -78,6 +78,7 @@ export default function SignUp() {
         //Validate data.  If data is good, sign up user and route to home page
         const isValid = validateData();
         if(isValid) {
+            data.email = data.email.toLowerCase();
             try {
                 setLoading(true);
                 const apiRes = await axios.post("/api/auth/signup", data);
@@ -121,7 +122,7 @@ export default function SignUp() {
         return null;
     }
 
-    console.log(submitError);
+    //console.log(submitError);
 
     return (
         <main>
