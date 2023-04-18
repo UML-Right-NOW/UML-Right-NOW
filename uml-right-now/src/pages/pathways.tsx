@@ -1,11 +1,11 @@
+import DegreePathway from "@/DegreePathway";
+import PathwayGenerator from "@/PathwayGenerator";
 import PathwayHelp from "@/components/PathwayHelp/PathwayHelp";
 import PrintPathway from "@/components/PdfFile/Print";
 import { TranscriptContext, TranscriptContextType } from "@/contexts/TranscriptContext";
 import { useContext, useEffect, useState } from "react";
 import { SpinnerDotted } from "spinners-react";
-//libraries
-import DegreePathway from "@/DegreePathway";
-import PathwayGenerator from "@/PathwayGenerator";
+
 // Constants
 const ROWDY_BLUE_COLOR = "#0369B1";
 
@@ -14,6 +14,7 @@ export default function Pathways() {
     const { transcript, major } = useContext(TranscriptContext) as TranscriptContextType;
     const [degreePathway, setDegreePathway] = useState<DegreePathway | null>(null);
     const [isLoading, setIsLoading] = useState(false);
+
     useEffect(() => {
         if (major) { // A major has been provided => generate a degree pathway
             setIsLoading(true);
@@ -23,9 +24,7 @@ export default function Pathways() {
             }).catch(err => {
                 console.log(err);
             });
-        } else { // No major was provided => display a message for the user
-
-        }
+        }     
     }, [transcript, major]);
 
     return (
@@ -53,10 +52,7 @@ export default function Pathways() {
                 "
             />
             {/* Degree Pathway */}
-            {degreePathway && (
-                
-                <PrintPathway degreePathway={degreePathway} major={major} />
-            )}
+            {degreePathway && <PrintPathway degreePathway={degreePathway} major={major} />}
 
             {/* Help Dialogue */}
             {!isLoading && !degreePathway && <PathwayHelp />}
