@@ -23,6 +23,7 @@ export default function Login() {
     };
 
     const loginUser = async ({email, password} : LoginUserParams) => {
+        email = email.toLowerCase();
         const res = await signIn("credentials", {
             redirect: false,
             email,
