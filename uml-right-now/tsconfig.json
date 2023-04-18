@@ -30,7 +30,7 @@
     "**/*.ts",
     "**/*.tsx",
     "src/components/SearchBar/SearchBar.jsx"
-  ],
+, "src/middleware.js"  ],
   "exclude": [
     "node_modules"
   ]
