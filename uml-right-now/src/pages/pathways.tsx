@@ -1,7 +1,7 @@
 import DegreePathway from "@/DegreePathway";
 import PathwayGenerator from "@/PathwayGenerator";
 import PathwayHelp from "@/components/PathwayHelp/PathwayHelp";
-import PathwayTable from "@/components/PathwayTable/PathwayTable";
+import PrintPathway from "@/components/PdfFile/Print";
 import { TranscriptContext, TranscriptContextType } from "@/contexts/TranscriptContext";
 import { useContext, useEffect, useState } from "react";
 import { SpinnerDotted } from "spinners-react";
@@ -24,9 +24,7 @@ export default function Pathways() {
             }).catch(err => {
                 console.log(err);
             });
-        } else { // No major was provided => display a message for the user
-
-        }
+        }     
     }, [transcript, major]);
 
     return (
@@ -53,29 +51,8 @@ export default function Pathways() {
                     -translate-y-1/2
                 "
             />
-
             {/* Degree Pathway */}
-            {degreePathway && (
-                <>
-                    <h1 className="
-                        text-xl
-                        mb-10
-                        text-center
-                        px-5
-                        py-2
-                        bg-light-gray
-                        rounded-xl
-                        mx-5
-                    ">
-                        Your generated pathway for:
-                        <br></br>
-                        <span className="
-                            text-rowdy-blue
-                        ">{major}</span>
-                    </h1>
-                    <PathwayTable degreePathway={degreePathway} />
-                </>
-            )}
+            {degreePathway && <PrintPathway degreePathway={degreePathway} major={major} />}
 
             {/* Help Dialogue */}
             {!isLoading && !degreePathway && <PathwayHelp />}
