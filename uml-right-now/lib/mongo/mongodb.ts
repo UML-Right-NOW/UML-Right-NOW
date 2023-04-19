@@ -5,10 +5,10 @@ import mongoose from "mongoose";
 dotenv.config();
 
 // Retrieve and validate the MongoDB URI
-const URI = process.env.MONGO_URI;
+const URI = process.env.MONGOOSE_URI;
 
 if(!URI) {
-    throw new Error("Invalid env variable: MONGO_URI");
+    throw new Error("Invalid env variable: MONGOOSE_URI");
 }
 
 export const connectToMongoDB = async () => {
