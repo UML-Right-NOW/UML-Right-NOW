@@ -30,6 +30,11 @@ export default function Home() {
         router.push("/pathways");
     }
 
+    function handleSubmitTwo(event: FormEvent) {
+        event.preventDefault();
+        router.push("/help");
+    }
+
     // Event handlers
     const handleClick = () => {
         router.push("/sign-up");
@@ -44,7 +49,6 @@ export default function Home() {
 
                 {/* Subheading */}
                 <h2 className="text-center text-2xl sm:text-3xl md:text-4xl text-white mt-5 italic px-10">Your custom degree pathway is just a few clicks away!</h2>
-
                 {/* Main Form */}
                 <form onSubmit={handleSubmit} className="w-full mt-10 flex flex-col justify-center items-center p-10 bg-black border-white border-t-1 bg-opacity-20 mb-32">
                     {/* Search Bar */}
@@ -55,15 +59,18 @@ export default function Home() {
 
                     {/* Transcript Input */}
                     <h3 className="text-2xl text-white mt-10">Optionally...</h3>
-                    <div className="mt-5" >
+                    <div className="mt-5 flex flex-row" >
                         <TranscriptInput />
+                        <button className="bg-rowdy-blue text-white text-3xl py-2 px-4 cursor-pointer animate-bounce rounded-full m-2 opacity-60" onClick={handleSubmitTwo}>?</button>
                     </div>
 
                     {/* Submit Button */}
                     <PrimaryButton classes="mt-20" type="submit">
                         Generate <AiOutlineCheck />
                     </PrimaryButton>
+
                 </form>
+
             </div>
 
             {/* Lower Section */}
