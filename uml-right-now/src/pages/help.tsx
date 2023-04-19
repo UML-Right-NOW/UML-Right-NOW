@@ -18,8 +18,8 @@ const HelpCards = [
 
 {/*Images for the carousel*/}
 const Images = [
-    
-    "/HelpImages/SisLogin.png",
+    "/HelpImages/SisURL.png",
+    "/HelpImages/findSSL.png",
     "/HelpImages/choose lowell.png",
     "/HelpImages/Sign in.png",
     "/HelpImages/click academics.png",
