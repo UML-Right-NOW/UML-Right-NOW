@@ -17,11 +17,6 @@ module.exports = {
                 "light-gray": "#EFEFEF",
                 "deep-grey": "#979797"
             },
-            keyframes: {
-                "slide-in": {
-                    "100%": { transform: "translateX(0%)" }
-                }
-            },
         },
     },
     plugins: [],
