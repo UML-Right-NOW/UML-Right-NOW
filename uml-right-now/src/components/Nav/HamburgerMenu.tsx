@@ -1,6 +1,8 @@
 import PageInfo from "@/PageInfo";
+import { HamburgerMenuContext, HamburgerMenuContextType } from "@/contexts/HamburgerMenuContext";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { useContext } from "react";
 import SignOutButton from "../Inputs/Buttons/SignOutButton";
 
 // Types
@@ -9,6 +11,9 @@ type HamburgerMenuProps = {
 };
 
 export default function HamburgerMenu({ pages }: HamburgerMenuProps) {
+    // Contexts
+    const { setHamburgerMenuIsVisible } = useContext(HamburgerMenuContext) as HamburgerMenuContextType;
+
     // State
     const session = useSession();
 
@@ -30,7 +35,7 @@ export default function HamburgerMenu({ pages }: HamburgerMenuProps) {
             w-[200px]
             flex
             z-[90]
-        ">
+        " onClick={() => setHamburgerMenuIsVisible(false)}>
             {/* Menu */}
             <div className="
                 bg-rowdy-blue
