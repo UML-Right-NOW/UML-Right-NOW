@@ -1,4 +1,4 @@
-import DegreePathway from "@/DegreePathway";
+import DegreePathway from "@/classes/DegreePathway";
 import PrimaryButton from "@/components/Inputs/Buttons/PrimaryButton";
 import PathwayTable from "@/components/PathwayTable/PathwayTable";
 import React, { useRef, useState } from "react";

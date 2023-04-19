@@ -1,12 +1,10 @@
 import Page from "@/components/Page/Page";
-import "@/styles/globals.css";
-import { SSRProvider } from "@react-aria/ssr";
-import type { AppProps } from "next/app";
-
-// Contexts
 import HamburgerMenuContextProvider from "@/contexts/HamburgerMenuContext";
 import TranscriptContextProvider from "@/contexts/TranscriptContext";
+import "@/styles/globals.css";
+import { SSRProvider } from "@react-aria/ssr";
 import { SessionProvider } from "next-auth/react";
+import type { AppProps } from "next/app";
 
 export default function App({ Component, pageProps }: AppProps) {
     return (

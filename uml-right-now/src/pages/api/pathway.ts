@@ -1,7 +1,9 @@
-import Course from "@/Course";
-import DegreePathway from "@/DegreePathway";
-import Semester from "@/Semester";
+import CourseBuilder from "@/builders/CourseBuilder";
+import CourseCode from "@/classes/CourseCode";
+import DegreePathway from "@/classes/DegreePathway";
+import Semester from "@/classes/Semester";
 import clientPromise from "@/mongo";
+import CoursesManager from "@/singletons/CoursesManager";
 import { NextApiRequest, NextApiResponse } from "next";
 
 // Types
@@ -34,7 +36,8 @@ export default async function handler(
         return;
     }
 
-    let pathway = new DegreePathway([]);
+    // Initialize the CoursesManager instance if applicable
+    await CoursesManager.instance.waitForReady();
 
     // Select the DB
     const db = client.db("urn");
@@ -47,23 +50,38 @@ export default async function handler(
 
     // Execute the query
     const pathwayDocument = await collection.findOne(query);
-    if (pathwayDocument) {
-        // Retrieve the list of courses from the document
-        const courses: Course[] = [];
-        pathwayDocument["courses"].forEach((course: CourseDocument) => {
-            courses.push(new Course(
-                course["code"],
-                course["name"],
-                parseFloat(course["credits"]),
-                0.0
-            ));
+    if (!pathwayDocument) {
+        res.status(500).send({ message: "Failed to retrieve data" });
+        return;
+    }
+
+    // Retrieve the list of courses from the document
+    const courses = pathwayDocument["courses"].map((course: CourseDocument) => {
+        // Initialize a course builder
+        const courseCode = new CourseCode(course["code"]);
+        const builder = new CourseBuilder()
+            .code(courseCode)
+            .name(course["name"])
+            .creditsAttempted(parseFloat(course["credits"]))
+            .creditsEarned(0);
+
+        // Attempt to find a matching couse in the catalog
+        const matchingCourse = CoursesManager.instance.courses.find(umlCourse => {
+            return courseCode.equals(umlCourse.code);
         });
 
-        // Store all the courses in a single semester
-        pathway = new DegreePathway([
-            new Semester("", courses)
-        ]);
-    }
+        if (matchingCourse) {
+            builder.availableFall(matchingCourse.availableFall);
+            builder.availableSpring(matchingCourse.availableSpring);
+        }
+
+        return builder.getCourse();
+    });
+
+    // Store all the courses in a single semester
+    const pathway = new DegreePathway([
+        new Semester("", courses)
+    ]);
 
     // Return the degree pathway to the frontend
     res.status(200).json({ pathway: pathway });

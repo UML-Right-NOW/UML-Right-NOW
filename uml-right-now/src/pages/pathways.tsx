@@ -1,5 +1,5 @@
-import DegreePathway from "@/DegreePathway";
-import PathwayGenerator from "@/PathwayGenerator";
+import DegreePathway from "@/classes/DegreePathway";
+import PathwayGenerator from "@/classes/PathwayGenerator";
 import PrimaryButton from "@/components/Inputs/Buttons/PrimaryButton";
 import PathwayHelp from "@/components/PathwayHelp/PathwayHelp";
 import PrintPathway from "@/components/PdfFile/Print";
@@ -40,9 +40,7 @@ export default function Pathways() {
     // Initialization
     useEffect(() => {
         if (major) { // A major has been provided => generate a degree pathway
-            console.log("pre setIsLoading(true)");
             setIsLoading(true);
-            console.log("post setIsLoading(true)");
             PathwayGenerator.generateDegreePathway(major, transcript).then(pathway => {
                 setDegreePathway(pathway);
                 setIsLoading(false);

@@ -1,4 +1,5 @@
 import Course from "./Course";
+import CourseCode from "./CourseCode";
 
 export default class Semester {
     // Members
@@ -36,10 +37,7 @@ export default class Semester {
      * @param courseCode    The course code associated with the desired course
      * @returns             The desired course if its found; null otherwise
      */
-    getCourseByCode(courseCode: string): Course | null {
-        const courses = this.courses.filter(course => course.code === courseCode);
-        return courses.length === 1
-            ? courses[0]
-            : null;
+    getCourseByCode(courseCode: CourseCode): Course | undefined {
+        return this.courses.find(course => course.code.equals(courseCode));
     }
 }

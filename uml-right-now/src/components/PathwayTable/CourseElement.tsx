@@ -1,6 +1,8 @@
+import CourseCode from "@/classes/CourseCode";
+
 // Types
 type CourseElementProps = {
-    courseCode: string,
+    courseCode: CourseCode,
     courseName: string,
     courseCredits: number | string
 };
@@ -15,7 +17,7 @@ export default function CourseElement({ courseCode, courseName, courseCredits }:
             sm:text-sm
             sm:[&>td]:p-4
         ">
-            <td>{courseCode}</td>
+            <td>{courseCode.value}</td>
             <td className="
                 text-center
             ">{courseName}</td>

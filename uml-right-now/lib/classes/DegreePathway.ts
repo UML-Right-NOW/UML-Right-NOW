@@ -1,8 +1,10 @@
-import Semester from "./Semester";
 import Course from "./Course";
+import CourseCode from "./CourseCode";
+import Semester from "./Semester";
 
 // Constants
 const MIN_CREDITS_PER_SEMESTER = 12;
+const MAX_CREDITS_PER_SEMESTER = 16;
 const SEPTEMBER_INT = 9;
 
 export default class DegreePathway {
@@ -77,13 +79,13 @@ export default class DegreePathway {
      */
     private static _matchExplicitCourseRequirements(remainingCourses: Course[], completedCourses: Course[]): [Course[], Course[]] {
         // Filter explicit course matches
-        const usedCourseCodes: string[] = [];
+        const usedCourseCodes: CourseCode[] = [];
         remainingCourses = remainingCourses.filter(remainingCourse => {
             // Retrieve the current course code
             const currCourseCode = remainingCourse.code;
 
             // EDGE CASE: check for requirements that can be satisfied by multiple courses
-            const courseCodeOptions: string[] = [];
+            const courseCodeOptions: CourseCode[] = [];
             if (currCourseCode.includes("/")) {
                 // Split the course code by the optional delimeter (/)
                 const currCourseCodeSplit = currCourseCode.split("/");
@@ -91,10 +93,10 @@ export default class DegreePathway {
                 // Iterate over each substring
                 for (let i = 0; i < currCourseCodeSplit.length; i++) {
                     // Retrieve the current course code
-                    const curr = currCourseCodeSplit[i].trim();
+                    const curr = currCourseCodeSplit[i];
 
                     // Ensure that the course code is valid
-                    if (!DegreePathway._isValidCourseCode(curr)) {
+                    if (!curr.isValid()) {
                         // Clear the array of course code options
                         courseCodeOptions.length = 0;
 
@@ -112,14 +114,14 @@ export default class DegreePathway {
                 ? completedCourses.find(completedCourse => { // One or more cours code options are present => each one must be checked
                     for (let i = 0; i < courseCodeOptions.length; i++) {
                         const curr = courseCodeOptions[i];
-                        if (DegreePathway._courseCodesEqual(curr, completedCourse.code)) {
+                        if (curr.equals(completedCourse.code)) {
                             return true;
                         }
                     }
                     return false;
                 })
                 : completedCourses.find(completedCourse => { // No course code options are present => look for a direct match
-                    return DegreePathway._courseCodesEqual(currCourseCode, completedCourse.code);
+                    return currCourseCode.equals(completedCourse.code);
                 });
 
             if (matchingCourse === undefined) { // The current course wasn't found => keep it in the array
@@ -143,10 +145,10 @@ export default class DegreePathway {
      * @param usedCourseCodes       An array of courses codes that have been applied
      * @returns                     An array of courses that haven't yet been applied
      */
-    private static _getUnusedCourses(completedCourses: Course[], usedCourseCodes: string[]): Course[] {
+    private static _getUnusedCourses(completedCourses: Course[], usedCourseCodes: CourseCode[]): Course[] {
         return completedCourses.filter(completedCourse => {
             // Search for the completed course in the list of used courses
-            const matchingCourse = usedCourseCodes.find(usedCourseCode => DegreePathway._courseCodesEqual(usedCourseCode, completedCourse.code));
+            const matchingCourse = usedCourseCodes.find(usedCourseCode => usedCourseCode.equals(completedCourse.code));
 
             // If the current course wasn't found in the list of used courses, keep it in the list of unused courses
             return matchingCourse === undefined;
@@ -181,18 +183,18 @@ export default class DegreePathway {
         // Match as many unused courses to department elective requirements as possible
         departmentElectives = departmentElectives.filter(departmentElective => {
             // Retrieve the current department elective's department code
-            const departmentCode1 = DegreePathway._getCourseDepartment(departmentElective.code);
+            const departmentCode1 = departmentElective.code.getDepartment();
 
             // Attempt to find an unused course with the same department
             const matchingUnusedCourse = unusedCourses.find(unusedCourse => {
-                const departmentCode2 = DegreePathway._getCourseDepartment(unusedCourse.code);
-                return DegreePathway._courseCodesEqual(departmentCode1, departmentCode2);
+                const departmentCode2 = unusedCourse.code.getDepartment();
+                return departmentCode1 === departmentCode2;
             });
 
             // If an unused course falls within the same department, both it and the current elective must be removed
             if (matchingUnusedCourse !== undefined) {
                 // Remove the matched course from the list of unused courses
-                unusedCourses = unusedCourses.filter(unusedCourse => !DegreePathway._courseCodesEqual(unusedCourse.code, matchingUnusedCourse.code));
+                unusedCourses = unusedCourses.filter(unusedCourse => !unusedCourse.code.equals(matchingUnusedCourse.code));
 
                 // Remove the current department elective from the list
                 return false;
@@ -207,7 +209,7 @@ export default class DegreePathway {
 
     private static _matchGeneralElectives(generalElectives: Course[], unusedCourses: Course[]): [Course[], Course[]] {
         // Initialization
-        const usedCourseCodes: string[] = [];
+        const usedCourseCodes: CourseCode[] = [];
 
         // Match as many unused courses to general elective requirements as possible
         generalElectives = generalElectives.filter((_generalElective, index) => {
@@ -224,7 +226,7 @@ export default class DegreePathway {
             // Iterate over all used course codes
             for (let i = 0; i < usedCourseCodes.length; i++) {
                 const curr = usedCourseCodes[i];
-                if (DegreePathway._courseCodesEqual(curr, unusedCourse.code)) {
+                if (curr.equals(unusedCourse.code)) {
                     // The current course code was found in the list of used course codes => remove the course from the array
                     return false;
                 }
@@ -322,7 +324,7 @@ export default class DegreePathway {
      * @returns             An array of department electives
      */
     private static _getDepartmentElectives(courses: Course[]): Course[] {
-        return courses.filter(course => DegreePathway._isDepartmentElective(course.code));
+        return courses.filter(course => course.code.isDepartmentElective());
     }
 
     /**
@@ -331,7 +333,7 @@ export default class DegreePathway {
      * @returns             An array of general electives
      */
     private static _getGeneralElectives(courses: Course[]): Course[] {
-        return courses.filter(course => DegreePathway._isGeneralElective(course.code));
+        return courses.filter(course => course.code.isGeneralElective());
     }
 
     /**
@@ -341,114 +343,7 @@ export default class DegreePathway {
      */
     private static _getMiscCourses(courses: Course[]): Course[] {
         return courses.filter(course => {
-            return !DegreePathway._isDepartmentElective(course.code) && !DegreePathway._isGeneralElective(course.code);
+            return !course.code.isDepartmentElective() && !course.code.isGeneralElective();
         });
-    }
-
-    /**
-     * Determines whether a given course code represents a department elective.
-     * @param courseCode    The course code to check
-     * @returns             true if the course code represents a department elective; false otherwise
-     */
-    private static _isDepartmentElective(courseCode: string): boolean {
-        // Retrieve the department code and course number
-        const departmentCode = DegreePathway._getCourseDepartment(courseCode);
-        const courseNumber = DegreePathway._getCourseNumber(courseCode);
-
-        return departmentCode !== "xxxx" && courseNumber === "xxxx";
-    }
-
-    /**
-     * Determines whether a given course code represents a general elective
-     * @param courseCode    The course code to check
-     * @returns             true if the course code represents a department elective; false otherwise
-     */
-    private static _isGeneralElective(courseCode: string): boolean {
-        // Retrieve the department code and course number
-        const departmentCode = DegreePathway._getCourseDepartment(courseCode);
-        const courseNumber = DegreePathway._getCourseNumber(courseCode);
-
-        return departmentCode === "xxxx" && courseNumber === "xxxx";
-    }
-
-    /**
-     * Retrieves a course's department code.
-     * @param courseCode    The course code from which to extract the deparmtent code
-     * @returns             The department code if the provided course code is valid; null otherwise
-     */
-    private static _getCourseDepartment(courseCode: string): string | null {
-        const split = courseCode.split(".");
-        if (split.length !== 2) {
-            return null;
-        }
-
-        return split[0];
-    }
-
-    /**
-     * Retrieves a course's number
-     * @param courseCode    The course code from which to extract the course number
-     * @returns             The course number if the provided course code is valid; null otherwise
-     */
-    private static _getCourseNumber(courseCode: string): string | null {
-        const split = courseCode.split(".");
-        if (split.length !== 2) {
-            return null;
-        }
-
-        return split[1];
-    }
-
-    /**
-     * Determines whether a given string represents a valid course code
-     * @param str   The string to check
-     * @returns     true if the given string represents a valid course code; false otherwise
-     */
-    private static _isValidCourseCode(str: string) : boolean {
-        // Retrieve the course code and department 
-        const courseDepartment = DegreePathway._getCourseDepartment(str);
-        const courseNumber = DegreePathway._getCourseNumber(str);
-
-        // Null check
-        if (courseDepartment === null || courseNumber === null) {
-            return false;
-        }
-
-        return courseDepartment.length === 4 && (courseNumber.length === 4 || courseNumber.length === 5);
-    }
-
-    /**
-     * Determines whether two given course codes are equal.
-     * @param code1     The first course code
-     * @param code2     The second course code
-     * @returns         true if the course codes are equal; false otherwise
-     */
-    private static _courseCodesEqual(code1: string | null, code2: string | null): boolean {
-        if (!code1 && !code2) { // Handle both null, empty, or undefined
-            return true;
-        } else if (!code1 || !code2) { // Handle a single null, empty, or undefined
-            return false;
-        } else if (DegreePathway._courseIsLab(code1) && DegreePathway._courseIsLab(code2)) { // EDGE CASE: Handle labs with differing suffixes
-            return code1.slice(0, code1.length - 1) === code2.slice(0, code2.length - 1);
-        }
-
-        return code1 === code2;
-    }
-
-    /**
-     * Determines whether a given course code represents a lab course
-     * @param courseCode    The course code to check
-     * @returns             true if the given course code represents a lab; false otherwise
-     */
-    private static _courseIsLab(courseCode: string) {
-        // Immediately return false if the given string is null, empty, undefined, or not a course code
-        if (!courseCode || !DegreePathway._isValidCourseCode(courseCode)) {
-            return false;
-        }
-
-        // Retrieve the last character
-        const lastChar = courseCode[courseCode.length - 1];
-
-        return lastChar === "l" || lastChar === "r";
     }
 }

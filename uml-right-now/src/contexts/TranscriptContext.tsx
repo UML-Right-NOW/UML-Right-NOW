@@ -1,5 +1,5 @@
 import { useState, createContext, ReactNode } from "react";
-import Transcript from "@/Transcript";
+import Transcript from "@/classes/Transcript";
 
 // Types
 type TranscriptContextProviderProps = {

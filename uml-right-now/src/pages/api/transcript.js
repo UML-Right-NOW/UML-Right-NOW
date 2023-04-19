@@ -1,7 +1,7 @@
 import * as dotenv from "dotenv";
 import formidable from "formidable";
 import { PdfReader } from "pdfreader/PdfReader";
-import Course from "../../../lib/Course";
+import Course from "@/classes/Course";
 
 // Load environment variables
 dotenv.config();

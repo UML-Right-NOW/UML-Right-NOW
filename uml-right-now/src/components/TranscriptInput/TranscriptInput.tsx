@@ -1,4 +1,4 @@
-import Transcript from "@/Transcript";
+import Transcript from "@/classes/Transcript";
 import { TranscriptContext, TranscriptContextType } from "@/contexts/TranscriptContext";
 import { useContext, useState } from "react";
 import { FileUploader } from "react-drag-drop-files";
