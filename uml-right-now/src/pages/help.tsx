@@ -22,7 +22,7 @@ export default function HELP() {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main>
-                <UmlCards  Props={HelpCards}/>
+                <UmlCards  CardProps={HelpCards}/>
                 <br></br>
                 <h1 className=" 
                     hover:uppercase 
@@ -30,13 +30,16 @@ export default function HELP() {
                     m-auto
                     flex
                     justify-center
+                    mt-36
                 ">
                     <b>Frequently Asks Questions</b>
+                    
                 </h1>
-                <Accordion Items={FAQ} />
+                <Accordion items={FAQ} />
             </main>
         </>
       
 
     );
 }
+
