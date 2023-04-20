@@ -1,16 +1,70 @@
-import { useState } from "react";
+import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
 import { FcGraduationCap, FcLeftDown2, FcViewDetails } from "react-icons/fc";
 import PathWayGenerated from "../PathwayFolder/PathwaysGenerated.jsx";
 import ProfileCard from "../ProfileCard/ProfileCard.jsx";
 
+async function fetchDataFromAPI() {
+    const res = await fetch("/api/retrieve-pathway");
+
+    if (!res.ok) {
+        throw new Error("Error fetching data from API");
+    }
+
+    const responseData = await res.json();
+    return responseData;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const SideNav = () => {
     const [open, setOpen] = useState(true);
     const [whatWasClicked, setwhatWasClicked] = useState(false);
+    const { data: session } = useSession();
+
+
+    const [data, setData] = useState(null);
+
+    useEffect(() => {
+        async function fetchData() {
+            const responseData = await fetchDataFromAPI();
+            setData(responseData);
+
+            if (session) {
+                console.log("Seesion:" + session.name);
+            }
+
+        }
+        console.log("Data:" + data);
+        fetchData();
+    }, []);
+
+
+
+
+
     const Menus = [
         { title: "Account", src: <FcGraduationCap /> },
         { title: "Generated path", src: <FcViewDetails /> }
     ];
-
     const propsArr = [
         { title: "Computer Science", text: " Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. " },
         { title: "Buisness", text: " Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. " },
@@ -49,7 +103,6 @@ const SideNav = () => {
             </div>;
         }
     }
-
 
     return (
         <div>

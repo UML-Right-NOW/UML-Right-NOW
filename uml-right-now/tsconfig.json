@@ -29,8 +29,10 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "src/components/SearchBar/SearchBar.jsx"
-, "src/middleware.js"  ],
+    "src/components/SearchBar/SearchBar.jsx",
+    "src/middleware.js",
+    "src/pages/api/retrieve-pathway.js"
+  ],
   "exclude": [
     "node_modules"
   ]
