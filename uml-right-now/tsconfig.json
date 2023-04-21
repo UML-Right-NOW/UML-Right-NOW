@@ -31,7 +31,7 @@
     "**/*.tsx",
     "src/components/SearchBar/SearchBar.jsx",
     "src/middleware.js",
-    "src/pages/api/retrieve-pathway.js"
+    "src/pages/api/retrieve-pathway.ts"
   ],
   "exclude": [
     "node_modules"

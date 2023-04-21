@@ -1,32 +1,28 @@
+import axios, { AxiosError } from "axios";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FcGraduationCap, FcLeftDown2, FcViewDetails } from "react-icons/fc";
 import PathWayGenerated from "../PathwayFolder/PathwaysGenerated.jsx";
 import ProfileCard from "../ProfileCard/ProfileCard.jsx";
 
-async function fetchDataFromAPI() {
-    const res = await fetch("/api/retrieve-pathway");
 
-    if (!res.ok) {
-        throw new Error("Error fetching data from API");
+
+//Function runs when form has been submitted
+const handleSignup = async () => {
+    try {
+        const apiRes = await axios.get("/api/retrieve-pathway");
+        if (apiRes?.data?.success) {
+            console.log(axios.error);
+        } else {
+            console.log(apiRes);
+        }
+    } catch (error) {
+        if (error instanceof AxiosError) {
+            const errorMsg = error.response?.data?.error;
+            console.log(errorMsg);
+        }
     }
-
-    const responseData = await res.json();
-    return responseData;
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
+};
 
 
 
@@ -43,23 +39,7 @@ const SideNav = () => {
 
     const [data, setData] = useState(null);
 
-    useEffect(() => {
-        async function fetchData() {
-            const responseData = await fetchDataFromAPI();
-            setData(responseData);
-
-            if (session) {
-                console.log("Seesion:" + session.name);
-            }
-
-        }
-        console.log("Data:" + data);
-        fetchData();
-    }, []);
-
-
-
-
+    handleSignup();
 
     const Menus = [
         { title: "Account", src: <FcGraduationCap /> },

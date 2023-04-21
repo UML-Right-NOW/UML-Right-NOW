@@ -31,7 +31,7 @@ export default async function handler(
     }
     const db = client.db("urn");
     // TODO: Switch to URN database
-    const usersCollection = client.db("test").collection("users");
+    const usersCollection = client.db("urn").collection("users");
     const userPathwaysCollection = db.collection("user_pathways");
 
     // Decode the body
