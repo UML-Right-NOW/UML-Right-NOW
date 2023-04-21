@@ -4,7 +4,7 @@ import Carousel from "@/components/Carousel/carousel";
 
 {/*Frequent asked Questions*/}
 const FAQ = [
-    {question: "What is the current version?", answer: "0.1.1"},
+    {question: "What is the current version?", answer: "Version 0.1"},
     {question: "Do generated pathways account for transfer credits?", answer: "Yes, transfer credits are accounted for!"},
     {question: "Where do I find my transcript?" , answer: "Please see the \"Find Your Transcript\" section of this page."},
 ];
