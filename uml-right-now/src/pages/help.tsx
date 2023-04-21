@@ -6,7 +6,7 @@ import Carousel from "@/components/Carousel/carousel";
 const FAQ = [
     {question: "What is the current version?", answer: "0.1.1"},
     {question: "Do generated pathways account for transfer credits?", answer: "Yes, transfer credits are accounted for!"},
-    {question: "Where do I find my transcript?", answer: "Please see the \"Find Your Transcript\" section of this page."},
+    {question: "Where do I find my transcript?" , answer: "Please see the \"Find Your Transcript\" section of this page."},
 ];
 {/*Information for the cards */}
 const HelpCards = [
