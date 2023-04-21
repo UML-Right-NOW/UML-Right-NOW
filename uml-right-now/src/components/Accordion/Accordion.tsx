@@ -23,7 +23,7 @@ const AccordionItem = ({ question, answer }: AccordionItemType) => {
                 border
                 border-gray-300
                 rounded-md
-                hover:border-blue-500 
+                hover:border-rowdy-blue 
                 focus:outline-none flex 
                 items-center 
                 justify-between 
@@ -51,7 +51,14 @@ const AccordionItem = ({ question, answer }: AccordionItemType) => {
 
 function Accordion({ items }: { items: AccordionItemType[] }) {
     return (
-        <ul className="w-full max-w-md mx-auto mt-8">
+        <ul 
+            className="
+                w-3/4  
+                sm:w-1/2 
+                mx-auto 
+                text-center
+                mt-4"
+        >
             {items.map((item, index) => (
                 <AccordionItem
                     key={index}

@@ -18,16 +18,30 @@ export default function UmlCards({ CardProps }: { CardProps: CardProps[] }) {
     };
 
     return (
-        <div className="flex flex-wrap justify-center mx-4 lg:mx-16 xl:mx-24">
+        <div 
+            className="
+                flex 
+                flex-wrap 
+                justify-center 
+                mx-4 
+                lg:mx-16 
+                xl:mx-24"
+        >
             {CardProps.map((item: CardProps, index) => {
                 const isClicked = ClickedIndex === index;
                 return (
                     <div
                         key={index}
                         onClick={() => CardClick(index)}
-                        className={`w-full md:w-1/2 lg:w-1/3 xl:w-1/4 ${
-                            isClicked ? "lg:w-2/5 xl:w-1/2" : ""
-                        } px-4 py-2`}
+                        className="
+                            hover:scale-105
+                            cursor-pointer
+                            w-full 
+                            md:w-1/2 
+                            lg:w-1/3 
+                            xl:w-1/4 
+                            px-4 
+                            py-2"
                     >
                         <Card
                             className={"transition-all duration-200 bg-light-gray"}
@@ -35,17 +49,14 @@ export default function UmlCards({ CardProps }: { CardProps: CardProps[] }) {
                             css={{
                                 justifyContent: "center",
                                 alignItems: "center",
-                                padding: "1rem",
-                                filter: "drop-shadow(0 5px 0.1rem rgb(3 105 177))",
-                                overflow: isClicked ? "visible" : "hidden",
+                                padding: ".5rem",
+                                filter: "drop-shadow(0 0.2rem 0.2rem rgb(3 105 177))",
                                 height: isClicked ? "auto" : "100px",
                             }}
                         >
                             <Text
                                 b
-                                className={`uppercase text-center ${
-                                    isClicked ? "text-xl" : "hover:text-xl"
-                                }`}
+                                className="text-center text-xl"
                             >
                                 {item.Title}
                             </Text>

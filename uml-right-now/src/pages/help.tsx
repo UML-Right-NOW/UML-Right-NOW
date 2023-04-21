@@ -4,12 +4,10 @@ import Carousel from "@/components/Carousel/carousel";
 
 {/*Frequent asked Questions*/}
 const FAQ = [
-    {question: "Which is the current version?", answer: "Version 0.1"},
-    {question: "Do you use transfer credits to get the pathway?", answer: "At the moment we do at a basic level"},
-    {question: "How to get my transcript?", answer: " we implemented a carousel above but this is a list version: start-> https://www.uml.edu/enrollment/sis/ -> log in to Student self service -> academics -> my academics -> transcripts -> un-official -> view -> download using the arrow facing down"},
-    {question: "Have a question that is not answered here?", answer:"please fill this form here: https://forms.gle/eFea9NGwqWC7uDoq7"}
+    {question: "What is the current version?", answer: `${process.env.npm_package_version}`},
+    {question: "Do generated pathways account for transfer credits?", answer: "Yes, transfer credits are accounted for!"},
+    {question: "Where do I find my transcript?", answer: "Please see the \"Find Your Transcript\" section of this page."},
 ];
-
 {/*Information for the cards */}
 const HelpCards = [
     { Title: "Overview", Content: "UML Right NOW aims to be an improved, fully-automated version of the UML NOW Schedule Builder. With this web app, students are able to generate entire degree pathways in just a few clicks. By selecting a major offered by UML and optionally uploading an unofficial UML transcript, UML Right NOW will determine what course requirements have yet to be satisfied and sort these courses into one or more semesters. This renders not only Schedule Builder, but the need for academic advising appointments, obsolete. Additionally, students can create an account to save their generated degree pathways for convenient viewing in the future." },
@@ -31,9 +29,10 @@ const Images = [
 
 {/* constant for creation of labels */}
 const Labels = `
-w-1/3 
+w-3/4  
+sm:w-1/2
 m-auto
-mt-28
+mt-16
 text-xl
 text-center
 font-semibold	
@@ -43,24 +42,36 @@ bg-light-gray
 rounded-xl`;
 
 export default function Help() {
+    
     return (
         <>
-            <main>
+            <main className="mt-10 mb-10">
                 <UmlCards  CardProps={HelpCards}/>
-                
                 <h1 className={Labels}>
-                    Find your Transcript
+                    Find Your Transcript
                 </h1>
-                <br/>
-                <div className="w-3/4  sm:w-1/2 m-auto hover:scale-105"
-                    style={{filter: "drop-shadow(0 0.2rem 0.2rem rgb(3 105 177))"}}>
+                <div className="
+                    w-3/4  
+                    sm:w-1/2 
+                    mx-auto 
+                    mt-10
+                    drop-shadow-lg
+                    "
+                >
                     <Carousel images={Images}/>
                 </div>
                 <h1 className={Labels}>
-                   Frequently Asked Questions
+                   Frequently Asked Questions 
                 </h1> 
                 <Accordion items={FAQ} />
+                <div className={`
+                ${Labels} 
+                mb-10
+                border-2
+                border-rowdy-red
+                `}> <a  href="https://forms.gle/eFea9NGwqWC7uDoq7">Have a question?</a></div>
             </main>
+            
         </>
     );
 }
