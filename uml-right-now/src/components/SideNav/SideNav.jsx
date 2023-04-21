@@ -1,28 +1,12 @@
 import axios, { AxiosError } from "axios";
-import { useSession } from "next-auth/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FcGraduationCap, FcLeftDown2, FcViewDetails } from "react-icons/fc";
 import PathWayGenerated from "../PathwayFolder/PathwaysGenerated.jsx";
 import ProfileCard from "../ProfileCard/ProfileCard.jsx";
 
 
 
-//Function runs when form has been submitted
-const handleSignup = async () => {
-    try {
-        const apiRes = await axios.get("/api/retrieve-pathway");
-        if (apiRes?.data?.success) {
-            console.log(axios.error);
-        } else {
-            console.log(apiRes);
-        }
-    } catch (error) {
-        if (error instanceof AxiosError) {
-            const errorMsg = error.response?.data?.error;
-            console.log(errorMsg);
-        }
-    }
-};
+
 
 
 
@@ -34,31 +18,42 @@ const handleSignup = async () => {
 const SideNav = () => {
     const [open, setOpen] = useState(true);
     const [whatWasClicked, setwhatWasClicked] = useState(false);
-    const { data: session } = useSession();
+    const [data, setData] = useState([]);
+    useEffect(() => {
+        //Function runs when form has been submitted
+        async function handleSignup() {
+            try {
+                const apiRes = await axios.get("/api/retrieve-pathway");
 
+                if (apiRes?.data?.success) {
+                    console.log(axios.error);
+                } else {
 
-    const [data, setData] = useState(null);
-
-    handleSignup();
+                    console.log(apiRes);
+                    return apiRes;
+                }
+            } catch (error) {
+                if (error instanceof AxiosError) {
+                    const errorMsg = error.response?.data?.error;
+                    console.log(errorMsg);
+                }
+            }
+        }
+        handleSignup();
+    }, []);
 
     const Menus = [
         { title: "Account", src: <FcGraduationCap /> },
         { title: "Generated path", src: <FcViewDetails /> }
     ];
     const propsArr = [
-        { title: "Computer Science", text: " Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. " },
-        { title: "Buisness", text: " Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. " },
-        { title: "Accountant", text: " Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. " },
-        { title: "Physic", text: " Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. " },
-        { title: "Math", text: " Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. " },
-        { title: "English", text: " Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. " },
-        { title: "Nursing", text: " Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. " },
-        { title: "Mars", text: " Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. " },
-        { title: "Phychoogy", text: " Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. " }
-    ];
+        { title: "Computer Science", text: " Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. " },];
     const user = [
         { UserName: "Dante-Sam", UserLName: "ElNITO", url: "https://i.pravatar.cc/150?u=a042581f4e29026704d" }
     ];
+
+
+    console.log("This is it" + data);
 
     function handleClick(event) {
         //console.log(event.currentTarget.textContent)
