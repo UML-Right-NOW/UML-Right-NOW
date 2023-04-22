@@ -1,59 +1,34 @@
-import axios, { AxiosError } from "axios";
-import { useEffect, useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { FcGraduationCap, FcLeftDown2, FcViewDetails } from "react-icons/fc";
 import PathWayGenerated from "../PathwayFolder/PathwaysGenerated.jsx";
 import ProfileCard from "../ProfileCard/ProfileCard.jsx";
 
 
-
-
-
-
-
-
-
-
-
-
 const SideNav = () => {
     const [open, setOpen] = useState(true);
     const [whatWasClicked, setwhatWasClicked] = useState(false);
-    const [data, setData] = useState([]);
+    const [data, setData] = React.useState([]);
     useEffect(() => {
-        //Function runs when form has been submitted
-        async function handleSignup() {
-            try {
-                const apiRes = await axios.get("/api/retrieve-pathway");
-
-                if (apiRes?.data?.success) {
-                    console.log(axios.error);
-                } else {
-
-                    console.log(apiRes);
-                    return apiRes;
-                }
-            } catch (error) {
-                if (error instanceof AxiosError) {
-                    const errorMsg = error.response?.data?.error;
-                    console.log(errorMsg);
-                }
-            }
-        }
-        handleSignup();
+        axios.get("/api/retrieve-pathway")
+            .then(response => {
+                setData(response.data.data);
+            })
+            .catch(error => {
+                console.log(error);
+            });
     }, []);
 
     const Menus = [
         { title: "Account", src: <FcGraduationCap /> },
         { title: "Generated path", src: <FcViewDetails /> }
     ];
-    const propsArr = [
-        { title: "Computer Science", text: " Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. " },];
     const user = [
         { UserName: "Dante-Sam", UserLName: "ElNITO", url: "https://i.pravatar.cc/150?u=a042581f4e29026704d" }
     ];
 
 
-    console.log("This is it" + data);
+
 
     function handleClick(event) {
         //console.log(event.currentTarget.textContent)
@@ -62,8 +37,9 @@ const SideNav = () => {
         } else if (event.currentTarget.textContent == Menus[1].title) {
             setwhatWasClicked(false);
         }
-        console.log(user);
     }
+
+    //console.log(data[1].major);
 
     function pageToRenderONe() {
         if (whatWasClicked == true) {
@@ -74,7 +50,14 @@ const SideNav = () => {
         } else if (whatWasClicked == false) {
             return <div>
                 <h1 className="flex justify-center text-rowdy-blue text-center text-lg lg:text-5xl ">Your previous Generated degree path(s)</h1>
-                <PathWayGenerated propsArr={propsArr} />
+                <PathWayGenerated propsArr={data} />
+                {/* {data.map((x, index) => {
+                    return (
+                        <PathWayGenerated key={index} major={x.major} />
+                    );
+                })
+                } */}
+
             </div>;
         }
     }

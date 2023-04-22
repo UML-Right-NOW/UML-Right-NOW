@@ -42,6 +42,7 @@ export default function SearchBar() {
     // Helpers
     const handleAutocompleteChanged = (event, value) => {
         // Store the selected major in the global context
+        console.log(value);
         setMajor(value);
     };
 

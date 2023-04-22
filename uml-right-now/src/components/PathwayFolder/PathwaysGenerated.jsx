@@ -1,11 +1,19 @@
+import { TranscriptContext } from "@/contexts/TranscriptContext";
 import { Button, Card, Grid, Text, Tooltip } from "@nextui-org/react";
-
+import { useRouter } from "next/router";
+import { useContext } from "react";
 export default function App({ propsArr }) {
+    // Contexts
+    const { setMajor } = useContext(TranscriptContext);
+    const router = useRouter();
 
-    function tooltips() {
-        return;
-    }
-
+    // Helpers
+    const handleAutocompleteChanged = (event) => {
+        //setMajor(value);
+        setMajor(event.target.value);
+        console.log(event.target.value);
+        router.push("/pathways");
+    };
 
     return (
         <Grid.Container gap={2} justify="flex-start">
@@ -15,17 +23,13 @@ export default function App({ propsArr }) {
                         <Card isHoverable isPressable variant="bordered" css={{ mw: "330px" }} >
                             <Card.Header className="text-center sm:text-sm lg:text-xl">
                                 <Text b>{arr.major}</Text>
+
                             </Card.Header>
                             <Card.Divider />
-                            {/* <Card.Body css={{ py: "$10" }} color="secondary">
-                                <Text className="text-center sm:text-sm lg:text-xl">
-                                    {arr.text}
-                                </Text>
-                            </Card.Body> */}
                             <Card.Divider />
                             <Card.Footer>
                                 <Tooltip content={"Comming soon!"} color="primary" placement="rightEnd">
-                                    <Button onClick={tooltips} size="sm" className="bg-rowdy-blue">
+                                    <Button onClick={handleAutocompleteChanged} value={arr.major} size="sm" className="bg-rowdy-blue">
                                         See more details
                                     </Button>
                                 </Tooltip>
