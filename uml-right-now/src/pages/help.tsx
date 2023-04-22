@@ -69,7 +69,7 @@ export default function Help() {
                 mb-10
                 border-2
                 border-rowdy-red
-                `}> <a  href="https://forms.gle/eFea9NGwqWC7uDoq7">Have a question?</a></div>
+                `}> <a  href="https://forms.gle/eFea9NGwqWC7uDoq7" target="_blank">Have a question?</a></div>
             </main>
             
         </>
