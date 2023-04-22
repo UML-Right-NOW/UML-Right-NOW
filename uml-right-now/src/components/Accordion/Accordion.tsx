@@ -1,75 +1,70 @@
-import React, { useState, useRef, MutableRefObject }from "react";
+import React, { useState, useRef, MutableRefObject } from "react";
 
 // Types
 export type AccordionItemType = {
-    
-        question: string,
-        answer: string
+    question: string;
+    answer: string;
 };
 
-const AccordionItem = ( data : AccordionItemType) => {
+const AccordionItem = ({ question, answer }: AccordionItemType) => {
+    const [show, setShow] = useState(false);
+    const contentRef = useRef() as MutableRefObject<HTMLDivElement>;
 
-    const [show, setshow] = useState(false);
-    const contentReference = useRef() as MutableRefObject<HTMLDivElement>;
-  
-    const { question, answer } = data;
-  
-    const Toggle = () => {
-        setshow((prev) => !prev);
+    const toggleAccordion = () => {
+        setShow((prev) => !prev);
     };
-    const Left ={
-        left: "97%"
-    };
-    const MyMargin={
-        margin:"2% auto auto auto"
-    };
+
+    const icon = show ? "-" : "+";
+
     return (
-        <li className={` ${show ? "active" : ""} shadow-sm`}>
-            <button className=" 
-            hover:border-[#0369B1]	hover:border-x-4
-            w-11/12
-            h-14
-            border
-            flex
-            items-center
-            px-10
-            justify-center
-            rounded-md
-            hover:scale-105
-            drop-shadow-xl
-            "  style={MyMargin}
-            onClick={Toggle}>
-                {question}
-                <span className="absolute " style={Left}>{show ? "—" : "+"} </span>
-            </button>
-  
-            <div
-                ref={contentReference}
-                className="h-0 overflow-hidden	ease-in	"
-                style={
-                    show
-                        ? { height: contentReference.current.scrollHeight }
-                        : { height: "0px" }
-                }
+        <li className={"shadow-lg my-2"}>
+            <button
+                className="w-full h-14
+                border
+                border-gray-300
+                rounded-md
+                hover:border-rowdy-blue 
+                focus:outline-none flex 
+                items-center 
+                justify-between 
+                px-4 py-2"
+                onClick={toggleAccordion}
             >
-                <div className="p-5  w-11/12
-            flex
-            items-center
-            m-auto
-            justify-center
-            shawdow-lg 
-            hover:scale-105
-            ">{answer}</div>
+                <span>{question}</span>
+                <span className="text-xl font-bold">{icon}</span>
+            </button>
+            <div
+                ref={contentRef}
+                className={`${
+                    show ? "h-auto" : "h-0"
+                } 
+                overflow-hidden 
+                transition-height 
+                duration-300 
+                ease-in-out`}
+            >
+                <div className="p-4">{answer}</div>
             </div>
         </li>
     );
 };
-  
-function Accordion({Items}:{Items: AccordionItemType[]}) {
+
+function Accordion({ items }: { items: AccordionItemType[] }) {
     return (
-        <ul >
-            {Items.map((item:AccordionItemType, index) => (
-                <AccordionItem  key={index} question={item.question} answer={item.answer}/>
+        <ul 
+            className="
+                w-3/4  
+                sm:w-1/2 
+                mx-auto 
+                text-center
+                mt-4"
+        >
+            {items.map((item, index) => (
+                <AccordionItem
+                    key={index}
+                    question={item.question}
+                    answer={item.answer}
+                />
             ))}
         </ul>
     );
@@ -77,5 +72,3 @@ function Accordion({Items}:{Items: AccordionItemType[]}) {
 
 export default Accordion;
 
-  
-  
