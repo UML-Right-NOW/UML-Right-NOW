@@ -28,7 +28,7 @@ export default function App({ propsArr }) {
                             <Card.Divider />
                             <Card.Divider />
                             <Card.Footer>
-                                <Tooltip content={"Comming soon!"} color="primary" placement="rightEnd">
+                                <Tooltip content={"Howwdy!"} color="primary" placement="rightEnd">
                                     <Button onClick={handleAutocompleteChanged} value={arr.major} size="sm" className="bg-rowdy-blue">
                                         See more details
                                     </Button>

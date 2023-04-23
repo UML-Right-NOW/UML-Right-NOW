@@ -9,10 +9,13 @@ const SideNav = () => {
     const [open, setOpen] = useState(true);
     const [whatWasClicked, setwhatWasClicked] = useState(false);
     const [data, setData] = React.useState([]);
+    const [dataUser, setdataUser] = React.useState([]);
+
     useEffect(() => {
         axios.get("/api/retrieve-pathway")
             .then(response => {
-                setData(response.data.data);
+                setData(response.data.data[0]);
+                setdataUser(response.data.data[1]);
             })
             .catch(error => {
                 console.log(error);
@@ -23,15 +26,8 @@ const SideNav = () => {
         { title: "Account", src: <FcGraduationCap /> },
         { title: "Generated path", src: <FcViewDetails /> }
     ];
-    const user = [
-        { UserName: "Dante-Sam", UserLName: "ElNITO", url: "https://i.pravatar.cc/150?u=a042581f4e29026704d" }
-    ];
-
-
-
 
     function handleClick(event) {
-        //console.log(event.currentTarget.textContent)
         if (event.currentTarget.textContent == Menus[0].title) {
             setwhatWasClicked(true);
         } else if (event.currentTarget.textContent == Menus[1].title) {
@@ -39,25 +35,16 @@ const SideNav = () => {
         }
     }
 
-    //console.log(data[1].major);
-
     function pageToRenderONe() {
         if (whatWasClicked == true) {
             return <div>
-                <h1 className="flex justify-center text-rowdy-blue text-center text-lg lg:text-5xl ">Your Info</h1>
-                <ProfileCard url={user[0].url} valueN={user[0].UserName} valueL={user[0].UserLName} />;
+                <h1 className="flex justify-center text-rowdy-blue text-center text-base lg:text-3xl ">-User Info-</h1>
+                <ProfileCard name={dataUser.email} email={dataUser.email} />;
             </div>;
         } else if (whatWasClicked == false) {
             return <div>
-                <h1 className="flex justify-center text-rowdy-blue text-center text-lg lg:text-5xl ">Your previous Generated degree path(s)</h1>
+                <h1 className="flex justify-center text-rowdy-blue text-center text-base lg:text-3xl ">Your previous Generated degree path(s)</h1>
                 <PathWayGenerated propsArr={data} />
-                {/* {data.map((x, index) => {
-                    return (
-                        <PathWayGenerated key={index} major={x.major} />
-                    );
-                })
-                } */}
-
             </div>;
         }
     }
@@ -66,10 +53,9 @@ const SideNav = () => {
         <div>
             <div className="flex ">
                 <div className={` ${open ? "w-72" : "w-20 "} bg-light-gray h-screen p-5  pt-8 relative duration-300`} onMouseEnter={() => setOpen(!open)}>
-                    {/* <Image src={logo} className={`absolute cursor-pointer -right-3 top-9 w-4 border-dark-purple border-2 rounded-full  ${!open && "rotate-180"}`} onClick={() => setOpen(!open)} /> */}
                     <FcLeftDown2 className={`absolute cursor-pointer -right-0 top-9 w-4 border-dark-purple border-2 rounded-full  ${!open && "rotate-180"}`} onClick={() => setOpen(!open)} />
                     <div className="flex gap-x-4 items-center">
-                        <h1 className={`text-black origin-left font-medium text-xl duration-200 ${!open && "scale-0"}`} >Your Profil</h1>
+                        <h1 className={`text-black origin-left font-medium text-xl duration-200 ${!open && "scale-0"}`} >Your Profile</h1>
                     </div>
                     <ul className="pt-6">
                         {Menus.map((Menu, index) => (
