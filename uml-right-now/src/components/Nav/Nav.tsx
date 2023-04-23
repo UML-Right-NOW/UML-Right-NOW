@@ -65,7 +65,7 @@ export default function Nav({ pages }: NavProps) {
             <ul className={`
                 ${navItemsClass}
                 justify-end
-                [&>li]:ml-6
+                [&>li]:ml-4
                 lg:[&>li]:ml-10
             `}>
                 {navItemsLeft}

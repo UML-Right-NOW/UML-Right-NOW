@@ -3,8 +3,7 @@ import CourseCode from "./CourseCode";
 import Semester from "./Semester";
 
 // Constants
-const MIN_CREDITS_PER_SEMESTER = 12;
-const MAX_CREDITS_PER_SEMESTER = 16;
+const MIN_CREDITS_PER_SEMESTER = 14;
 const SEPTEMBER_INT = 9;
 
 export default class DegreePathway {
@@ -247,30 +246,66 @@ export default class DegreePathway {
     private static _createFutureSemesters(courses: Course[]): Semester[] {
         // Initialization
         const semesters: Semester[] = [];
+        const courseQueue: Course[] = [];
 
         // Create the semesters
         let currSemesterName: string = DegreePathway._getNextSemesterName(null);
         let currSemester = new Semester(currSemesterName);
-        for (let i = 0; i < courses.length; i++) {
-            if (currSemester.creditsAttempted >= MIN_CREDITS_PER_SEMESTER || i === courses.length - 1) {
-                // EDGE CASE: handle empty semesters
-                if (currSemester.courses.length > 0) {
-                    // Cache the current semester
-                    semesters.push(currSemester);
+        let addedCourseFromQueue = false;
+        for (;;) {
+            if (courseQueue.length === 0 && courses.length === 0) { // No courses remain => done
+                break;
+            }
+            // Reset the addedCourseFromQueue flag;
+            addedCourseFromQueue = false;
 
-                    // Determine the name of the semester
-                    currSemesterName = DegreePathway._getNextSemesterName(currSemesterName);
-
-                    // Initialize a new semester
-                    currSemester = new Semester(currSemesterName);
-                }
-            } else {
-                // Retrieve the current course
-                const course = courses[i];
+            // Attempt to remove courses from the queue if applicable
+            const courseFromQueue = courseQueue.at(0);
+            if (courseFromQueue 
+                && (courseFromQueue.availableFall && currSemester.name.includes("fall") 
+                || courseFromQueue.availableSpring && currSemester.name.includes("spring"))) { // A course exists in the queue and can be applied to the current semester
+                // Remove the course from the queue
+                courseQueue.shift();
 
                 // Add the course to the current semester
-                currSemester.addCourse(course);
+                currSemester.addCourse(courseFromQueue);
+
+                // Set the addedCourseFromQueue flag
+                addedCourseFromQueue = true;
+            } 
+
+            // No course exists in the queue or the course in the queue can't be applied to the current semester
+            if (!addedCourseFromQueue) {
+                // Attempt to retrieve the next course
+                const course = courses.shift();
+                if (!course) {
+                    continue;
+                }
+
+                // Check for course exclusivity
+                if ((!course.availableFall || !course.availableSpring) 
+                && (course.availableFall && !currSemester.name.includes("fall")
+                    || course.availableSpring && !currSemester.name.includes("spring"))) { // The current course can't be applied to the current semester
+                    courseQueue.push(course);
+                } else { // The current course can be applied to the current semester
+                    currSemester.addCourse(course);
+                }
             }
+
+            // Determine whether the current semester is full
+            if (currSemester.creditsAttempted >= MIN_CREDITS_PER_SEMESTER) {
+                // Cache the current semester
+                semesters.push(currSemester);
+
+                // Initialize a new semester
+                currSemesterName = DegreePathway._getNextSemesterName(currSemester.name);
+                currSemester = new Semester(currSemesterName);
+            }
+        }
+
+        // Add the final semester if applicable
+        if (currSemester.creditsAttempted > 0) {
+            semesters.push(currSemester);
         }
 
         return semesters;

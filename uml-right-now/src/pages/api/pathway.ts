@@ -1,9 +1,9 @@
 import CourseBuilder from "@/builders/CourseBuilder";
+import Course from "@/classes/Course";
 import CourseCode from "@/classes/CourseCode";
 import DegreePathway from "@/classes/DegreePathway";
 import Semester from "@/classes/Semester";
 import clientPromise from "@/mongo";
-import CoursesManager from "@/singletons/CoursesManager";
 import { NextApiRequest, NextApiResponse } from "next";
 
 // Types
@@ -53,7 +53,7 @@ export default async function handler(
     }
 
     // Retrieve the list of courses from the document
-    const courses = pathwayDocument["courses"].map((course: CourseDocument) => {
+    const courses: Course[] = pathwayDocument["courses"].map((course: CourseDocument) => {
         // Initialize a course builder
         const courseCode = new CourseCode(course["code"]);
         const builder = new CourseBuilder()
@@ -62,18 +62,27 @@ export default async function handler(
             .creditsAttempted(parseFloat(course["credits"]))
             .creditsEarned(0);
 
-        // Attempt to find a matching couse in the catalog
-        const matchingCourse = CoursesManager.instance.courses.find(umlCourse => {
-            return courseCode.equals(umlCourse.code);
-        });
-
-        if (matchingCourse) {
-            builder.availableFall(matchingCourse.availableFall);
-            builder.availableSpring(matchingCourse.availableSpring);
-        }
-
         return builder.getCourse();
     });
+
+    // Determine the Fall/Spring availability of each course
+    const courseCodeValues = courses.map(course => course.code.value.toUpperCase());
+    const dbCourses = await db.collection("courses").find({ code: { $in: courseCodeValues } }).toArray();
+    if (dbCourses) {
+        dbCourses.forEach(dbCourse => {
+            // Retrieve the course from the database with the same code as the current course
+            const matchingCourse = courses.find(course => {
+                const dbCourseCode = new CourseCode(dbCourse["code"]);
+                return course.code.equals(dbCourseCode);
+            });
+
+            // Set the Fall/Spring availability of the current course
+            if (matchingCourse) {
+                matchingCourse.availableFall = dbCourse["fall"];
+                matchingCourse.availableSpring = dbCourse["spring"];
+            }
+        });
+    }
 
     // Store all the courses in a single semester
     const pathway = new DegreePathway([
