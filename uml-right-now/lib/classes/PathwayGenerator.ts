@@ -1,14 +1,11 @@
 import Course from "./Course";
+import CourseCode from "./CourseCode";
 import DegreePathway from "./DegreePathway";
 import Semester from "./Semester";
 import Transcript from "./Transcript";
-import CoursesManager from "@/singletons/CoursesManager";
 
 export default class PathwayGenerator {
     static async generateDegreePathway(major: string, transcript: Transcript | null): Promise<DegreePathway> {
-        // Retrieve the list of courses from the DB if necessary
-        await CoursesManager.instance.waitForReady();
-
         return new Promise((resolve, reject) => {
             // 1. Generate a full degree pathway for the given major
             PathwayGenerator._generateFullPathway(major).then(fullPathway => {
@@ -44,6 +41,7 @@ export default class PathwayGenerator {
                     const semester = new Semester("");
                     const courses = data["pathway"]["semesters"][0]["courses"];
                     courses.forEach((course: Course) => {
+                        course.code = new CourseCode(course.code.value);
                         semester.addCourse(course);
                     });
                     resolve(new DegreePathway([semester]));

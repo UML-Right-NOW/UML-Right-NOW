@@ -1,13 +1,17 @@
+import Course from "@/classes/Course";
 import PageInfo from "@/classes/PageInfo";
+import { getAllCourses } from "@/utils";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { ReactNode, useEffect, useState } from "react";
 import Footer from "../Footer/Footer";
 import Nav from "../Nav/Nav";
+import CoursesManager from "@/singletons/CoursesManager";
 
 // Types
 type PageProps = {
-    children: ReactNode
+    children: ReactNode,
+    courses: Course[]
 };
 
 // Pages
@@ -24,7 +28,7 @@ const loggedInPages = [
     new PageInfo("Profile", "/profile")
 ];
 
-export default function Page({ children }: PageProps) {
+export default function Page({ children, courses }: PageProps) {
     // State
     const [pages, setPages] = useState<PageInfo[]>([]);
 
@@ -32,6 +36,11 @@ export default function Page({ children }: PageProps) {
     const session = useSession();
 
     useEffect(() => {
+        // Initialize the CourseManager if applicabe
+        if (!CoursesManager.instance.courses) {
+            CoursesManager.instance.courses = courses;
+        }
+
         // Initialize the array of pages
         const newPages = session.status === "authenticated"
             ? defaultPages.concat(loggedInPages)
@@ -39,7 +48,7 @@ export default function Page({ children }: PageProps) {
 
         // Set the pages
         setPages(newPages);
-    }, [session]);
+    }, [session, courses]);
 
     return (
         <>
@@ -61,4 +70,12 @@ export default function Page({ children }: PageProps) {
             <Footer />
         </>
     );
+}
+
+export async function getStaticProps() {
+    const courses = await getAllCourses();
+
+    return {
+        courses: courses
+    };
 }

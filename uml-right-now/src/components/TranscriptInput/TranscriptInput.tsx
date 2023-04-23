@@ -1,3 +1,5 @@
+import Course from "@/classes/Course";
+import CourseCode from "@/classes/CourseCode";
 import Transcript from "@/classes/Transcript";
 import { TranscriptContext, TranscriptContextType } from "@/contexts/TranscriptContext";
 import { useContext, useState } from "react";
@@ -52,8 +54,14 @@ export default function TranscriptInput() {
                 body: formData
             }).then(res => {
                 res.json().then(data => {
+                    // Initialize the transcript's courses
+                    const courses: Course[] = data["courses"];
+                    courses.forEach(course => {
+                        course.code = new CourseCode(course.code.value);
+                    });
+
                     // Cache the parsed transcript data
-                    setTranscript(new Transcript(data["courses"]));
+                    setTranscript(new Transcript(courses));
                 }).catch(err => {
                     console.log(err);
                 });

@@ -36,9 +36,6 @@ export default async function handler(
         return;
     }
 
-    // Initialize the CoursesManager instance if applicable
-    await CoursesManager.instance.waitForReady();
-
     // Select the DB
     const db = client.db("urn");
 

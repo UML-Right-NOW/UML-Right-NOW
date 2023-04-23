@@ -5,12 +5,8 @@ import Course from "./classes/Course";
  * @returns     An array of courses
  */
 export async function getAllCourses(): Promise<Course[]> {
-    const url = process.env.NODE_ENV === "production"
-        ? "https://uml-right-now.vercel.app/api/courses"
-        : "http://localhost:3000/api/courses";
-
     return new Promise((resolve, reject) => {
-        fetch(url, {
+        fetch("/api/courses", {
             method: "POST"
         }).then(res => {
             res.json().then(data => {
