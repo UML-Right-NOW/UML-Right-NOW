@@ -1,13 +1,11 @@
 import PrimaryButton from "@/components/Inputs/Buttons/PrimaryButton";
 import TranscriptInput from "@/components/TranscriptInput/TranscriptInput";
+import { TranscriptContext, TranscriptContextType } from "@/contexts/TranscriptContext";
 import { useRouter } from "next/router";
 import { FormEvent, useContext, useEffect } from "react";
 import { AiOutlineCheck } from "react-icons/ai";
 import { BsBoxArrowRight, BsRocketTakeoffFill, BsSafe2Fill } from "react-icons/bs";
 import SearchBar from "../components/SearchBar/SearchBar";
-
-// Contexts
-import { TranscriptContext, TranscriptContextType } from "@/contexts/TranscriptContext";
 
 export default function Home() {
     const backgroundimage1 = "https://images.pexels.com/photos/6147369/pexels-photo-6147369.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2";

@@ -1,4 +1,4 @@
-import { majors } from "@/Majors";
+import { majors } from "@/classes/Majors";
 import { TranscriptContext } from "@/contexts/TranscriptContext";
 import Autocomplete from "@mui/material/Autocomplete";
 import TextField from "@mui/material/TextField";

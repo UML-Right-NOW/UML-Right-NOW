@@ -1,4 +1,4 @@
-import DegreePathway from "@/DegreePathway";
+import DegreePathway from "@/classes/DegreePathway";
 import clientPromise from "@/mongo";
 import { Document, InsertOneResult } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";
@@ -30,8 +30,7 @@ export default async function handler(
         return;
     }
     const db = client.db("urn");
-    // TODO: Switch to URN database
-    const usersCollection = client.db("test").collection("users");
+    const usersCollection = db.collection("users");
     const userPathwaysCollection = db.collection("user_pathways");
 
     // Decode the body
