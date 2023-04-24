@@ -24,6 +24,7 @@ export default function CourseElement({ courseCode, courseName, courseCredits }:
             <td className="
                 text-right
             ">{courseCredits}</td>
+            <td/>
         </tr>
     );
 }

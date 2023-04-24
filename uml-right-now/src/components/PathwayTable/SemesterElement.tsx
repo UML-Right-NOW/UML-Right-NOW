@@ -1,14 +1,13 @@
 import CourseCode from "@/classes/CourseCode";
 import Semester from "@/classes/Semester";
 import { useEffect, useState } from "react";
-import CourseElement from "./CourseElement";
-
 // Types
 type SemesterElementProps = {
-    semester: Semester;
+    semester: Semester,
+    onDeleteCourse: (courseId: CourseCode) => void;
 };
 
-export default function SemesterElement({ semester }: SemesterElementProps) {
+export default function SemesterElement({ semester,onDeleteCourse }: SemesterElementProps) {
     // State
     const [didMount, setDidMount] = useState(false);
     
@@ -16,6 +15,11 @@ export default function SemesterElement({ semester }: SemesterElementProps) {
     useEffect(() => {
         setDidMount(true);
     }, []);
+
+    // Remove a course from the semester
+    onDeleteCourse = (courseCode: CourseCode) => {
+        semester.courses = semester.courses.filter(course => !course.code.equals(courseCode));
+    };
 
     // NEXT.JS WEIRDNESS: Prevent "hydration" errors
     if (!didMount) {
@@ -28,11 +32,32 @@ export default function SemesterElement({ semester }: SemesterElementProps) {
         const key = `${new Date().getTime() / 1000}-${course.code}-${course.name}-${course.creditsAttempted}-${course.creditsEarned}-${index}`;
 
         return (
-            <CourseElement 
-                courseCode={course.code} 
-                courseName={course.name} 
-                courseCredits={course.creditsAttempted} 
-                key={key} />
+            <tr key={key} className="
+                text-xs
+                [&>td]:p-2
+                even:bg-neutral-400
+                odd:bg-neutral-300
+                sm:text-sm
+                sm:[&>td]:p-4
+            ">
+                <td>{course.code.value}</td>
+                <td className="
+                    text-center
+                ">{course.name}</td>
+                <td className="
+                    text-right
+                ">{course.creditsAttempted}</td>
+                <td className="
+                    text-right
+                ">
+                    <button 
+                        className="text-green-500"
+                        onClick={() => onDeleteCourse(course.code)}
+                    >
+                        Completed
+                    </button>
+                </td>
+            </tr>
         );
     });
 
@@ -63,10 +88,22 @@ export default function SemesterElement({ semester }: SemesterElementProps) {
             ">
                 <tbody>
                     {/* Table Header */}
-                    <CourseElement 
-                        courseCode={new CourseCode("Course Code")}
-                        courseName="Course Name"
-                        courseCredits="Course Credits" />
+                    <tr className="
+                        text-xs
+                        [&>td]:p-2
+                        bg-neutral-200
+                        sm:text-sm
+                        sm:[&>td]:p-4
+                    ">
+                        <td>Course Code</td>
+                        <td className="
+                            text-center
+                        ">Course Name</td>
+                        <td className="
+                            text-right
+                        ">Course Credits</td>
+                        <td></td>
+                    </tr>
 
                     {/* Semester Courses */}
                     {courseElements}
@@ -75,3 +112,4 @@ export default function SemesterElement({ semester }: SemesterElementProps) {
         </div>
     );
 }
+ 
