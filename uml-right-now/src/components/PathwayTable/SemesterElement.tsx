@@ -1,4 +1,5 @@
-import Semester from "@/Semester";
+import CourseCode from "@/classes/CourseCode";
+import Semester from "@/classes/Semester";
 import { useEffect, useState } from "react";
 import CourseElement from "./CourseElement";
 
@@ -63,7 +64,7 @@ export default function SemesterElement({ semester }: SemesterElementProps) {
                 <tbody>
                     {/* Table Header */}
                     <CourseElement 
-                        courseCode="Course Code"
+                        courseCode={new CourseCode("Course Code")}
                         courseName="Course Name"
                         courseCredits="Course Credits" />
 

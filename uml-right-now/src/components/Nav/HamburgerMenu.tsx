@@ -1,4 +1,4 @@
-import PageInfo from "@/PageInfo";
+import PageInfo from "@/classes/PageInfo";
 import { HamburgerMenuContext, HamburgerMenuContextType } from "@/contexts/HamburgerMenuContext";
 import { useSession } from "next-auth/react";
 import Link from "next/link";

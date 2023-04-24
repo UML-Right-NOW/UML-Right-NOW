@@ -1,4 +1,4 @@
-import PageInfo from "@/PageInfo";
+import PageInfo from "@/classes/PageInfo";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { ReactNode, useEffect, useState } from "react";

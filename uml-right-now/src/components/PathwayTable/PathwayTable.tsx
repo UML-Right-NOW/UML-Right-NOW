@@ -1,4 +1,4 @@
-import DegreePathway from "@/DegreePathway";
+import DegreePathway from "@/classes/DegreePathway";
 import SemesterElement from "./SemesterElement";
 
 // Types

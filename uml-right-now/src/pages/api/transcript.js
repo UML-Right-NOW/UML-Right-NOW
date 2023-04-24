@@ -1,7 +1,8 @@
+import CourseBuilder from "@/builders/CourseBuilder";
+import CourseCode from "@/classes/CourseCode";
 import * as dotenv from "dotenv";
 import formidable from "formidable";
 import { PdfReader } from "pdfreader/PdfReader";
-import Course from "../../../lib/Course";
 
 // Load environment variables
 dotenv.config();
@@ -139,13 +140,18 @@ function parseTransferCourse(transferCourseString) {
     const transferCourseInfo = transferCourseString.split(" ");
 
     // Parse the transfer course information
-    const courseCode = transferCourseInfo[4] + "." + transferCourseInfo[5];
+    const courseCode = new CourseCode(transferCourseInfo[4] + "." + transferCourseInfo[5]);
     const creditsAttempted = parseFloat(transferCourseInfo[transferCourseInfo.length - 2]);
     const creditsEarned = creditsAttempted;
     const courseName = transferCourseInfo.slice(6, transferCourseInfo.length - 2).join(" ");
 
     // Used the parsed transfer course information to initialize a new Course object
-    return new Course(courseCode, courseName, creditsAttempted, creditsEarned);
+    return new CourseBuilder()
+        .code(courseCode)
+        .name(courseName)
+        .creditsAttempted(creditsAttempted)
+        .creditsEarned(creditsEarned)
+        .getCourse();
 }
 
 /**
@@ -183,7 +189,7 @@ function parseRegularCourse(courseString) {
     const courseInfo = courseString.split(" ");
 
     // Parse the course information
-    const courseCode = courseInfo[0] + "." + courseInfo[1];
+    const courseCode = new CourseCode(courseInfo[0] + "." + courseInfo[1]);
     const grade = parseFloat(courseInfo[courseInfo.length - 2]);
     let courseName, creditsAttempted, creditsEarned;
     if (isNaN(grade)) { // A letter grade is present in the "Grade" column
@@ -197,7 +203,12 @@ function parseRegularCourse(courseString) {
     }     
 
     // Use the parsed information to initialize a new Course object
-    return new Course(courseCode, courseName, creditsAttempted, creditsEarned);
+    return new CourseBuilder()
+        .code(courseCode)
+        .name(courseName)
+        .creditsAttempted(creditsAttempted)
+        .creditsEarned(creditsEarned)
+        .getCourse();
 }
 
 /**

@@ -1,4 +1,4 @@
-import DegreePathway from "@/DegreePathway";
+import DegreePathway from "@/classes/DegreePathway";
 import clientPromise from "@/mongo";
 import { Document, InsertOneResult } from "mongodb";
 import { NextApiRequest, NextApiResponse } from "next";

@@ -1,4 +1,5 @@
 import Course from "./Course";
+import CourseCode from "./CourseCode";
 import DegreePathway from "./DegreePathway";
 import Semester from "./Semester";
 import Transcript from "./Transcript";
@@ -40,6 +41,7 @@ export default class PathwayGenerator {
                     const semester = new Semester("");
                     const courses = data["pathway"]["semesters"][0]["courses"];
                     courses.forEach((course: Course) => {
+                        course.code = new CourseCode(course.code.value);
                         semester.addCourse(course);
                     });
                     resolve(new DegreePathway([semester]));
