@@ -1,65 +1,49 @@
-import CourseCode from "@/classes/CourseCode";
 import Semester from "@/classes/Semester";
 import { useEffect, useState } from "react";
+import CourseElement from "./CourseElement";
+import CourseCode from "@/classes/CourseCode";
+
 // Types
 type SemesterElementProps = {
-    semester: Semester,
-    onDeleteCourse: (courseId: CourseCode) => void;
+    semester: Semester;
+    onCourseDelete: (courseCode: CourseCode) => void;
 };
 
-export default function SemesterElement({ semester,onDeleteCourse }: SemesterElementProps) {
+export default function SemesterElement({ semester, onCourseDelete }: SemesterElementProps) {
     // State
     const [didMount, setDidMount] = useState(false);
-    
+
     // Initialization
     useEffect(() => {
         setDidMount(true);
     }, []);
-
-    // Remove a course from the semester
-    onDeleteCourse = (courseCode: CourseCode) => {
-        semester.courses = semester.courses.filter(course => !course.code.equals(courseCode));
-    };
 
     // NEXT.JS WEIRDNESS: Prevent "hydration" errors
     if (!didMount) {
         return null;
     }
 
+    // Remove a course from the semester
+    const removeCourse = (courseCode: CourseCode) => {
+        onCourseDelete(courseCode);
+    };
+ 
     // Generate the JSX for the list of courses
     const courseElements = semester.courses.map((course, index) => {
-        // Generate a unique key for the current course
+        // Generate a unique key for the current course  
         const key = `${new Date().getTime() / 1000}-${course.code}-${course.name}-${course.creditsAttempted}-${course.creditsEarned}-${index}`;
 
         return (
-            <tr key={key} className="
-                text-xs
-                [&>td]:p-2
-                even:bg-neutral-400
-                odd:bg-neutral-300
-                sm:text-sm
-                sm:[&>td]:p-4
-            ">
-                <td>{course.code.value}</td>
-                <td className="
-                    text-center
-                ">{course.name}</td>
-                <td className="
-                    text-right
-                ">{course.creditsAttempted}</td>
-                <td className="
-                    text-right
-                ">
-                    <button 
-                        className="text-green-500"
-                        onClick={() => onDeleteCourse(course.code)}
-                    >
-                        Completed
-                    </button>
-                </td>
-            </tr>
+            <CourseElement 
+                courseCode={course.code} 
+                courseName={course.name} 
+                courseCredits={course.creditsAttempted} 
+                key={key}
+                onCourseDelete={() => removeCourse(course.code)}
+            />
         );
     });
+
 
     return (
         <div className="

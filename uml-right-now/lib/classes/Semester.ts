@@ -40,4 +40,14 @@ export default class Semester {
     getCourseByCode(courseCode: CourseCode): Course | undefined {
         return this.courses.find(course => course.code.equals(courseCode));
     }
+    removeCourse(courseCode: CourseCode): void {
+        const index = this.courses.findIndex(course => course.code.equals(courseCode));
+        if (index !== -1) {
+            const course = this.courses[index];
+            this.courses.splice(index, 1);
+            this.creditsAttempted -= course.creditsAttempted;
+            this.creditsEarned -= course.creditsEarned;
+        }
+    }
+      
 }
