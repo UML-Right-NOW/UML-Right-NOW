@@ -27,11 +27,10 @@ export default function CourseElement({ courseCode, courseName, courseCredits, o
             ">{courseName}</td>
             <td className="
                 text-right
-            ">{courseCredits}</td>
-            <td/>
-            <td><button onClick={handleDeleteClick}>Delete</button>
-                
+            ">{courseCredits} 
             </td>
+            <td><button className="p-0.5 text-lg rounded-lg bg-green-500 hover:bg-green-600" onClick={handleDeleteClick}>Completed?</button></td>
+            
         </tr>
     );
 }

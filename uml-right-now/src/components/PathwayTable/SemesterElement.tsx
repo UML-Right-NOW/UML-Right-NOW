@@ -86,7 +86,7 @@ export default function SemesterElement({ semester, onCourseDelete }: SemesterEl
                         <td className="
                             text-right
                         ">Course Credits</td>
-                        <td></td>
+                        <td>Actions</td>
                     </tr>
 
                     {/* Semester Courses */}

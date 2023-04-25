@@ -1,6 +1,6 @@
 import DegreePathway from "@/classes/DegreePathway";
 import SemesterElement from "./SemesterElement";
-import {useState } from "react";
+import {useEffect, useState } from "react";
 import CourseCode from "@/classes/CourseCode";
 
 // Types
@@ -39,9 +39,18 @@ export default function PathwayTable({ degreePathway, major, isColumn }: Pathway
     function handleDeleteCourse(courseId: CourseCode) {
         const updatedPathway = pathway.removeCourse(courseId);
         setPathway(updatedPathway);
+        
         setPathwayUpdated(true);
-        setTimeout(() => setPathwayUpdated(false), 500); // sets pathwayUpdate to false after 1/2 seconds
     }
+    useEffect(() => {
+        if (pathwayUpdated) {
+            const timeoutId = setTimeout(() => {
+                
+                console.log(setPathwayUpdated(false));
+            }, 500); // set timeout to 1/2 seconds
+            return () => clearTimeout(timeoutId);
+            
+        }},[pathwayUpdated]);
       
     // Generate the JSX for the list of semesters
     const semesterElements = pathway.semesters.map((semester) => {
@@ -76,7 +85,7 @@ export default function PathwayTable({ degreePathway, major, isColumn }: Pathway
             {/* Pathway Table */}
             <div className={pathwayContainerClass}>
                 {semesterElements}
-                pathwayUpdated={pathwayUpdated}
+                {pathwayUpdated}
             </div>
         </div>
     );
