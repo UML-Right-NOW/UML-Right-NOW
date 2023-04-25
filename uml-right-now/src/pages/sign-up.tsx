@@ -127,7 +127,7 @@ export default function SignUp() {
     return (
         <main>
             {/* Sign in with Google */}
-            <Script src="https://accounts.google.com/gsi/client" async defer />
+            {/* <Script src="https://accounts.google.com/gsi/client" async defer /> */}
 
             <div className="mt-20 relative flex-col justify-center min-h-screen overflow-hidden">
                 <div className="w-full p-6 m-auto lg:max-w-xl">
@@ -156,7 +156,7 @@ export default function SignUp() {
                             <p>Password must contain at least one special character, i.e. !@#$%^&*</p>
                         </div>
 
-                        <a href="#" className="text-m hover:underline">Forgot Password?</a>
+                        {/* <a href="#" className="text-m hover:underline">Forgot Password?</a> */}
                             
                         <div className="mt-6">
                             <PrimaryButton type="submit" disabled={loading} classes="w-56">
@@ -184,7 +184,7 @@ export default function SignUp() {
                         <a href="login" className="font-medium hover:underline">Login</a>
                     </p>
 
-                    <p className="mt-4 text-m font-light text-left">or</p>
+                    {/* <p className="mt-4 text-m font-light text-left">or</p>
 
                     <p><br></br></p>
 
@@ -200,8 +200,7 @@ export default function SignUp() {
                         data-text="sign_in_with"
                         data-shape="rectangular"
                         data-logo_alignment="left">
-                    </div>
-
+                    </div> */}
                 </div>
             </div>
         </main>
