@@ -2,11 +2,12 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FcGraduationCap, FcLeftDown2, FcViewDetails } from "react-icons/fc";
 import PathWayGenerated from "../PathwayFolder/PathwaysGenerated.jsx";
+// import PathWayTable from "../PathwayTable/PathwayTable";
 import ProfileCard from "../ProfileCard/ProfileCard.jsx";
 
 
 const SideNav = () => {
-    const [open, setOpen] = useState(true);
+    const [open, setOpen] = useState(false);
     const [whatWasClicked, setwhatWasClicked] = useState(false);
     const [data, setData] = React.useState([]);
     const [dataUser, setdataUser] = React.useState([]);
@@ -16,6 +17,7 @@ const SideNav = () => {
             .then(response => {
                 setData(response.data.data[0]);
                 setdataUser(response.data.data[1]);
+                //console.log(response.data.data[0]);
             })
             .catch(error => {
                 console.log(error);
@@ -27,6 +29,7 @@ const SideNav = () => {
         { title: "Generated path", src: <FcViewDetails /> }
     ];
 
+    // console.log(data.at(0).pathway);
     function handleClick(event) {
         if (event.currentTarget.textContent == Menus[0].title) {
             setwhatWasClicked(true);
@@ -44,7 +47,7 @@ const SideNav = () => {
         } else if (whatWasClicked == false) {
             return <div>
                 <h1 className="flex justify-center text-rowdy-blue text-center text-base lg:text-3xl ">Your previous Generated degree path(s)</h1>
-                <PathWayGenerated propsArr={data} />
+                <PathWayGenerated propsArr={data} pathways={data} />
             </div>;
         }
     }
@@ -52,7 +55,7 @@ const SideNav = () => {
     return (
         <div>
             <div className="flex ">
-                <div className={` ${open ? "w-72" : "w-20 "} bg-light-gray h-screen p-5  pt-8 relative duration-300`} onMouseEnter={() => setOpen(!open)}>
+                <div className={` ${open ? "w-72" : "w-20 "} bg-light-gray h-screen p-5  pt-8 relative duration-300`} >
                     <FcLeftDown2 className={`absolute cursor-pointer -right-0 top-9 w-4 border-dark-purple border-2 rounded-full  ${!open && "rotate-180"}`} onClick={() => setOpen(!open)} />
                     <div className="flex gap-x-4 items-center">
                         <h1 className={`text-black origin-left font-medium text-xl duration-200 ${!open && "scale-0"}`} >Your Profile</h1>

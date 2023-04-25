@@ -28,7 +28,7 @@ const PrintPathway: React.FC<PrintPathwayProps> = ({ degreePathway, major }) => 
             await new Promise((resolve) => setTimeout(resolve, 100));
         },
         content: () => componentRef.current,
-        onAfterPrint: () =>{
+        onAfterPrint: () => {
             setColumn(false);
             setIsLoading(false);
         }
@@ -36,14 +36,7 @@ const PrintPathway: React.FC<PrintPathwayProps> = ({ degreePathway, major }) => 
 
     return (
         <>
-            {/* Print Button */}
-            <PrimaryButton classes="
-                fixed 
-                bottom-10
-                shadow-2xl
-            "
-            onClick={handlePrint}> {isLoading ? "Getting ready" : "Print Your Pathway"}
-            </PrimaryButton>
+
 
             {/* Pathway Table */}
             <div ref={componentRef} className="
@@ -53,7 +46,12 @@ const PrintPathway: React.FC<PrintPathwayProps> = ({ degreePathway, major }) => 
                 justify-start
                 items-center
             ">
-                <PathwayTable degreePathway={degreePathway} major={major} isColumn={isColumn}/>
+                <PathwayTable degreePathway={degreePathway} major={major} isColumn={isColumn} />
+
+                {/* Print Button */}
+                <PrimaryButton classes=" fixed bottom-0 shadow-2xl"
+                    onClick={handlePrint}> {isLoading ? "Getting ready" : "Print Your Pathway"}
+                </PrimaryButton>
             </div>
         </>
     );
