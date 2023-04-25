@@ -1,6 +1,6 @@
 import { Button, Card, Grid, Text } from "@nextui-org/react";
 import { useState } from "react";
-import PrintPathway from "../PdfFile/Print";
+import PrintPathway from "../PdfFile/PrintForProfile";
 
 export default function App({ propsArr, pathways }) {
     const [isOpen, setIsOpen] = useState(false);
@@ -12,9 +12,6 @@ export default function App({ propsArr, pathways }) {
         setwhichIndex(event.target.value);
         setIsOpen(true);
     }
-
-
-
 
     return (
         <Grid.Container gap={2} justify="flex-start">
@@ -62,7 +59,7 @@ export default function App({ propsArr, pathways }) {
                             </div>
                             <div>
                                 <div className="mt-4 ">
-                                    <PrintPathway major={pathways.at(whichIndex).major} degreePathway={pathways.at(whichIndex).pathway} />
+                                    <PrintPathway isColumn major={pathways.at(whichIndex).major} degreePathway={pathways.at(whichIndex).pathway} />
                                 </div>
                                 <div className="absolute bottom-0 right-0 pt-4 pr-4">
                                     <button className="text-gray-400 hover:text-gray-500" onClick={() => setIsOpen(false)}>
