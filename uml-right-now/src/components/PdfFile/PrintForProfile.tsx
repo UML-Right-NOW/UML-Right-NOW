@@ -46,7 +46,7 @@ const PrintPathway: React.FC<PrintPathwayProps> = ({ degreePathway, major }) => 
                 justify-start
                 items-center
             ">
-                <PathwayTable degreePathway={degreePathway} major={major} isColumn={isColumn} />
+                <PathwayTable degreePathway={degreePathway} major={major} isColumn />
 
                 {/* Print Button */}
                 <PrimaryButton classes=" fixed bottom-0 shadow-2xl"

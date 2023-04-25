@@ -27,8 +27,8 @@ export default function Pathways() {
     const [degreePathway, setDegreePathway] = useState<DegreePathway | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [savePathwayResult, setSavePathwayResult] = useState({
-        message: "", 
-        result: SavePathwayStatus.FAILURE 
+        message: "",
+        result: SavePathwayStatus.FAILURE
     });
 
     // Auth
@@ -40,7 +40,9 @@ export default function Pathways() {
     // Initialization
     useEffect(() => {
         if (major) { // A major has been provided => generate a degree pathway
+            console.log("pre setIsLoading(true)");
             setIsLoading(true);
+            console.log("post setIsLoading(true)");
             PathwayGenerator.generateDegreePathway(major, transcript).then(pathway => {
                 setDegreePathway(pathway);
                 setIsLoading(false);
