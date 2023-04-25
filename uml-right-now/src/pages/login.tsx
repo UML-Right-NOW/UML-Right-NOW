@@ -71,7 +71,7 @@ export default function Login() {
     return (
         <main>
             {/* Sign in with Google */}
-            <Script src="https://accounts.google.com/gsi/client" async defer />
+            {/* <Script src="https://accounts.google.com/gsi/client" async defer /> */}
 
             <div className="mt-20 relative flex-col justify-center min-h-screen overflow-hidden">
                 <div className="w-full p-6 m-auto lg:max-w-xl">
@@ -88,7 +88,7 @@ export default function Login() {
                             <input type="password" name="password" value={password} onChange={handlePasswordChange} required className="block w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring focus:ring-opacity-40"/>
                         </div>
 
-                        <a href="#" className="text-m hover:underline">Forgot Password?</a>
+                        {/* <a href="#" className="text-m hover:underline">Forgot Password?</a> */}
                             
                         <div className="mt-6">
                             <PrimaryButton type="submit" disabled={loading} classes="w-40">
@@ -110,7 +110,7 @@ export default function Login() {
                         <a href="sign-up" className="font-medium hover:underline">Sign up</a>
                     </p>
 
-                    <p className="mt-4 text-m font-light text-left">or</p>
+                    {/* <p className="mt-4 text-m font-light text-left">or</p>
 
                     <p><br></br></p>
 
@@ -126,7 +126,7 @@ export default function Login() {
                         data-text="sign_in_with"
                         data-shape="rectangular"
                         data-logo_alignment="left">
-                    </div>
+                    </div> */}
 
                 </div>
             </div>
