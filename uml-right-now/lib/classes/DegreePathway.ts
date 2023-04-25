@@ -256,6 +256,7 @@ export default class DegreePathway {
             if (courseQueue.length === 0 && courses.length === 0) { // No courses remain => done
                 break;
             }
+
             // Reset the addedCourseFromQueue flag;
             addedCourseFromQueue = false;
 
@@ -385,32 +386,12 @@ export default class DegreePathway {
     /**
      * Remove a course from the degreePathway.
      * @param courseCode   The course code
-     * @returns DegreePathway        return the new degreePathway
      */
-    removeCourse(courseCode: CourseCode): DegreePathway {
-        // Remove the course from its semester
-        let removed = false;
+    removeCourse(courseCode: CourseCode) {
         this.semesters.forEach(semester => {
-            const index = semester.courses.findIndex(course => course.code.equals(courseCode));
-            if (index !== -1) {
-                semester.courses.splice(index, 1);
-                removed = true;
-            }
+            semester.removeCourse(courseCode);
         });
-      
-        if (!removed) {
-            throw new Error(`Course with code ${courseCode.value} not found`);
-        }
-      
-        // Remove any empty semesters
-        this.semesters = this.semesters.filter(semester => semester.courses.length > 0);
-      
-        // Reorganize the semesters based on the remaining courses
-        this.organizeSemesters();
-      
-        return this;
-    }
-      
-      
 
+        this.organizeSemesters();
+    }
 }

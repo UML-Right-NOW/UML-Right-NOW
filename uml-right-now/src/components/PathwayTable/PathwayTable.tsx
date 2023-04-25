@@ -1,7 +1,7 @@
+import CourseCode from "@/classes/CourseCode";
 import DegreePathway from "@/classes/DegreePathway";
 import SemesterElement from "./SemesterElement";
-import {useEffect, useState } from "react";
-import CourseCode from "@/classes/CourseCode";
+import { useState } from "react";
 
 // Types
 type PathwayTableProps = {
@@ -30,37 +30,22 @@ const pathwayContainerClassColumn = `
 `;
 
 export default function PathwayTable({ degreePathway, major, isColumn }: PathwayTableProps) {
+    // State
+    const [unused, setUnused] = useState(false);
+
+    // Determine pathway container classes
     const pathwayContainerClass =  isColumn
         ? pathwayContainerClassColumn
         : pathwayContainerClassDefault;
         
-    const [pathway, setPathway] = useState(degreePathway);
-    const [pathwayUpdated, setPathwayUpdated] = useState(false);
-    function handleDeleteCourse(courseId: CourseCode) {
-        const updatedPathway = pathway.removeCourse(courseId);
-        setPathway(updatedPathway);
-        
-        setPathwayUpdated(true);
-    }
-    useEffect(() => {
-        if (pathwayUpdated) {
-            const timeoutId = setTimeout(() => {
-                
-                console.log(setPathwayUpdated(false));
-            }, 500); // set timeout to 1/2 seconds
-            return () => clearTimeout(timeoutId);
-            
-        }},[pathwayUpdated]);
-      
-    // Generate the JSX for the list of semesters
-    const semesterElements = pathway.semesters.map((semester) => {
-        // Generate a unique key for the current semester
-        const key = `${semester.name}-${semester.creditsAttempted}-${semester.creditsEarned}-${semester.courses.length}`;
-        return (
-            <SemesterElement semester={semester} key={key} onCourseDelete={handleDeleteCourse} />
-        );
-    });
-   
+    // Event handlers
+    const handleDeleteCourse = (courseCode: CourseCode) => {
+        degreePathway.removeCourse(courseCode);
+
+        // Force update
+        setUnused(!unused);
+    };
+
     return (
         <div className={isColumn
             ? "w-full"
@@ -84,8 +69,13 @@ export default function PathwayTable({ degreePathway, major, isColumn }: Pathway
 
             {/* Pathway Table */}
             <div className={pathwayContainerClass}>
-                {semesterElements}
-                {pathwayUpdated}
+                {degreePathway.semesters.map((semester) => {
+                    // Generate a unique key for the current semester
+                    const key = `${semester.name}-${semester.creditsAttempted}-${semester.creditsEarned}-${semester.courses.length}`;
+                    return (
+                        <SemesterElement semester={semester} key={key} onCourseDelete={handleDeleteCourse} />
+                    );
+                })}
             </div>
         </div>
     );
