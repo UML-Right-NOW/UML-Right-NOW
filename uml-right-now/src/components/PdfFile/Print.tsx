@@ -36,8 +36,6 @@ const PrintPathway: React.FC<PrintPathwayProps> = ({ degreePathway, major }) => 
 
     return (
         <>
-
-
             {/* Pathway Table */}
             <div ref={componentRef} className="
                 w-full
@@ -47,12 +45,12 @@ const PrintPathway: React.FC<PrintPathwayProps> = ({ degreePathway, major }) => 
                 items-center
             ">
                 <PathwayTable degreePathway={degreePathway} major={major} isColumn={isColumn} />
-
-                {/* Print Button */}
-                <PrimaryButton classes=" fixed bottom-10 shadow-2xl"
-                    onClick={handlePrint}> {isLoading ? "Getting ready" : "Print Your Pathway"}
-                </PrimaryButton>
             </div>
+
+            {/* Print Button */}
+            <PrimaryButton classes="fixed left-1/2 -translate-x-1/2 bottom-10 shadow-2xl"
+                onClick={handlePrint}> {isLoading ? "Getting ready" : "Print Your Pathway"}
+            </PrimaryButton>
         </>
     );
 };
