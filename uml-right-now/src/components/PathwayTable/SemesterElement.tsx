@@ -1,17 +1,18 @@
-import CourseCode from "@/classes/CourseCode";
 import Semester from "@/classes/Semester";
 import { useEffect, useState } from "react";
 import CourseElement from "./CourseElement";
+import CourseCode from "@/classes/CourseCode";
 
 // Types
 type SemesterElementProps = {
     semester: Semester;
+    onCourseDelete: (courseCode: CourseCode) => void;
 };
 
-export default function SemesterElement({ semester }: SemesterElementProps) {
+export default function SemesterElement({ semester, onCourseDelete }: SemesterElementProps) {
     // State
     const [didMount, setDidMount] = useState(false);
-    
+
     // Initialization
     useEffect(() => {
         setDidMount(true);
@@ -22,9 +23,14 @@ export default function SemesterElement({ semester }: SemesterElementProps) {
         return null;
     }
 
+    // Remove a course from the semester
+    const removeCourse = (courseCode: CourseCode) => {
+        onCourseDelete(courseCode);
+    };
+ 
     // Generate the JSX for the list of courses
     const courseElements = semester.courses.map((course, index) => {
-        // Generate a unique key for the current course
+        // Generate a unique key for the current course  
         const key = `${new Date().getTime() / 1000}-${course.code}-${course.name}-${course.creditsAttempted}-${course.creditsEarned}-${index}`;
 
         return (
@@ -32,9 +38,12 @@ export default function SemesterElement({ semester }: SemesterElementProps) {
                 courseCode={course.code} 
                 courseName={course.name} 
                 courseCredits={course.creditsAttempted} 
-                key={key} />
+                key={key}
+                onCourseDelete={() => removeCourse(course.code)}
+            />
         );
     });
+
 
     return (
         <div className="
@@ -63,10 +72,22 @@ export default function SemesterElement({ semester }: SemesterElementProps) {
             ">
                 <tbody>
                     {/* Table Header */}
-                    <CourseElement 
-                        courseCode={new CourseCode("Course Code")}
-                        courseName="Course Name"
-                        courseCredits="Course Credits" />
+                    <tr className="
+                        text-xs
+                        [&>td]:p-2
+                        bg-neutral-200
+                        sm:text-sm
+                        sm:[&>td]:p-4
+                    ">
+                        <td>Course Code</td>
+                        <td className="
+                            text-center
+                        ">Course Name</td>
+                        <td className="
+                            text-right
+                        ">Course Credits</td>
+                        <td>Actions</td>
+                    </tr>
 
                     {/* Semester Courses */}
                     {courseElements}
@@ -75,3 +96,4 @@ export default function SemesterElement({ semester }: SemesterElementProps) {
         </div>
     );
 }
+ 

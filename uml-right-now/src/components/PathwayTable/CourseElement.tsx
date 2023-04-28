@@ -5,9 +5,13 @@ type CourseElementProps = {
     courseCode: CourseCode,
     courseName: string,
     courseCredits: number | string
+    onCourseDelete: (courseCode: CourseCode) => void;
 };
 
-export default function CourseElement({ courseCode, courseName, courseCredits }: CourseElementProps) {
+export default function CourseElement({ courseCode, courseName, courseCredits, onCourseDelete }: CourseElementProps) {
+    function handleDeleteClick() {
+        onCourseDelete(courseCode);
+    }
     return (
         <tr className="
             text-xs
@@ -23,7 +27,10 @@ export default function CourseElement({ courseCode, courseName, courseCredits }:
             ">{courseName}</td>
             <td className="
                 text-right
-            ">{courseCredits}</td>
+            ">{courseCredits} 
+            </td>
+            <td><button className="p-0.5 text-lg rounded-lg bg-green-500 hover:bg-green-600" onClick={handleDeleteClick}>Completed?</button></td>
+            
         </tr>
     );
 }
