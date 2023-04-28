@@ -427,6 +427,18 @@ export default class DegreePathway {
     }
 
     /**
+     * Remove a course from the degreePathway.
+     * @param courseCode   The course code
+     */
+    removeCourse(courseCode: CourseCode) {
+        this.semesters.forEach(semester => {
+            semester.removeCourse(courseCode);
+        });
+
+        this.organizeSemesters();
+    }
+
+    /**
      * Determines the availability of a given course.
      * @param course    The course for which to determine the availability
      * @returns         The availability of the course

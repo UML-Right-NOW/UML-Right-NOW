@@ -40,4 +40,18 @@ export default class Semester {
     getCourseByCode(courseCode: CourseCode): Course | undefined {
         return this.courses.find(course => course.code.equals(courseCode));
     }
+
+    removeCourse(courseCode: CourseCode): void {
+        // Subtract the course's credits from the semester
+        const courseToRemove = this.courses.find(course => course.code.equals(courseCode));
+        if (courseToRemove) {
+            this.creditsAttempted -= courseToRemove.creditsAttempted;
+            this.creditsEarned -= courseToRemove.creditsEarned;
+        }
+    
+        // Remove the course from the semester
+        this.courses = this.courses.filter(course => {
+            return !course.code.equals(courseCode);
+        });
+    }
 }
