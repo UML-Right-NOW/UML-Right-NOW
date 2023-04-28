@@ -68,6 +68,18 @@ export default class DegreePathway {
     }
 
     /**
+     * Remove a course from the degreePathway.
+     * @param courseCode   The course code
+     */
+    removeCourse(courseCode: CourseCode) {
+        this.semesters.forEach(semester => {
+            semester.removeCourse(courseCode);
+        });
+
+        this.organizeSemesters();
+    }
+
+    /**
      * Compiles all semesters' courses into a single array.
      * @returns     The compiled array of courses
      */
@@ -424,18 +436,6 @@ export default class DegreePathway {
         return courses.filter(course => {
             return !course.code.isDepartmentElective() && !course.code.isGeneralElective();
         });
-    }
-
-    /**
-     * Remove a course from the degreePathway.
-     * @param courseCode   The course code
-     */
-    removeCourse(courseCode: CourseCode) {
-        this.semesters.forEach(semester => {
-            semester.removeCourse(courseCode);
-        });
-
-        this.organizeSemesters();
     }
 
     /**
