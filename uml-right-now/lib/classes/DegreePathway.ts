@@ -300,13 +300,13 @@ export default class DegreePathway {
 
                     // Attempt to retrieve the previous semester
                     const prevSemester = semesters.at(semesters.length - 1);
-                    if (!prevSemester) { // No previous semester exists => this course will need to be added to the next semester 
+                    if (prevSemester) { // A previous semester exists => add the course to it
+                        // Add the course to the previous semester
+                        prevSemester.addCourse(course);
+                    } else { // No previous semester exists => this course will need to be added to the next semester 
                         // Add the course to the queue of courses that will be added to the next semester
                         nextSemesterCourseQueue.push(course);
                     }
-
-                    // Add the course to the previous semester
-                    prevSemester?.addCourse(course);
                 }
             } else { // No courses exist in the queue
                 // Retrieve a course from the front of the list
