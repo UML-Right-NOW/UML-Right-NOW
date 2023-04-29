@@ -4,8 +4,8 @@ import { BsFillEnvelopePaperFill, BsLinkedin } from "react-icons/bs";
 
 export default function ImgMediaCard(props) {
     return (
-        <div className="justify-center md:inline-grid md:grid-col-3">
-            <div className="overflow-y-clip bg-white h-auto m-6 w-auto au shadow-xl hover:drop-shadow-2xl rounded-lg lg:rounded-lg hover:bg-light-gray">
+        <div className="justify-center md:inline-grid md:grid-col-3 p-8">
+            <div className="overflow-y-clip bg-white h-auto m-6 w-80 au shadow-xl hover:drop-shadow-2xl rounded-lg lg:rounded-lg hover:bg-light-gray">
                 <div className=" flex flex-col  m-6">
                     <div className=" flex justify-center m-6">
                         <h1 className="italic font-bold text-rowdy-blue">{props.name}</h1>
@@ -15,7 +15,7 @@ export default function ImgMediaCard(props) {
                     </div>
                 </div>
                 <div className=" flex justify-center m-2">
-                    <h1 className="text-center text-black font-bold text-rowdy-blue ">{props.quote}</h1>
+                    <h1 className="text-center font-bold text-rowdy-blue ">{props.quote}</h1>
                 </div>
                 <div className=" flex justify-center m-6">
                     <Link className="bg-rowdy-blue rounded-xl m-6" to="#" href={props.linkedin} >

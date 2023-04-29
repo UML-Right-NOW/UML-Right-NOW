@@ -17,6 +17,7 @@ export default function App({ propsArr, pathways }) {
         <Grid.Container gap={2} justify="flex-start">
             {propsArr.map((arr, index) => {
                 return (
+
                     <Grid xs={12} sm={3} key={index} >
                         <Card isHoverable isPressable variant="bordered" css={{ mw: "330px" }} >
                             <Card.Header className="text-center sm:text-sm lg:text-xl">
