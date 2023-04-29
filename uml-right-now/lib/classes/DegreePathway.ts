@@ -6,6 +6,18 @@ import Semester from "./Semester";
 const MIN_CREDITS_PER_SEMESTER = 14;
 const SEPTEMBER_INT = 9;
 
+enum CourseAvailability {
+    NONE,
+    FALL,
+    SPRING,
+    ALL
+}
+
+enum SemesterSeason {
+    FALL,
+    SPRING
+}
+
 export default class DegreePathway {
     // Members
     semesters: Semester[];
@@ -53,6 +65,18 @@ export default class DegreePathway {
 
         // Create future semesters
         this.semesters = DegreePathway._createFutureSemesters(courses);
+    }
+
+    /**
+     * Remove a course from the degreePathway.
+     * @param courseCode   The course code
+     */
+    removeCourse(courseCode: CourseCode) {
+        this.semesters.forEach(semester => {
+            semester.removeCourse(courseCode);
+        });
+
+        this.organizeSemesters();
     }
 
     /**
@@ -246,66 +270,22 @@ export default class DegreePathway {
     private static _createFutureSemesters(courses: Course[]): Semester[] {
         // Initialization
         const semesters: Semester[] = [];
-        const courseQueue: Course[] = [];
 
-        // Create the semesters
-        let currSemesterName: string = DegreePathway._getNextSemesterName(null);
-        let currSemester = new Semester(currSemesterName);
-        let addedCourseFromQueue = false;
-        for (;;) {
-            if (courseQueue.length === 0 && courses.length === 0) { // No courses remain => done
-                break;
-            }
+        // Iterate over each course
+        let currSemester = new Semester(DegreePathway._getNextSemesterName(null));
+        courses.forEach(course => {
+            // Add the current course to the current semester
+            currSemester.addCourse(course); 
 
-            // Reset the addedCourseFromQueue flag;
-            addedCourseFromQueue = false;
-
-            // Attempt to remove courses from the queue if applicable
-            const courseFromQueue = courseQueue.at(0);
-            if (courseFromQueue 
-                && (courseFromQueue.availableFall && currSemester.name.includes("fall") 
-                || courseFromQueue.availableSpring && currSemester.name.includes("spring"))) { // A course exists in the queue and can be applied to the current semester
-                // Remove the course from the queue
-                courseQueue.shift();
-
-                // Add the course to the current semester
-                currSemester.addCourse(courseFromQueue);
-
-                // Set the addedCourseFromQueue flag
-                addedCourseFromQueue = true;
-            } 
-
-            // No course exists in the queue or the course in the queue can't be applied to the current semester
-            if (!addedCourseFromQueue) {
-                // Attempt to retrieve the next course
-                const course = courses.shift();
-                if (!course) {
-                    continue;
-                }
-
-                // Check for course exclusivity
-                if ((!course.availableFall || !course.availableSpring) 
-                && (course.availableFall && !currSemester.name.includes("fall")
-                    || course.availableSpring && !currSemester.name.includes("spring"))) { // The current course can't be applied to the current semester
-                    courseQueue.push(course);
-                } else { // The current course can be applied to the current semester
-                    currSemester.addCourse(course);
-                }
-            }
-
-            // Determine whether the current semester is full
+            // Add the current semester to the master list if applicable
             if (currSemester.creditsAttempted >= MIN_CREDITS_PER_SEMESTER) {
-                // Cache the current semester
                 semesters.push(currSemester);
-
-                // Initialize a new semester
-                currSemesterName = DegreePathway._getNextSemesterName(currSemester.name);
-                currSemester = new Semester(currSemesterName);
+                currSemester = new Semester(DegreePathway._getNextSemesterName(currSemester.name));
             }
-        }
+        });
 
         // Add the final semester if applicable
-        if (currSemester.creditsAttempted > 0) {
+        if (currSemester.courses.length > 0) {
             semesters.push(currSemester);
         }
 
@@ -384,14 +364,25 @@ export default class DegreePathway {
     }
 
     /**
-     * Remove a course from the degreePathway.
-     * @param courseCode   The course code
+     * Determines the availability of a given course.
+     * @param course    The course for which to determine the availability
+     * @returns         The availability of the course
      */
-    removeCourse(courseCode: CourseCode) {
-        this.semesters.forEach(semester => {
-            semester.removeCourse(courseCode);
-        });
+    private static _getCourseAvailability(course: Course): CourseAvailability {
+        // Job security
+        return course.availableFall
+            ? course.availableSpring ? CourseAvailability.ALL : CourseAvailability.FALL
+            : course.availableSpring ? CourseAvailability.SPRING : CourseAvailability.NONE;
+    }
 
-        this.organizeSemesters();
+    /**
+     * Determines the season of a given semester.
+     * @param semester  The semester for which to determine the season
+     * @returns         The semester's season
+     */
+    private static _getSemesterSeason(semester: Semester): SemesterSeason {
+        return semester.name.includes("fall")
+            ? SemesterSeason.FALL
+            : SemesterSeason.SPRING;
     }
 }

@@ -40,9 +40,7 @@ export default function Pathways() {
     // Initialization
     useEffect(() => {
         if (major) { // A major has been provided => generate a degree pathway
-            console.log("pre setIsLoading(true)");
             setIsLoading(true);
-            console.log("post setIsLoading(true)");
             PathwayGenerator.generateDegreePathway(major, transcript).then(pathway => {
                 setDegreePathway(pathway);
                 setIsLoading(false);
