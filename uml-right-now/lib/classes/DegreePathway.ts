@@ -270,96 +270,21 @@ export default class DegreePathway {
     private static _createFutureSemesters(courses: Course[]): Semester[] {
         // Initialization
         const semesters: Semester[] = [];
-        const fallCourseQueue: Course[] = [];
-        const springCourseQueue: Course[] = [];
-        const nextSemesterCourseQueue: Course[] = [];
 
-        // Iterate until all courses have been sorted
+        // Iterate over each course
         let currSemester = new Semester(DegreePathway._getNextSemesterName(null));
-        while (courses.length > 0 || fallCourseQueue.length > 0 || springCourseQueue.length > 0) {
-            // Check the two course queues before sorting any additional courses
-            if (fallCourseQueue.length > 0 || springCourseQueue.length > 0) { // At least one course exists in the queue
-                const semesterSeason = DegreePathway._getSemesterSeason(currSemester);
-                if (semesterSeason === SemesterSeason.FALL && fallCourseQueue.length > 0) { // The course and semetser are compatible
-                    // Retrieve the course from the queue
-                    const fallCourse = fallCourseQueue.shift() as Course;
+        courses.forEach(course => {
+            // Add the current course to the current semester
+            currSemester.addCourse(course); 
 
-                    // Add the course to the current semester
-                    currSemester.addCourse(fallCourse);
-                } else if (semesterSeason === SemesterSeason.SPRING && springCourseQueue.length > 0) { // The course and semester are compatible
-                    // Retrieve the course from the queue
-                    const springCourse = springCourseQueue.shift() as Course;
-
-                    // Add the course to the current semester
-                    currSemester.addCourse(springCourse);
-                } else { // The course and semester are not compatible
-                    // Retrieve the course
-                    const course = fallCourseQueue.length > 0
-                        ? fallCourseQueue.shift() as Course
-                        : springCourseQueue.shift() as Course;
-
-                    // Attempt to retrieve the previous semester
-                    const prevSemester = semesters.at(semesters.length - 1);
-                    if (prevSemester) { // A previous semester exists => add the course to it
-                        // Add the course to the previous semester
-                        prevSemester.addCourse(course);
-                    } else { // No previous semester exists => this course will need to be added to the next semester 
-                        // Add the course to the queue of courses that will be added to the next semester
-                        nextSemesterCourseQueue.push(course);
-                    }
-                }
-            } else { // No courses exist in the queue
-                // Retrieve a course from the front of the list
-                const currCourse = courses.shift();
-                if (!currCourse) {
-                    continue;
-                }
-
-                // Determine the availability of the course
-                const courseAvailability = DegreePathway._getCourseAvailability(currCourse);
-                switch (courseAvailability) {
-                case CourseAvailability.NONE: // The course is never offered => do nothing
-                    continue;
-                case CourseAvailability.FALL: // The course is only offered in the Fall
-                    if (DegreePathway._getSemesterSeason(currSemester) === SemesterSeason.FALL) { // The course and semester are compatible
-                        currSemester.addCourse(currCourse);
-                    } else { // The course and semester are not compatible
-                        fallCourseQueue.push(currCourse);
-                    }
-                    break;
-                case CourseAvailability.SPRING: // The course is only offered in the Spring
-                    if (DegreePathway._getSemesterSeason(currSemester) === SemesterSeason.SPRING) { // The course and semester are compatible
-                        currSemester.addCourse(currCourse);
-                    } else { // The course and semester are not compatible
-                        springCourseQueue.push(currCourse);
-                    }
-                    break;
-                case CourseAvailability.ALL: // The course is always offered
-                    currSemester.addCourse(currCourse);
-                    break;
-                default:
-                    break;
-                }
-            }
-
-            // Determine whether the semester is complete
-            if (currSemester.creditsAttempted >= MIN_CREDITS_PER_SEMESTER) { // Credit requirement exceeded => the semester is done
-                // Append the current semester to the list of semesters
+            // Add the current semester to the master list if applicable
+            if (currSemester.creditsAttempted >= MIN_CREDITS_PER_SEMESTER) {
                 semesters.push(currSemester);
-
-                // Initialize the next semester
                 currSemester = new Semester(DegreePathway._getNextSemesterName(currSemester.name));
-
-                // Add courses from the "next semester" queue if applicable
-                let courseFromQueue = nextSemesterCourseQueue.shift();
-                while (courseFromQueue) {
-                    currSemester.addCourse(courseFromQueue);
-                    courseFromQueue = nextSemesterCourseQueue.shift();
-                }
             }
-        }
+        });
 
-        // Ensure that the current semester is appended to the master list if applicable
+        // Add the final semester if applicable
         if (currSemester.courses.length > 0) {
             semesters.push(currSemester);
         }
