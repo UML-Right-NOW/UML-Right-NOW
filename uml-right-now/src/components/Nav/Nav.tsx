@@ -1,10 +1,13 @@
-import PageInfo from "@/PageInfo";
+import PageInfo from "@/classes/PageInfo";
+import { HamburgerMenuContext, HamburgerMenuContextType } from "@/contexts/HamburgerMenuContext";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
+import { useContext } from "react";
 import logo from "../../../assets/logo.png";
-import Hamburger from "./Hamburger";
 import SignOutButton from "../Inputs/Buttons/SignOutButton";
+import Hamburger from "./Hamburger";
+import HamburgerMenu from "./HamburgerMenu";
 
 // Tailwind
 const navItemsClass = `
@@ -21,6 +24,9 @@ type NavProps = {
 };
 
 export default function Nav({ pages }: NavProps) {
+    // Contexts
+    const { hamburgerMenuIsVisible } = useContext(HamburgerMenuContext) as HamburgerMenuContextType;
+
     // State
     const session = useSession();
 
@@ -50,12 +56,16 @@ export default function Nav({ pages }: NavProps) {
             md:px-20
             justify-between
             md:justify-center
+            sticky
+            top-0
+            z-[80]
+            shadow-md
         ">
             {/* Nav Items Left */}
             <ul className={`
                 ${navItemsClass}
                 justify-end
-                [&>li]:ml-6
+                [&>li]:ml-4
                 lg:[&>li]:ml-10
             `}>
                 {navItemsLeft}
@@ -94,6 +104,9 @@ export default function Nav({ pages }: NavProps) {
 
             {/* Hamburger */}
             <Hamburger />
+
+            {/* Hamburger Menu */}
+            {hamburgerMenuIsVisible && <HamburgerMenu pages={pages} />}
         </nav>
     );
 }

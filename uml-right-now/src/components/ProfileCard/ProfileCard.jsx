@@ -9,8 +9,8 @@ export default function ProfileCard(props) {
             </div>
 
             <div aria-label="Close" className="bg-deep-grey m-5 rounded-2xl" >
-                <Input aria-label="Close" id="YOUR_FIXED_ID" className="m-3" placeholder="Enter your name" value={props.valueN} />
-                <Input aria-label="Close" id="YOUR_FIXED_ID2" className="m-3" placeholder="Enter your last name" value={props.valueL} />
+                <Input aria-label="Close" id="YOUR_FIXED_ID" className="m-3" placeholder="Enter your name" value={props.email} />
+                <Input aria-label="Close" id="YOUR_FIXED_ID2" className="m-3 " placeholder="Enter your last name" value={"Status: Active ✅"} />
             </div>
 
         </div>

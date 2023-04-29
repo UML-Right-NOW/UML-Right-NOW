@@ -1,4 +1,4 @@
-import { connectToMongoDB } from "@/mongodb";
+import { connectToMongoDB } from "@/mongo/mongodb";
 import { IUser } from "@/types";
 import { compare } from "bcryptjs";
 import NextAuth, { NextAuthOptions } from "next-auth";

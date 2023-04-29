@@ -46,7 +46,7 @@ export default function Hamburger() {
             justify-between
             items-center
             hover:cursor-pointer
-            z-50
+            z-[100]
         " onClick={() => setHamburgerMenuIsVisible(!hamburgerMenuIsVisible)}>
             <div className={hamburgerBarOneClass}></div>
             <div className={hamburgerBarTwoClass}></div>

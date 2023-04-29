@@ -1,10 +1,8 @@
-import PageInfo from "@/PageInfo";
-import { HamburgerMenuContext, HamburgerMenuContextType } from "@/contexts/HamburgerMenuContext";
+import PageInfo from "@/classes/PageInfo";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
-import { ReactNode, useContext, useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import Footer from "../Footer/Footer";
-import HamburgerMenu from "../Nav/HamburgerMenu";
 import Nav from "../Nav/Nav";
 
 // Types
@@ -33,9 +31,6 @@ export default function Page({ children }: PageProps) {
     // Auth
     const session = useSession();
 
-    // Contexts
-    const { hamburgerMenuIsVisible } = useContext(HamburgerMenuContext) as HamburgerMenuContextType;
-
     useEffect(() => {
         // Initialize the array of pages
         const newPages = session.status === "authenticated"
@@ -58,9 +53,6 @@ export default function Page({ children }: PageProps) {
 
             {/* Nav Bar */}
             <Nav pages={pages} />
-
-            {/* Hamburger Menu */}
-            {hamburgerMenuIsVisible && <HamburgerMenu pages={pages} />}
 
             {/* Hamburger Menu */}
             {children}

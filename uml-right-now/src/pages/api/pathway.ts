@@ -1,6 +1,8 @@
-import Course from "@/Course";
-import DegreePathway from "@/DegreePathway";
-import Semester from "@/Semester";
+import CourseBuilder from "@/builders/CourseBuilder";
+import Course from "@/classes/Course";
+import CourseCode from "@/classes/CourseCode";
+import DegreePathway from "@/classes/DegreePathway";
+import Semester from "@/classes/Semester";
 import clientPromise from "@/mongo";
 import { NextApiRequest, NextApiResponse } from "next";
 
@@ -34,8 +36,6 @@ export default async function handler(
         return;
     }
 
-    let pathway = new DegreePathway([]);
-
     // Select the DB
     const db = client.db("urn");
 
@@ -47,23 +47,47 @@ export default async function handler(
 
     // Execute the query
     const pathwayDocument = await collection.findOne(query);
-    if (pathwayDocument) {
-        // Retrieve the list of courses from the document
-        const courses: Course[] = [];
-        pathwayDocument["courses"].forEach((course: CourseDocument) => {
-            courses.push(new Course(
-                course["code"],
-                course["name"],
-                parseFloat(course["credits"]),
-                0.0
-            ));
-        });
-
-        // Store all the courses in a single semester
-        pathway = new DegreePathway([
-            new Semester("", courses)
-        ]);
+    if (!pathwayDocument) {
+        res.status(500).send({ message: "Failed to retrieve data" });
+        return;
     }
+
+    // Retrieve the list of courses from the document
+    const courses: Course[] = pathwayDocument["courses"].map((course: CourseDocument) => {
+        // Initialize a course builder
+        const courseCode = new CourseCode(course["code"]);
+        const builder = new CourseBuilder()
+            .code(courseCode)
+            .name(course["name"])
+            .creditsAttempted(parseFloat(course["credits"]))
+            .creditsEarned(0);
+
+        return builder.getCourse();
+    });
+
+    // Determine the Fall/Spring availability of each course
+    const courseCodeValues = courses.map(course => course.code.value.toUpperCase());
+    const dbCourses = await db.collection("courses").find({ code: { $in: courseCodeValues } }).toArray();
+    if (dbCourses) {
+        dbCourses.forEach(dbCourse => {
+            // Retrieve the course from the database with the same code as the current course
+            const matchingCourse = courses.find(course => {
+                const dbCourseCode = new CourseCode(dbCourse["code"]);
+                return course.code.equals(dbCourseCode);
+            });
+
+            // Set the Fall/Spring availability of the current course
+            if (matchingCourse) {
+                matchingCourse.availableFall = dbCourse["fall"];
+                matchingCourse.availableSpring = dbCourse["spring"];
+            }
+        });
+    }
+
+    // Store all the courses in a single semester
+    const pathway = new DegreePathway([
+        new Semester("", courses)
+    ]);
 
     // Return the degree pathway to the frontend
     res.status(200).json({ pathway: pathway });

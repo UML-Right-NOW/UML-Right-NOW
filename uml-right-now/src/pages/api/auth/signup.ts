@@ -1,4 +1,4 @@
-import { connectToMongoDB } from "@/mongodb";
+import { connectToMongoDB } from "@/mongo/mongodb";
 import { IUser } from "@/types";
 import { hash } from "bcryptjs";
 import mongoose from "mongoose";
